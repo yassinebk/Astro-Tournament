@@ -11,6 +11,7 @@ import { token } from "../types";
 import { User } from "./generated/graphql";
 import jwt from "jsonwebtoken";
 import GQ from "./schemas"
+import cors from"cors"
 
 
 console.log(`Connecting to ${envs.MONGODB_URI}`)
@@ -23,14 +24,14 @@ mongoose.connect(envs.MONGODB_URI as string, {
   .then(() => console.log(`connected to MongoDB at ${envs.MONGODB_URI}`))
   .catch(error => console.log(error));
 
-mongoose.set("debug", true);
+//mongoose.set("debug", true);
 
 void (async function() {
   const app = express();
-
+app.use(cors())
   const httpServer = createServer(app);
 
-  
+
   const schema = makeExecutableSchema({
     typeDefs:GQ.schemas,
     resolvers:GQ.resolvers
@@ -43,6 +44,7 @@ void (async function() {
       if (auth && auth.toLocaleLowerCase().startsWith('bearer ')) {
         const decodedToken:token = jwt.verify(auth.substring(7), envs.JWT_SECRET_KEY) as token;
         const currentUser: User = await Data.UserModel.findById(decodedToken.id).populate("level");
+        console.log(currentUser);
     return { currentUser };
       }
       return undefined;
@@ -55,8 +57,8 @@ void (async function() {
     { schema, execute, subscribe },
     { server: httpServer, path: server.graphqlPath }
   );
+  console.log(SubscriptionServer);
   const PORT = 4000;
-  httpServer.listen(PORT, () =>
-    console.log(`Server is now running on http://localhost:${PORT}/graphql`)
+  httpServer.listen(PORT, () => { console.log(SubscriptionServer); console.log(`Server is now running on http://localhost:${PORT}/graphql`) }
   );
 })();

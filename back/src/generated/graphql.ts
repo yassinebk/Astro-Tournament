@@ -132,7 +132,7 @@ export type Query = {
 
 
 export type QueryAllUsersArgs = {
-  role: Scalars['String'];
+  role?: Maybe<Scalars['String']>;
 };
 
 
@@ -377,7 +377,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  allUsers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersArgs, 'role'>>;
+  allUsers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersArgs, never>>;
   findUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryFindUserArgs, 'id'>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   participantsCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;

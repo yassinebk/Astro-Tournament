@@ -33,6 +33,6 @@ const Question = new mongoose.Schema({
 
 mongoose.plugin(mongooseUniqueValidator);
 
-const QuestionModel = mongoose.model("Quesiton", Question);
+const QuestionModel = mongoose.model("Question", Question);
 
 export default QuestionModel;

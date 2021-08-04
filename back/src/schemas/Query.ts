@@ -6,7 +6,7 @@ import Data from "../models";
 const Query = gql`
 type Query {
    #User 
-    allUsers(role:String!):[User!]!
+    allUsers(role:String):[User!]!
     findUser(id:ID!):User!
     me:User
     participantsCount:Int!
@@ -26,20 +26,20 @@ type Query {
 
 const resolvers = {
       Query: {
-  
-          /* Questions Query*/ 
+
+          /* Questions Query*/
 
          allQuestions: async () => {
-              const questions = await Data.levelModel.find({});
+              const questions = await Data.QuestionModel.find({});
               return questions;
-              }, 
+              },
           getQuestions: async (_, args) => {
             const Level = await Data.levelModel.findById(args.id).populate("questions");
             return Level.questions;
           },
-          
+
           /*Levels Query*/
-          
+
         allLevels: async () => {
             const levels = await Data.levelModel.find({}).populate("questions");
             return levels;
@@ -50,11 +50,15 @@ const resolvers = {
             if (!level) throw new ForbiddenError("Level Not FOUND 404");
             return level;
         },
-        
+
         /*User Query*/
 
         participantsCount: async (_) => Data.UserModel.collection.countDocuments(),
         allUsers: async (_, args) => {
+            if (!args.role) {
+                const users = await Data.UserModel.find({});
+                return users;
+            }
             const users: User[] = await Data.UserModel.find({ role: args.role });
             if (!users)
                 throw new AuthenticationError("Permission denied");
@@ -70,7 +74,7 @@ const resolvers = {
         },
 
     },
-    
+
 }
 
 const QuerySchema = {
