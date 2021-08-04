@@ -1,13 +1,14 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { Notification as NotifType } from "../../types";
+import React  from "react";
+import { useReactiveVar } from "@apollo/client";
+import { notificationState } from "../../store";
 
-interface PropTypes {
-  notification: NotifType;
-}
-const Notification = (props: PropTypes): JSX.Element | null => {
-  console.log(props.notification);
-  if (!props.notification) return null;
-  const variant = props.notification.type;
+
+const Notification = (): JSX.Element | null => {
+  const notification = useReactiveVar(notificationState);
+
+  console.log(notification);
+  if (!notification) return null;
+  const variant = notification.type;
   let color: string = "gray";
   switch (variant) {
     case "ERROR":
@@ -51,7 +52,7 @@ const Notification = (props: PropTypes): JSX.Element | null => {
             </svg>
             <p className="text-sm font-semibold tracking-wide uppercase ">
               <strong>{variant === "OTHER" ? "Warning" : variant}</strong>
-              {props.notification.message}
+              {notification.message}
             </p>
           </div>
           <button

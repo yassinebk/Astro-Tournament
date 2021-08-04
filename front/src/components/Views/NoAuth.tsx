@@ -1,32 +1,36 @@
-import { Container } from '@chakra-ui/react'
-import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { SetNotification, SetTokenType, SetUserType } from '../../types'
-import Footer from "../Basic/Footer"
-import Navbar from '../Basic/Navbar'
-import LoginForm from '../Pages/Login'
-import Registration from '../Pages/Registration'
+import { Box } from "@chakra-ui/react";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import Footer from "../Basic/Footer";
+import Navbar from "../Basic/Navbar";
+import LoginForm from "../Pages/Login";
+import Registration from "../Pages/Registration";
+import Notification from "../Pages/Notification";
+import Landing from "../Pages/Landing";
+import LevelForm from "../Pages/LevelForm";
 
-interface PropTypes {
-    setNotif: SetNotification,
-    setToken: SetTokenType,
-    setUser:SetUserType
-}
-
-const NoAuth= ({setNotif,setToken,setUser}:PropTypes) => {
-   return (
-      <Container>
+const NoAuth = () => {
+  return (
+    <Box>
+      <Notification />
       <Navbar variant="NOAUTH" />
-     <Route path="/Register">
-              <Registration setNotification={setNotif} setToken={setToken} setUser={setUser} />
+      <Switch>
+        <Route path="/Register">
+          <Registration />
+        </Route>
+        <Route path="/Login">
+          <LoginForm />
+        </Route>
+        <Route path="/LevelForm">
+          <LevelForm />
+        </Route>
+        <Route path="/">
+          <Landing />
+        </Route>
+      </Switch>
+      <Footer />
+    </Box>
+  );
+};
 
-          </Route>
-          <Route path="/Login">
-        <LoginForm setNotification={setNotif} setToken={setToken} setUser={setUser}/>
-          </Route>
-      <Footer/>
-</Container>
-  ) 
-}
-
-export default NoAuth
+export default NoAuth;

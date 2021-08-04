@@ -1,5 +1,10 @@
 import { SetStateAction } from "react";
 
+export interface idType {
+  id: string;
+}
+
+type roleType = "ADMIN" | "PLAYER";
 export interface User {
   id: string;
   username: string;
@@ -7,6 +12,7 @@ export interface User {
   email: string;
   score: number;
   level: Level;
+  role: roleType;
 }
 
 export interface Question {

@@ -1,31 +1,30 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { SetNotification } from "../../types";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useInput } from "../utils";
 import GoogleLogin from "react-google-login";
 import { LOGIN } from "../..//queries/Login";
 import { useMutation } from "@apollo/client";
+import { setNotification, tokenState, userState } from "../../store";
+import { Box } from "@chakra-ui/react";
 
-interface PropTypes {
-  setNotification: SetNotification;
-  setToken: Dispatch<SetStateAction<null>>;
-  setUser:any
-}
-
-const LoginForm = (props: PropTypes) => {
+const LoginForm = () => {
   const history = useHistory();
   const [login, result] = useMutation(LOGIN, {
     onError: (error: any) => {
-      console.log("error", error.graphQLErrors[0]);
-      props.setNotification("ERROR", error.graphQLErrors[0].message as string);
+      if (error && error.graphQLErrors) {
+        console.log("error", error.graphQLErrors[0]);
+        setNotification("ERROR", error.graphQLErrors[0].message as string);
+      }
     },
   });
 
   useEffect(() => {
     if (result.data) {
       const user = result.data.login;
+      console.log(result);
       localStorage.setItem("AuthUser", JSON.stringify(user));
-      props.setToken(user.token);
+      userState(user.user);
+      tokenState(user.token.value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.data]);
@@ -34,26 +33,29 @@ const LoginForm = (props: PropTypes) => {
   const password = useInput("password");
 
   const responseGoogle = (res: any) => {
-    const postData = {
-      username: res.profileObj.name,
-      password: res.access_token,
-    };
-    login({ variables: postData });
-    history.push("/");
+    //     console.log("here google");
+    //     const postData = {
+    //       username: res?.profileObj?.name,
+    //       password: res?.access_token,
+    //     };
+    //
+    //     login({ variables: postData });
+    //     history.push("/");
   };
 
   const submit = (event: any) => {
+    console.log("here submit");
     event.preventDefault();
     const user = {
       username: username.value,
       password: password.value,
     };
     login({ variables: user });
-    history.push("/");
+    //history.push("/");
   };
 
   return (
-    <section className="flex flex-col items-center h-screen md:flex-row">
+    <Box className="flex flex-col items-center h-screen  w-full md:flex-row">
       <div className="container mx-auto">
         <div className="flex justify-center px-2 py-6 ">
           <div className="flex w-full rounded-lg xl:w-3/4 lg:w-11/12 lg:shadow-xl ">
@@ -197,7 +199,7 @@ const LoginForm = (props: PropTypes) => {
           </div>
         </div>
       </div>
-    </section>
+    </Box>
   );
 };
 export default LoginForm;

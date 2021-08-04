@@ -1,31 +1,59 @@
-import React from 'react'
-import { Level } from '../types'
-import Questions from './Questions'
+import { useReactiveVar } from "@apollo/client";
+import React from "react";
+import { useParams, useHistory } from "react-router";
+import { levelsState } from "../../store";
+import { Level, idType } from "../../types";
+import Questions from "./Questions";
+import { Button, Box, Heading } from "@chakra-ui/react";
+
 interface PropTypes {
-    level:Level|null
+  level?: Level | null;
 }
-const LevelDisplay = (props:PropTypes) => {
-    console.log("here",props.level)
-    if(!props.level){
-        return (
-            <div>
-                <h1> Error Go back  to Home</h1>
 
-            </div>
-        )
-    }
+const LevelDisplay = (props: PropTypes) => {
+  const history = useHistory();
+  const levels = useReactiveVar(levelsState);
+  let level: Level | undefined;
+  console.log("here", props.level);
+  const { id }: idType = useParams();
+  console.log("id", id);
+  if (!props.level && !id) {
     return (
-        <div>
-            <div>
-                <h1>Level Number <span>{props.level.number}</span></h1>
-                <h3>ID <span>{props.level.id}</span></h3>
-            </div>
-            <div>
-                    <Questions questions={props.level.questions}/>
+      <div>
+        <h1> Error Go back to Home</h1>
+      </div>
+    );
+  } else if (id) {
+    console.log(levels);
+    level = levels.find((l) => l.id === id);
+    console.log(level);
+  }
+  const goToLevelEditor = () => {
+    history.push(`/LevelEditor/${id}`);
+  };
+  if (!level) {
+    history.push("/");
+    return null;
+  }
 
-            </div>
-        </div>
-    )
-}
+  return (
+    <Box>
+      <Box>
+        <Heading>
+          Level Number <span>Number {level.number}</span>
+        </Heading>
+        <Heading>
+          ID <span>{level.id}</span>
+        </Heading>
+        <Button onClick={goToLevelEditor} variant="solid" colorscheme="purple">
+          Edit Level
+        </Button>
+      </Box>
+      <Box>
+        <Questions questions={level.questions} />
+      </Box>
+    </Box>
+  );
+};
 
-export default LevelDisplay
+export default LevelDisplay;

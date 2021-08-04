@@ -1,25 +1,22 @@
 import React, { useEffect }from "react";
-import { SetNotification, SetTokenType, SetUserType } from "../../types";
 import { Link, useHistory } from "react-router-dom";
 import { useInput } from "../utils"
 import GoogleLogin from "react-google-login"
 import {ALL_USERS } from "../../queries/User";
 import { REGISTER } from "../../queries/Login";
 import {useMutation} from"@apollo/client"
+import { userState,tokenState,setNotification } from "../../store";
 
-interface PropTypes{
-  setNotification:SetNotification
-  setToken: SetTokenType
-  setUser:SetUserType
-}
 
-const Registration = (props: PropTypes) => {
 
+const Registration = ():JSX.Element => {
+
+  
   const history = useHistory();
   const [register, result] = useMutation(REGISTER, {
     onError: (error: any) => {
       console.log("error from registration",error)
-      props.setNotification("ERROR",error?.graphQLErrors[0].message)
+      setNotification("ERROR",error?.graphQLErrors[0].message)
     },
     update: (store, response) => {
       const dataInStore: any = store.readQuery({ query: ALL_USERS })
@@ -33,15 +30,15 @@ const Registration = (props: PropTypes) => {
     },
     onCompleted: () => {
       history.push("/");
-      props.setNotification("SUCCESS","Welcome player you may set sail in the universe ")
+      setNotification("SUCCESS","Welcome player you may set sail in the universe ")
     }
   });
 
   useEffect(() => {
     if (result.data) {
       const user = result.data.register;
-      props.setToken(user.token.value);
-      props.setUser(user.user);
+      tokenState(user.token.value);
+      userState(user.user);
       localStorage.setItem('AuthUser', JSON.stringify(user))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,7 +67,7 @@ const Registration = (props: PropTypes) => {
 
   const submit = () => {
     if (!validatePassord()) {
-      props.setNotification("ERROR","Password doesn't match")
+      setNotification("ERROR","Password doesn't match")
     }
     const newUser = {
       username: username.value,

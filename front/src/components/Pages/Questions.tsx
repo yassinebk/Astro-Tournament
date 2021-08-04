@@ -1,5 +1,5 @@
 import React, {ReactElement} from 'react'
-import {Question} from '../types';
+import {Question} from '../../types';
 import {Button} from "@chakra-ui/react"
 
 

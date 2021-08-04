@@ -1,21 +1,19 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { ADD_QUESTION, ALL_QUESTIONS } from "../queries/Questions";
+import { ADD_QUESTION, ALL_QUESTIONS } from "../../queries/Questions";
 import { useMutation, useQuery } from "@apollo/client";
 import QuestionFormModal from "./QuestionFormModal";
 import { useParams } from "react-router-dom";
 import Questions from "./Questions";
-import { ALL_LEVELS } from "../queries/Level";
-import { newQuestion, SetNotification } from "../types";
+import { ALL_LEVELS } from "../../queries/Level";
+import { newQuestion, idType } from "../../types";
 import { Box, Button } from "@chakra-ui/react";
-import LevelDisplay from "./LevelDisplay";
+import { setNotification } from "../../store";
 
-interface PropTypes {
-  setNotification: SetNotification;
-}
-
-const LevelForm = (props: PropTypes): ReactElement => {
+const LevelForm = (): ReactElement => {
+  console.log("here");
   const allLevels_result = useQuery(ALL_LEVELS);
-  const id = useParams();
+  const { id }: idType = useParams();
+
   const [level, setLevel] = useState(null);
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
@@ -23,7 +21,7 @@ const LevelForm = (props: PropTypes): ReactElement => {
 
   const [addQuestion, addQuestionResult] = useMutation(ADD_QUESTION, {
     onError: (error: any) =>
-      props.setNotification("ERROR", error.graphQLErrors[0].message as string),
+      setNotification("ERROR", error.graphQLErrors[0].message as string),
     update: (store, response) => {
       const dataInStore: any = store.readQuery({ query: ALL_QUESTIONS });
       store.writeQuery({
@@ -70,8 +68,7 @@ const LevelForm = (props: PropTypes): ReactElement => {
   };
 
   return (
-    <div>
-      <LevelDisplay level={level} />
+    <Box isFullWidth={true}>
       <QuestionsDisplay />
       <QuestionFormModal
         modalOpen={modalOpen}
@@ -80,7 +77,7 @@ const LevelForm = (props: PropTypes): ReactElement => {
         error={error}
         onClose={toggleModalClose}
       />
-    </div>
+    </Box>
   );
 };
 
