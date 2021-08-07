@@ -42,7 +42,8 @@ export type Mutation = {
   submitAnswer: Scalars['Int'];
   removeQuestion?: Maybe<Questions>;
   setScore: User;
-  addUser: User;
+  addUser: LoginReturn;
+  oath2: LoginReturn;
   setLevel?: Maybe<User>;
   login?: Maybe<LoginReturn>;
   setRole?: Maybe<User>;
@@ -92,6 +93,13 @@ export type MutationAddUserArgs = {
   email: Scalars['String'];
   username: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationOath2Args = {
+  username: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
@@ -187,7 +195,7 @@ export type User = {
   email: Scalars['String'];
   id: Scalars['ID'];
   score: Scalars['Int'];
-  password: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   role: Scalars['String'];
   level: Scalars['ID'];
 };
@@ -370,7 +378,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   submitAnswer?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationSubmitAnswerArgs, 'id' | 'answer'>>;
   removeQuestion?: Resolver<Maybe<ResolversTypes['Questions']>, ParentType, ContextType, RequireFields<MutationRemoveQuestionArgs, 'id'>>;
   setScore?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSetScoreArgs, 'id' | 'score'>>;
-  addUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAddUserArgs, 'role' | 'email' | 'username' | 'password'>>;
+  addUser?: Resolver<ResolversTypes['LoginReturn'], ParentType, ContextType, RequireFields<MutationAddUserArgs, 'role' | 'email' | 'username' | 'password'>>;
+  oath2?: Resolver<ResolversTypes['LoginReturn'], ParentType, ContextType, RequireFields<MutationOath2Args, 'username' | 'password' | 'email'>>;
   setLevel?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSetLevelArgs, 'level' | 'user_id'>>;
   login?: Resolver<Maybe<ResolversTypes['LoginReturn']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'username' | 'password'>>;
   setRole?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSetRoleArgs, 'id' | 'role'>>;
@@ -412,7 +421,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   score?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   level?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

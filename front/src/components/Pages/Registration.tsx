@@ -1,87 +1,108 @@
-import React, { useEffect }from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useInput } from "../utils"
-import GoogleLogin from "react-google-login"
-import {ALL_USERS } from "../../queries/User";
-import { REGISTER } from "../../queries/Login";
-import {useMutation} from"@apollo/client"
-import { userState,tokenState,setNotification } from "../../store";
+import { useInput } from "../utils";
+import GoogleLogin from "react-google-login";
+import { ALL_USERS } from "../../queries/User";
+import { OATH2, REGISTER } from "../../queries/Login";
+import { useMutation } from "@apollo/client";
+import { userState, tokenState, setNotification } from "../../store";
 
-
-
-const Registration = ():JSX.Element => {
-
-  
+const Registration = (): JSX.Element => {
   const history = useHistory();
-  const [register, result] = useMutation(REGISTER, {
-    onError: (error: any) => {
-      console.log("error from registration",error)
-      setNotification("ERROR",error?.graphQLErrors[0].message)
+  const [register, register_result] = useMutation(REGISTER, {
+    onError: (error: any) => { console.log("error from registration", error);
+      setNotification("ERROR", error?.graphQLErrors[0].message);
     },
     update: (store, response) => {
-      const dataInStore: any = store.readQuery({ query: ALL_USERS })
+      const dataInStore: any = store.readQuery({ query: ALL_USERS });
       store.writeQuery({
         query: ALL_USERS,
         data: {
           ...dataInStore,
-          allUsers: [...dataInStore.allUser, response.data.addUser]
-        }
-      })
+          allUsers: dataInStore?[...dataInStore.allUser, response.data.addUser]:[response.data.addUser]
+        },
+      });
     },
     onCompleted: () => {
       history.push("/");
-      setNotification("SUCCESS","Welcome player you may set sail in the universe ")
-    }
+      setNotification(
+        "SUCCESS",
+        "Welcome player you may set sail in the universe "
+      );
+    },
+  });
+  const [oath2,oath2_result] =   useMutation(OATH2, {
+    onError: (error: any) => {
+      console.log("error from registration", error);
+      setNotification("ERROR", error?.graphQLErrors[0].message);
+    },
+    update: (store, response) => {
+      const dataInStore: any = store.readQuery({ query: ALL_USERS });
+      store.writeQuery({
+        query: ALL_USERS,
+        data: {
+          ...dataInStore,
+          allUsers: dataInStore?[...dataInStore.allUser, response.data.oath2]:[response.data.oath2]
+        },
+      });
+    },
+    onCompleted: () => {
+      history.push("/");
+      setNotification(
+        "SUCCESS",
+        "Welcome player you may set sail in the universe "
+      );
+    },
   });
 
   useEffect(() => {
-    if (result.data) {
-      const user = result.data.register;
+    if (register_result.data) {
+      const user = register_result.data.register;
       tokenState(user.token.value);
       userState(user.user);
-      localStorage.setItem('AuthUser', JSON.stringify(user))
+      localStorage.setItem("AuthUser", JSON.stringify(user));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result.data]);
-    
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [register_result.data]);
+
+ useEffect(() => {
+    if (oath2_result.data) {
+      const user =oath2_result.data.register;
+      tokenState(user.token.value);
+      userState(user.user);
+      localStorage.setItem("AuthUser", JSON.stringify(user));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [register_result.data]);
+
+
   const username = useInput("text");
   const email = useInput("email");
   const password = useInput("password");
   const confirmPassword = useInput("password");
-  
 
   const validatePassord = () => password.value === confirmPassword.value;
+
   const responseGoogle = (res: any) => {
     const postData = {
-      name: res.profileObj.name,
       username: res.profileObj.name,
       email: res.profileObj.email,
       password: res.access_token,
-    }
-    register({ variables: postData });
-  }
-
-
-
+    };
+    oath2({ variables: postData });
+  };
 
   const submit = () => {
     if (!validatePassord()) {
-      setNotification("ERROR","Password doesn't match")
+      setNotification("ERROR", "Password doesn't match");
     }
     const newUser = {
       username: username.value,
       email: email.value,
-      password: password.value
+      password: password.value,
     };
-register({ variables:
-        newUser      
-    })
-
-
-  }
-
-
+    register({ variables: newUser });
+  };
 
   return (
     <section className="flex flex-col items-center h-screen md:flex-row">
@@ -90,26 +111,36 @@ register({ variables:
           <div className="flex w-full rounded-lg xl:w-3/4 lg:w-11/12 lg:shadow-xl ">
             <div className="relative hidden w-full h-auto bg-white bg-cover border-r rounded-l-lg lg:block lg:w-6/12">
               <div className="relative z-10 m-12 text-left ">
-                <Link to="/" className="flex items-center w-32 mb-4 font-medium text-blueGray-900 title-font md:mb-10">
+                <Link
+                  to="/"
+                  className="flex items-center w-32 mb-4 font-medium text-blueGray-900 title-font md:mb-10"
+                >
                   <div className="w-2 h-2 p-2 mr-2 rounded-full bg-gradient-to-tr from-blue-300 to-blue-600"></div>
                   <h2 className="text-lg font-bold tracking-tighter text-black uppercase transition duration-500 ease-in-out transform hover:text-lightBlack-500 dark:text-lightBlue-400">
-
                     Astro Tournament
                   </h2>
                 </Link>
                 <h2 className="mt-12 mb-2 text-2xl font-semibold tracking-tighter text-black sm:text-3xl title-font">
                   Create an account.
                 </h2>
-                <div className="w-full mt-16 mb-8 text-base leading-relaxed text-blueGray-900 sm:md:w-3/3 lg:text-1xl "> What are you waiting for now ? Quickly Register to compete and conquer the Universe ! </div>
+                <div className="w-full mt-16 mb-8 text-base leading-relaxed text-blueGray-900 sm:md:w-3/3 lg:text-1xl ">
+                  {" "}
+                  What are you waiting for now ? Quickly Register to compete and
+                  conquer the Universe !{" "}
+                </div>
               </div>
             </div>
             <div className="w-full px-8 py-24 bg-white rounded-lg border-blueGray-100 lg:w-8/12 lg:px-24 lg:py-4 lg:rounded-l-none s">
               <div className="relative z-10 text-left ">
                 <div className="flex justify-enter lg:py-6">
                   <GoogleLogin
-                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                    render={renderProps => (
-                      <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                    cookiePolicy={"single_host_origin"}
+                    clientId="754010975916-3mnrdkq5alekbl03emuio65t6k57uqf4.apps.googleusercontent.com"
+                    render={(renderProps) => (
+                      <button
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                      >
                         <button
                           type="button"
                           className="inline-flex w-full px-4 py-3 font-semibold text-black transition duration-500 ease-in-out transform bg-white border rounded-lg border-blueGray-300 hover:bg-black hover:text-white focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
@@ -151,19 +182,26 @@ register({ variables:
                                 d="M48 48L17 24l-4-3 35-10z"
                               ></path>
                             </svg>
-                            <span className="ml-4"> Log in with Google </span>
+                            <span className="ml-4">
+                              {" "}
+                              Sign Up with Google !{" "}
+                            </span>
                           </div>
                         </button>
                       </button>
                     )}
-                    buttonText="Login"
+                    buttonText="Sign up"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                  />,
-
+                  />
+                  ,
                 </div>
-                <form onSubmit={submit} className="mt-6" action="#" method="POST">
+                <form
+                  onSubmit={submit}
+                  className="mt-6"
+                  action="#"
+                  method="POST"
+                >
                   <div>
                     <label className="block text-base font-medium leading-relaxed text-blueGray-700">
                       User Name
@@ -232,15 +270,17 @@ register({ variables:
                       />
                     </div>
                   </div>
-                  <button type="submit" className="block w-full px-4 py-3 mt-6 font-semibold text-white transition duration-500 ease-in-out transform rounded-lg bg-gradient-to-r from-black hover:from-black to-black focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:to-black"
+                  <button
+                    type="submit"
+                    className="block w-full px-4 py-3 mt-6 font-semibold text-white transition duration-500 ease-in-out transform rounded-lg bg-gradient-to-r from-black hover:from-black to-black focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:to-black"
                   >
-                    Log In
+                    Sign up 
                   </button>
                 </form>
                 <p className="mt-8 text-center">
                   Already have an account?{" "}
                   <Link
-                    to="/Login"
+                    to="/Signin"
                     className="font-semibold text-black hover:text-black"
                   >
                     Sign In
@@ -251,6 +291,7 @@ register({ variables:
           </div>
         </div>
       </div>
-    </section>)
+    </section>
+  );
 };
 export default Registration;

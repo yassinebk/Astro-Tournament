@@ -1,4 +1,5 @@
 import React from "react";
+import { userState } from "../../store";
 import { Link } from "react-router-dom";
 
 interface PropType {
@@ -6,6 +7,13 @@ interface PropType {
 }
 
 const Navbar = ({ variant }: PropType) => {
+  
+  const logout = () => {
+    localStorage.clear();
+    userState(null)
+  }
+  
+
   console.log(variant);
   return (
     <header className="text-gray-600 body-font">
@@ -34,10 +42,10 @@ const Navbar = ({ variant }: PropType) => {
           </Link>
           {variant !== "ADMIN" && (
             <Link
-              to={variant === "PLAYER" ? "/competition" : "/Login"}
+              to={variant === "PLAYER" ? "/competition" : "/Signin"}
               className="mr-5 hover:text-gray-900"
             >
-              {variant === "PLAYER" ? "Go back to Competition" : "Login"}
+              {variant === "PLAYER" ? "Go back to Competition" : "Signin"}
             </Link>
           )}
           <Link
@@ -51,7 +59,8 @@ const Navbar = ({ variant }: PropType) => {
             Leaderboards
           </Link>
         </nav>
-        <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+        {variant !== "NOAUTH" ? <button onClick={logout} className="bg-red-400 text-center text-white rounded-md">Logout</button> :
+          <Link  to="/Signup" className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
           Compete
           <svg
             fill="none"
@@ -64,7 +73,8 @@ const Navbar = ({ variant }: PropType) => {
           >
             <path d="M5 12h14M12 5l7 7-7 7"></path>
           </svg>
-        </button>
+        </Link>
+        }
       </div>
     </header>
   );

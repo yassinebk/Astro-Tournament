@@ -30,7 +30,8 @@ const Mutation = gql`
       email: String!
       username: String!
       password: String!
-    ): User!
+    ): LoginReturn!
+    oath2(username: String!, email: String!): LoginReturn!
     setLevel(level: ID!, user_id: ID!): User
     login(username: String!, password: String!): LoginReturn
     setRole(id: ID!, role: String!): User
@@ -157,6 +158,7 @@ const resolvers: Resolvers = {
         ...args,
         password: passwordHash,
         score: 0,
+        role: args.role ? args.role : "PLAYER",
       });
       const initialUserLevel: any | null = await Data.levelModel.findOne({
         number: 0,
@@ -164,8 +166,24 @@ const resolvers: Resolvers = {
       user.level = initialUserLevel._id;
       console.log("user", user);
       await user.save();
+      const currentUser = {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        score: user.score,
+        role: user.role,
+        level: user.level,
+      };
+      const token = {
+        value: null,
+      };
+      token.value = jwt.sign(currentUser, envs.JWT_SECRET_KEY);
+
       await pubsub.publish("USER_LIST_UPDATE", { participantJoined: user });
-      return user;
+      return {
+        token,
+        user: currentUser,
+      } as any;
     },
     setScore: async (_, args) => {
       const user = await Data.UserModel.findById(args.id);
@@ -191,7 +209,32 @@ const resolvers: Resolvers = {
       await user.save();
       return user;
     },
-    login: async (_, args, context) => {
+    oath2: async (_, args) => {
+      const user = await Data.UserModel.findOne({ username: args.username });
+      if (!user) {
+        const newUser = new Data.UserModel({
+          ...args,
+          score: 0,
+          role: "PLAYER",
+        });
+        const initialUserLevel: any | null = await Data.levelModel.findOne({
+          number: 0,
+        });
+        newUser.level = initialUserLevel._id;
+        console.log("user", user);
+        await newUser.save();
+      }
+      const token = {
+        value: null,
+      };
+      console.log(user)
+      token.value = jwt.sign(user.toJSON(), envs.JWT_SECRET_KEY);
+      return {
+        token,
+        user: user,
+      } as any;
+    },
+    login: async (_, args) => {
       const user = await Data.UserModel.findOne({ username: args.username });
       console.log(user);
       if (!user) throw new UserInputError("User not Registered ");
@@ -214,7 +257,6 @@ const resolvers: Resolvers = {
           value: null,
         };
         token.value = jwt.sign(currentUser, envs.JWT_SECRET_KEY);
-        context.currentUser = currentUser;
         return {
           token,
           user: currentUser,

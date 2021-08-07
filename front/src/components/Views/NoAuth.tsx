@@ -15,10 +15,10 @@ const NoAuth = () => {
       <Notification />
       <Navbar variant="NOAUTH" />
       <Switch>
-        <Route path="/Register">
+        <Route path="/Signup">
           <Registration />
         </Route>
-        <Route path="/Login">
+        <Route path="/Signin">
           <LoginForm />
         </Route>
         <Route path="/LevelForm">

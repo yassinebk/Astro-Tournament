@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useInput } from "../utils";
-import GoogleLogin from "react-google-login";
-import { LOGIN } from "../..//queries/Login";
+import { GoogleLogin } from "react-google-login";
+import { LOGIN,OATH2 } from "../../queries/Login";
 import { useMutation } from "@apollo/client";
 import { setNotification, tokenState, userState } from "../../store";
 import { Box } from "@chakra-ui/react";
+import { graphqlErrorNotification } from "../utils";
+
 
 const LoginForm = () => {
   const history = useHistory();
-  const [login, result] = useMutation(LOGIN, {
+  const [login, login_result] = useMutation(LOGIN, {
     onError: (error: any) => {
       if (error && error.graphQLErrors) {
         console.log("error", error.graphQLErrors[0]);
@@ -18,29 +20,51 @@ const LoginForm = () => {
     },
   });
 
+  const [oath2, oath_result] = useMutation( OATH2, {
+    onError: graphqlErrorNotification,
+  });
+
   useEffect(() => {
-    if (result.data) {
-      const user = result.data.login;
-      console.log(result);
-      localStorage.setItem("AuthUser", JSON.stringify(user));
-      userState(user.user);
-      tokenState(user.token.value);
+    if (login_result.data) {
+      if (login_result.data.login !== null) {
+        const user = login_result.data.login;
+        console.log(login_result);
+        localStorage.setItem("AuthUser", JSON.stringify(user));
+        userState(user.user);
+        tokenState(user.token.value);
+        history.push("/");
+      }
+      
+      setNotification("ERROR", "Error getting User ");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result.data]);
+  }, [login_result.data]);
+
+  useEffect(()=>{
+ if (oath_result.data) {
+   if (oath_result.data.login !== null) {
+     const user = oath_result.data.oath2;
+     console.log(oath_result);
+     localStorage.setItem("AuthUser", JSON.stringify(user));
+     userState(user.user);
+     tokenState(user.token.value);
+     history.push("/");
+   }
+   else { setNotification("ERROR", "Error getting User "); }
+ }
+
+    },[oath_result.data]);
 
   const username = useInput("text");
   const password = useInput("password");
 
   const responseGoogle = (res: any) => {
-    //     console.log("here google");
-    //     const postData = {
-    //       username: res?.profileObj?.name,
-    //       password: res?.access_token,
-    //     };
-    //
-    //     login({ variables: postData });
-    //     history.push("/");
+    const postData = {
+      username: res?.profileObj?.name,
+      email: res?.profileObj?.email,
+    };
+    console.log(postData)
+    oath2({variables:postData});
   };
 
   const submit = (event: any) => {
@@ -51,7 +75,6 @@ const LoginForm = () => {
       password: password.value,
     };
     login({ variables: user });
-    //history.push("/");
   };
 
   return (
@@ -74,9 +97,8 @@ const LoginForm = () => {
                   Login to your account
                 </h2>
                 <div className="w-full mt-16 mb-8 text-base leading-relaxed text-blueGray-900 sm:md:w-3/3 lg:text-1xl ">
-                  {" "}
                   What are you waiting for now ? Quickly Register to compete and
-                  conquer the Universe !{" "}
+                  conquer the Universe !
                 </div>
               </div>
             </div>
@@ -84,7 +106,10 @@ const LoginForm = () => {
               <div className="relative z-10 text-left ">
                 <div className="flex justify-enter lg:py-6">
                   <GoogleLogin
-                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                    clientId="754010975916-3mnrdkq5alekbl03emuio65t6k57uqf4.apps.googleusercontent.com"
                     render={(renderProps) => (
                       <button
                         onClick={renderProps.onClick}
@@ -136,10 +161,6 @@ const LoginForm = () => {
                         </button>
                       </button>
                     )}
-                    buttonText="Login"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={"single_host_origin"}
                   />
                   ,
                 </div>
@@ -188,10 +209,10 @@ const LoginForm = () => {
                 <p className="mt-8 text-center">
                   Doesn't have an account ?
                   <Link
-                    to="/Register"
-                    className="font-semibold text-black hover:text-black"
+                    to="/Signup"
+                    className="font-semibold text-black  hover:underline hover:text-blue-500"
                   >
-                    Sign In
+                    Sign up
                   </Link>
                 </p>
               </div>
