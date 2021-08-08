@@ -22,6 +22,13 @@ const Mutation = gql`
     ): Questions!
     submitAnswer(id: ID!, answer: String!): Int!
     removeQuestion(id: ID!): Questions
+    editQuestion(
+      id: ID!
+      question: String
+      answer: String
+      multipleChoices: [String]
+      value: Int
+    ): Questions!
 
     #User Schema
     setScore(id: ID!, score: Int!): User!
@@ -227,7 +234,7 @@ const resolvers: Resolvers = {
       const token = {
         value: null,
       };
-      console.log(user)
+      console.log(user);
       token.value = jwt.sign(user.toJSON(), envs.JWT_SECRET_KEY);
       return {
         token,

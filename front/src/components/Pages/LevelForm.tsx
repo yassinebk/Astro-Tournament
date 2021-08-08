@@ -1,20 +1,23 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ADD_QUESTION, ALL_QUESTIONS } from "../../queries/Questions";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import QuestionFormModal from "./QuestionFormModal";
 import { useParams } from "react-router-dom";
 import Questions from "./Questions";
-import { ALL_LEVELS } from "../../queries/Level";
-import { newQuestion, idType } from "../../types";
+import { newQuestion, idType, Level } from "../../types";
 import { Box, Button } from "@chakra-ui/react";
 import { setNotification } from "../../store";
+import { levelsState } from "../../store";
+// interface PropTypes {
+//   level: Level;
+// }
 
-const LevelForm = (): ReactElement => {
+const LevelForm = (): JSX.Element => {
   console.log("here");
-  const allLevels_result = useQuery(ALL_LEVELS);
   const { id }: idType = useParams();
-
-  const [level, setLevel] = useState(null);
+  const allLevels = useReactiveVar(levelsState);
+  const [level, setLevel] = useState<Level | undefined | null>(null);
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const result = useQuery(ALL_QUESTIONS);
@@ -43,17 +46,9 @@ const LevelForm = (): ReactElement => {
   const toggleModalClose = (): void => setModalOpen(false);
 
   useEffect(() => {
-    console.log("data", allLevels_result.data);
-    if (!allLevels_result.loading && !allLevels_result.error) {
-      const levels = allLevels_result.data.allLevels;
-
-      setLevel(levels[0]);
-      //setLevel(levels.find((l:any) => l.id === id));
-    }
-  }, [allLevels_result.data]);
-  useEffect(() => {
-    console.log(result.data);
-  }, [result.data]);
+    if (id) setLevel(allLevels.find((l) => l.id === id));
+    console.log(level);
+  }, [allLevels]);
 
   const QuestionsDisplay = () => {
     if (result.loading || result.error) {
@@ -63,6 +58,7 @@ const LevelForm = (): ReactElement => {
       <Questions
         questions={result?.data?.allQuestions}
         toggleModalOpen={toggleModalOpen}
+        level={level}
       />
     );
   };

@@ -6,7 +6,7 @@ import Navbar from "../Basic/Navbar";
 import AddAdmin from "../Pages/AddAdmin";
 import Footer from "../Basic/Footer";
 import Level from "../Pages/Level";
-import LevelDisplay from "../Pages/LevelDisplay";
+import Overview from "../Pages/Overview";
 import LevelForm from "../Pages/LevelForm";
 
 const Admin = () => {
@@ -14,23 +14,20 @@ const Admin = () => {
     <Box isFullWidth={true} className="h-screen flex flex-col justify-between">
       <Navbar variant="ADMIN" />
       <Switch>
-        <Route exact path="/">
-          <Level />
-        </Route>
-        <Route path="/levels">
-          <Level />
-        </Route>
         <Route path="/leaderboards">
           <Leaderboard />
         </Route>
         <Route path="/admin-add">
           <AddAdmin />
         </Route>
-        <Route path="/level/:id">
-          <LevelDisplay />
+        <Route path="/level">
+          <Level />
         </Route>
-        <Route path="/levelEditor">
+        <Route path={`/LevelEditor/:id`}>
           <LevelForm />
+        </Route>
+        <Route path="/">
+          <Overview />
         </Route>
       </Switch>
       <Footer />

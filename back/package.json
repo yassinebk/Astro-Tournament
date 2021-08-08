@@ -35,7 +35,7 @@
     "main": "index.ts",
     "name": "back",
     "scripts": {
-        "dev": "NODE_ENV=test ts-node-dev src/index.ts",
+        "dev": "NODE_ENV=test NODE_OPTIONS=--max_old_space_size=1000 ts-node-dev src/index.ts",
         "generate": "graphql-codegen --config codegen.yml",
         "start": "tsc index.tsc",
         "test": "jest "

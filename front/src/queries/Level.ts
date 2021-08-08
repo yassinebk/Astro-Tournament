@@ -17,7 +17,7 @@ export const ADD_LEVEL = gql`
   }
 `;
 
-export const EDIT_LEVEL = gql`
+export const EDIT_LEVEL_QUESTIONS = gql`
   mutation EditLevelMutation($editLevelId: ID!, $editLevelQuestions: [ID!]) {
     editLevel(id: $editLevelId, questions: $editLevelQuestions) {
       id
@@ -33,6 +33,8 @@ export const EDIT_LEVEL = gql`
     }
   }
 `;
+
+//export const EDIT_LEVEL_NUMBER = gql``;
 
 export const ALL_LEVELS = gql`
   query allLevels {
@@ -56,4 +58,3 @@ export const GET_LEVEL = gql`
     }
   }
 `;
-
