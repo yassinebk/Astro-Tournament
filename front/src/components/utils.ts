@@ -17,6 +17,26 @@ export const useInput = (type: string) => {
   };
 };
 
+
+export const useInputNumber = (defaultValue:number) => {
+  const [value, setValue] = useState(defaultValue);
+  const onChange = (event: any) => {
+    setValue(event.target.value);
+  };
+  const clear = () => setValue(defaultValue);
+  const type = "number" ;
+
+  return {
+    setValue,
+    value,
+    type,
+    clear,
+    onChange,
+  };
+};
+
+
+
 export const graphqlErrorNotification = (error: any) => {
   if (error && error.graphQLErrors) {
     console.log("error", error.graphQLErrors[0]);

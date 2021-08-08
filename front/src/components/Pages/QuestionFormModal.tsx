@@ -96,7 +96,7 @@ const QuestionFormModal = ({
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Let's create a question</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>

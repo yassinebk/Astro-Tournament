@@ -37,7 +37,8 @@ export type LoginReturn = {
 export type Mutation = {
   __typename?: 'Mutation';
   addLevel: Level;
-  editLevel: Level;
+  addQuestionsToLevel: Level;
+  removeQuestionsFromLevel: Level;
   addQuestion: Questions;
   submitAnswer: Scalars['Int'];
   removeQuestion?: Maybe<Questions>;
@@ -57,7 +58,13 @@ export type MutationAddLevelArgs = {
 };
 
 
-export type MutationEditLevelArgs = {
+export type MutationAddQuestionsToLevelArgs = {
+  id: Scalars['ID'];
+  questions?: Maybe<Array<Scalars['ID']>>;
+};
+
+
+export type MutationRemoveQuestionsFromLevelArgs = {
   id: Scalars['ID'];
   questions?: Maybe<Array<Scalars['ID']>>;
 };
@@ -382,7 +389,8 @@ export type LoginReturnResolvers<ContextType = any, ParentType extends Resolvers
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addLevel?: Resolver<ResolversTypes['Level'], ParentType, ContextType, RequireFields<MutationAddLevelArgs, 'number'>>;
-  editLevel?: Resolver<ResolversTypes['Level'], ParentType, ContextType, RequireFields<MutationEditLevelArgs, 'id'>>;
+  addQuestionsToLevel?: Resolver<ResolversTypes['Level'], ParentType, ContextType, RequireFields<MutationAddQuestionsToLevelArgs, 'id'>>;
+  removeQuestionsFromLevel?: Resolver<ResolversTypes['Level'], ParentType, ContextType, RequireFields<MutationRemoveQuestionsFromLevelArgs, 'id'>>;
   addQuestion?: Resolver<ResolversTypes['Questions'], ParentType, ContextType, RequireFields<MutationAddQuestionArgs, 'question' | 'type' | 'answer' | 'value'>>;
   submitAnswer?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationSubmitAnswerArgs, 'id' | 'answer'>>;
   removeQuestion?: Resolver<Maybe<ResolversTypes['Questions']>, ParentType, ContextType, RequireFields<MutationRemoveQuestionArgs, 'id'>>;

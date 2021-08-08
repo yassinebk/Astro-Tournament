@@ -17,7 +17,7 @@ export const SET_ROLE = gql`
 mutation SetRole($id: ID!, $Role: String!) {
   setRole(id: $id, role: $role) {
     level
-    role
+H    role
     username
     id
   }

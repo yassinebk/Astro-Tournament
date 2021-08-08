@@ -1,40 +1,61 @@
-import React, { ReactElement } from "react";
-import { Question, Level } from "../../types";
-import { Button } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import React, { ReactElement,useState ,useEffect} from "react";
+import { Question, Level, idType, newQuestion } from "../../types";
+import { IconButton, Button } from "@chakra-ui/react";
+import { MinusIcon } from "@chakra-ui/icons";
+import QuestionFormModal from "./QuestionFormModal"
+import {ADD_QUESTION} from"../../queries/Questions"
+import {useMutation} from"@apollo/client"
+import { setNotification } from "../../store";
 
 interface PropTypes {
   questions: Question[];
   toggleModalOpen?: any;
   level?: Level | null;
+  removeQuestionFromLevel?:any
 }
 
-const Questions = ({
-  questions,
-  toggleModalOpen,
-  level,
-}: PropTypes): ReactElement<any, any> => {
+const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): ReactElement<any, any> => {
+  const [addQuestion, addQuestion_result] = useMutation(ADD_QUESTION, {
+    onError: (error: any) => {
+      console.log(error.graphQLErrors[0].message)
+    }
+  })
+  const [message,setMessage]=useState("")
+  const [modalState, toggleModalState] = useState<boolean>(false);
+  const toggleModalOpen = () => {
+    toggleModalState(true)
+  }
+  const toggleModalClose = () => {
+    toggleModalState(false)
+  }
   const editQuestion = () => {};
 
   const removeQuestion = () => {};
 
-  const addQuestionToLevel = () => {};
+  interface buttonProps{
+    question:Question
+}
 
-  const removeQuestionFromLevel = () => {};
+  useEffect(() => {
+    setNotification("ERROR",message) 
 
-  const QuestionLevelButton = (props: { id: string }) => {
-    if (level && level.questions.map((q) => q.id).includes(props.id)) {
-      return (
-        <Button onClick={removeQuestionFromLevel}>
-          remove question from level
-        </Button>
-      );
-    } else
-      return (
-        <Button onClick={addQuestionToLevel}> add Question to level</Button>
-      );
-  };
+  }, [message])
+  const QuestionLevelButton = ({question}:buttonProps ) => {
+    return (
+      <IconButton
+        backgroundColor="red.300"
+        aria-label="remove-question"
+        icon={<MinusIcon />}
+        onClick={()=>removeQuestionFromLevel(question)}
+      >
+      </IconButton>
+    );
+       }
+       
+  const submitAddQuestion = (question:newQuestion) => {
+
+    addQuestion({ variables: question });
+ } 
 
   return (
     <div className="table w-auto m-auto p-2">
@@ -115,6 +136,7 @@ const Questions = ({
             <td className="p-2 border-r"></td>
           </tr>
           {questions.map((question: Question) => {
+            console.log("question",question)
             return (
               <tr className="bg-gray-100 text-center border-b text-sm text-gray-600">
                 <td className="p-2 border-r">
@@ -123,33 +145,32 @@ const Questions = ({
                 <td className="p-4 border-r">{question.id}</td>
                 <td className="p-4 border-r">{question.question}</td>
                 <td className="p-4 w-48">
-                  <Button
-                    onClick={editQuestion}
-                    class="w-1/2 bg-blue-900 p-2 text-white hover:shadow-lg text-base font-bold rounded-md transform hover:scale-150"
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    onClick={removeQuestion}
-                    class="w-1/2 bg-red-900 p-2 text-white hover:shadow-lg text-base font-bold rounded-sm transform focus:scale-50 transition-transform duration-300"
-                  >
-                    Remove
-                  </Button>
-                  <QuestionLevelButton id={question.id} />
+                  {level ? (
+                    <QuestionLevelButton question={question} />
+                  ) : (
+                    <>
+                      <Button
+                        onClick={editQuestion}
+                        class="w-1/2 bg-blue-900 p-2 text-white hover:shadow-lg text-base font-bold rounded-md transform hover:scale-150"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={()=>removeQuestion}
+                        class="w-1/2 bg-red-900 p-2 text-white hover:shadow-lg text-base font-bold rounded-sm transform focus:scale-50 transition-transform duration-300"
+                      >
+                        Remove
+                      </Button>
+                    </>
+                  )}
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      {toggleModalOpen && (
-        <button
-          onClick={toggleModalOpen}
-          className="bg-green-500 text-white p-4 w-48 rounded-lg h-11 flex flex-row text text-xl justify-center items-center hover:opacity-60 transform hover:scale-90"
-        >
-          Add Question
-        </button>
-      )}
+      
+      <QuestionFormModal onSubmit={submitAddQuestion} onClose={toggleModalClose} modalOpen={modalState} toggleModalOpen={toggleModalOpen}  error={message}/>
     </div>
   );
 };

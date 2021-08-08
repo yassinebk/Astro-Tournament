@@ -1,4 +1,4 @@
-import { ForbiddenError, gql, UserInputError } from "apollo-server-express";
+import { ForbiddenError, gql, UserInputError ,AuthenticationError} from "apollo-server-express";
 import bcrypt from "bcrypt";
 import envs from "../utils/configs";
 import Data from "../models";
@@ -10,7 +10,8 @@ const Mutation = gql`
   type Mutation {
     #Level Schema
     addLevel(number: Int!, questions: [ID!]): Level!
-    editLevel(id: ID!, questions: [ID!]): Level!
+    addQuestionsToLevel(id: ID!, questions: [ID!]): Level!
+    removeQuestionsFromLevel(id:ID!,questions:[ID!]):Level!
 
     #Question Schema
     addQuestion(
@@ -45,7 +46,7 @@ const Mutation = gql`
   }
 `;
 
-const resolvers: Resolvers = {
+const resolvers: Resolvers= {
   Mutation: {
     /*Levels*/
     addLevel: async (_, args) => {
@@ -66,7 +67,10 @@ const resolvers: Resolvers = {
         );
       }
     },
-    editLevel: async (_, args) => {
+    addQuestionsToLevel: async (_, args,context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("You must be Admin to edit Levels")
+      }
       const level = await Data.levelModel.findById(args.id);
       if (!level) throw new UserInputError("Level to modify NOT FOUND 404");
       if (args.questions) {
@@ -77,6 +81,27 @@ const resolvers: Resolvers = {
         });
       }
       try {
+        const result = await level.save();
+        const returnLevel = Data.levelModel.populate(result, "questions");
+        return returnLevel;
+      } catch (error) {
+        throw new UserInputError(error.message);
+      }
+    },
+    removeQuestionsFromLevel: async (_, args,context) => {
+    if (!context.currentUser) {
+        throw new AuthenticationError("You must be Admin to edit Levels")
+      }
+      
+       if (!context.currentUser) {
+        throw new AuthenticationError("You must be Admin to edit Levels")
+      }
+      const level = await Data.levelModel.findById(args.id);
+      if (!level) throw new UserInputError("Level to modify NOT FOUND 404");
+      if (args.questions) {
+        level.questions = args.questions;
+          }
+        try {
         const result = await level.save();
         const returnLevel = Data.levelModel.populate(result, "questions");
         return returnLevel;

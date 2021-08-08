@@ -17,9 +17,27 @@ export const ADD_LEVEL = gql`
   }
 `;
 
-export const EDIT_LEVEL_QUESTIONS = gql`
-  mutation EditLevelMutation($editLevelId: ID!, $editLevelQuestions: [ID!]) {
-    editLevel(id: $editLevelId, questions: $editLevelQuestions) {
+export const ADD_LEVEL_QUESTIONS = gql`
+  mutation AddQuestionsToLevelMutation($id: ID!, $questions: [ID!]) {
+    addQuestionsToLevel(id: $id, questions: $questions) {
+      id
+      questions {
+        question
+        id
+        type
+        multipleChoices
+        answer
+        value
+      }
+      number
+    }
+  }
+`;
+
+export const REMOVE_LEVEL_QUESTIONS = gql`
+
+  mutation RemoveQuestionFromLevelMutation($id: ID!, $questions: [ID!]) {
+    removeQuestionsFromLevel(id: $id, questions: $questions) {
       id
       questions {
         question
@@ -42,6 +60,9 @@ export const ALL_LEVELS = gql`
       number
       questions {
         id
+        question
+        answer
+        value
       }
       id
     }
@@ -54,6 +75,9 @@ export const GET_LEVEL = gql`
       number
       questions {
         id
+        question
+        answer
+        value
       }
     }
   }
