@@ -50,23 +50,6 @@ const QuestionFormModal = ({
 
   const initialRef: any = React.useRef();
   const finalRef: any = React.useRef();
-
-  const submitModal = () => {
-    if (!type.value) return;
-
-    let questionNew: newQuestion = {
-      answer: answer.value,
-      question: question.value,
-      type: type.value,
-      value: Number(value.value),
-    };
-    if (questionNew.type === "SELECT") {
-      if (multipleAnswers.length === 0) return;
-      questionNew.multipleChoices = multipleAnswers;
-    }
-    onSubmit(questionNew);
-  };
-  const closeModal = () => {};
   const addChoice = () => {
     if (choice.value !== "") {
       // @ts-ignore
@@ -81,6 +64,29 @@ const QuestionFormModal = ({
   const removeChoice = (choice: string): void => {
     setMultipleAnswers(multipleAnswers.filter((c) => c !== choice));
   };
+
+  const submitModalAdd = () => {
+    if (!type.value) return;
+
+    let questionNew: newQuestion = {
+      answer: answer.value,
+      question: question.value,
+      type: type.value,
+      value: Number(value.value),
+    };
+    if (questionNew.type === "SELECT") {
+      if (multipleAnswers.length === 0) return;
+      console.log(multipleAnswers);
+      questionNew.multipleChoices = multipleAnswers;
+    }
+    console.log("questionNew", questionNew);
+    onSubmit(questionNew);
+    onClose();
+  };
+
+  // Edit Modal Part
+
+  const submitEditModal = () => {};
 
   return (
     <>
@@ -172,24 +178,25 @@ const QuestionFormModal = ({
                         icon={<AddIcon />}
                       />
                     </HStack>
-                    {multipleAnswers.map((c) => (
-                      <Tag
-                        size="md"
-                        borderRadius="full"
-                        variant="solid"
-                        colorScheme="green"
-                      >
-                        <TagLabel>{c}</TagLabel>
-                        <TagCloseButton onClick={() => removeChoice(c)} />
-                      </Tag>
-                    ))}
-                    <HStack></HStack>
+                    <HStack>
+                      {multipleAnswers.map((c) => (
+                        <Tag
+                          size="md"
+                          borderRadius="full"
+                          variant="solid"
+                          colorScheme="green"
+                        >
+                          <TagLabel>{c}</TagLabel>
+                          <TagCloseButton onClick={() => removeChoice(c)} />
+                        </Tag>
+                      ))}
+                    </HStack>
                   </FormControl>
                 )}
                 {type.value === "TF" && (
                   <FormControl>
                     <RadioGroup
-                      defaultValue="2"
+                      defaultValue="TRUE"
                       onChange={(event) => answer.setValue(event)}
                     >
                       <Stack spacing={5} direction="row">
@@ -208,10 +215,10 @@ const QuestionFormModal = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={submitModal}>
+            <Button colorScheme="blue" mr={3} onClick={submitModalAdd}>
               Save
             </Button>
-            <Button onClick={closeModal}>Cancel</Button>
+            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

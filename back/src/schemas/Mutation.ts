@@ -1,9 +1,14 @@
-import { ForbiddenError, gql, UserInputError ,AuthenticationError} from "apollo-server-express";
+import {
+  AuthenticationError,
+  ForbiddenError,
+  gql,
+  UserInputError,
+} from "apollo-server-express";
 import bcrypt from "bcrypt";
 import envs from "../utils/configs";
 import Data from "../models";
 import jwt from "jsonwebtoken";
-import { Resolvers } from "../generated/graphql";
+import {QTypes, Resolvers} from "../generated/graphql";
 import pubsub from "./constants";
 
 const Mutation = gql`
@@ -11,7 +16,7 @@ const Mutation = gql`
     #Level Schema
     addLevel(number: Int!, questions: [ID!]): Level!
     addQuestionsToLevel(id: ID!, questions: [ID!]): Level!
-    removeQuestionsFromLevel(id:ID!,questions:[ID!]):Level!
+    removeQuestionsFromLevel(id: ID!, questions: [ID!]): Level!
 
     #Question Schema
     addQuestion(
@@ -21,8 +26,9 @@ const Mutation = gql`
       multipleChoices: [String!]
       value: Int!
     ): Questions!
-    submitAnswer(id: ID!, answer: String!): Int!
     removeQuestion(id: ID!): Questions
+    
+    submitAnswer(id: ID!, answer: String!): Int!
     editQuestion(
       id: ID!
       question: String
@@ -46,7 +52,9 @@ const Mutation = gql`
   }
 `;
 
-const resolvers: Resolvers= {
+// @ts-ignore
+// @ts-ignore
+const resolvers: Resolvers = {
   Mutation: {
     /*Levels*/
     addLevel: async (_, args) => {
@@ -67,9 +75,9 @@ const resolvers: Resolvers= {
         );
       }
     },
-    addQuestionsToLevel: async (_, args,context) => {
+    addQuestionsToLevel: async (_, args, context) => {
       if (!context.currentUser) {
-        throw new AuthenticationError("You must be Admin to edit Levels")
+        throw new AuthenticationError("You must be Admin to edit Levels");
       }
       const level = await Data.levelModel.findById(args.id);
       if (!level) throw new UserInputError("Level to modify NOT FOUND 404");
@@ -82,26 +90,26 @@ const resolvers: Resolvers= {
       }
       try {
         const result = await level.save();
-        const returnLevel = Data.levelModel.populate(result, "questions");
+        const returnLevel = await Data.levelModel.populate(result, "questions");
         return returnLevel;
       } catch (error) {
         throw new UserInputError(error.message);
       }
     },
-    removeQuestionsFromLevel: async (_, args,context) => {
-    if (!context.currentUser) {
-        throw new AuthenticationError("You must be Admin to edit Levels")
+    removeQuestionsFromLevel: async (_, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("You must be Admin to edit Levels");
       }
-      
-       if (!context.currentUser) {
-        throw new AuthenticationError("You must be Admin to edit Levels")
+
+      if (!context.currentUser) {
+        throw new AuthenticationError("You must be Admin to edit Levels");
       }
       const level = await Data.levelModel.findById(args.id);
       if (!level) throw new UserInputError("Level to modify NOT FOUND 404");
       if (args.questions) {
         level.questions = args.questions;
-          }
-        try {
+      }
+      try {
         const result = await level.save();
         const returnLevel = Data.levelModel.populate(result, "questions");
         return returnLevel;
@@ -178,7 +186,14 @@ const resolvers: Resolvers= {
         return L;
       });
       await Promise.all(updatedLevels.map((L) => L.save()));
-      return null as never;
+      return {
+        id: args.id,
+        multipleChoices: [],
+        answer: "",
+        value: 0,
+        type: "SELECT" as QTypes,
+        question: "",
+      };
     },
 
     /* User */

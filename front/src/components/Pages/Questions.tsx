@@ -1,61 +1,107 @@
-import React, { ReactElement,useState ,useEffect} from "react";
-import { Question, Level, idType, newQuestion } from "../../types";
-import { IconButton, Button } from "@chakra-ui/react";
+import React, { ReactElement, useEffect, useState } from "react";
+import { Level, newQuestion, Question } from "../../types";
+import { Button, IconButton } from "@chakra-ui/react";
 import { MinusIcon } from "@chakra-ui/icons";
-import QuestionFormModal from "./QuestionFormModal"
-import {ADD_QUESTION} from"../../queries/Questions"
-import {useMutation} from"@apollo/client"
+import QuestionFormModal from "./QuestionFormModal";
+import {
+  ADD_QUESTION,
+  ALL_QUESTIONS,
+  REMOVE_QUESTION,
+} from "../../queries/Questions";
+import { useMutation } from "@apollo/client";
 import { setNotification } from "../../store";
 
 interface PropTypes {
   questions: Question[];
   toggleModalOpen?: any;
   level?: Level | null;
-  removeQuestionFromLevel?:any
+  removeQuestionFromLevel?: any;
 }
 
-const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): ReactElement<any, any> => {
-  const [addQuestion, addQuestion_result] = useMutation(ADD_QUESTION, {
+const Questions = ({
+  questions,
+  level,
+  removeQuestionFromLevel,
+}: PropTypes): ReactElement<any, any> => {
+  const [addQuestion, _addQuestion_result] = useMutation(ADD_QUESTION, {
     onError: (error: any) => {
-      console.log(error.graphQLErrors[0].message)
+      console.log(error.graphQLErrors[0].message);
+    },
+    update: (store, response) => {
+      const dataInStore: any = store.readQuery({ query: ALL_QUESTIONS });
+      store.writeQuery({
+        query: ALL_QUESTIONS,
+        data: {
+          ...dataInStore,
+          allQuestions: dataInStore
+            ? [...dataInStore.allQuestions, response.data.addQuestion]
+            : [response.data.addQuestion],
+        },
+      });
+    },
+  });
+
+  const [removeQuestionQuery, removeQuestion_result] = useMutation(
+    REMOVE_QUESTION,
+    {
+      onError: (error: any) => {
+        console.log(error.graphQLErrors[0].message);
+      },
+      update: (store, response) => {
+        const dataInStore: any = store.readQuery({ query: ALL_QUESTIONS });
+        console.log(dataInStore.allQuestions);
+        store.writeQuery({
+          query: ALL_QUESTIONS,
+          data: {
+            ...dataInStore,
+            allQuestions: dataInStore
+              ? dataInStore.allQuestions?.filter(
+                  (q: Question) => q.id !== response.data.removeQuestion.id
+                )
+              : [],
+          },
+        });
+      },
     }
-  })
-  const [message,setMessage]=useState("")
+  );
+
+  const [message, setMessage] = useState("");
   const [modalState, toggleModalState] = useState<boolean>(false);
   const toggleModalOpen = () => {
-    toggleModalState(true)
-  }
+    toggleModalState(true);
+  };
   const toggleModalClose = () => {
-    toggleModalState(false)
-  }
+    toggleModalState(false);
+  };
+
   const editQuestion = () => {};
 
-  const removeQuestion = () => {};
+  const removeQuestion = (id: string) => {
+    removeQuestionQuery({ variables: { id } });
+  };
 
-  interface buttonProps{
-    question:Question
-}
+  interface buttonProps {
+    question: Question;
+  }
 
   useEffect(() => {
-    setNotification("ERROR",message) 
-
-  }, [message])
-  const QuestionLevelButton = ({question}:buttonProps ) => {
+    setNotification("ERROR", message);
+  }, [message]);
+  const QuestionLevelButton = ({ question }: buttonProps) => {
     return (
       <IconButton
         backgroundColor="red.300"
         aria-label="remove-question"
         icon={<MinusIcon />}
-        onClick={()=>removeQuestionFromLevel(question)}
-      >
-      </IconButton>
+        onClick={() => removeQuestionFromLevel(question)}
+      />
     );
-       }
-       
-  const submitAddQuestion = (question:newQuestion) => {
+  };
 
+  const submitAddQuestion = (question: newQuestion) => {
+    console.log("newQuestion", question);
     addQuestion({ variables: question });
- } 
+  };
 
   return (
     <div className="table w-auto m-auto p-2">
@@ -76,9 +122,9 @@ const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): R
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M8 9l4-4 4 4m0 6l-4 4-4-4"
                   />
                 </svg>
@@ -95,9 +141,9 @@ const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): R
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M8 9l4-4 4 4m0 6l-4 4-4-4"
                   />
                 </svg>
@@ -114,9 +160,9 @@ const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): R
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M8 9l4-4 4 4m0 6l-4 4-4-4"
                   />
                 </svg>
@@ -126,17 +172,17 @@ const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): R
         </thead>
         <tbody>
           <tr className="bg-gray-50 text-center">
-            <td className="p-2 border-r"></td>
+            <td className="p-2 border-r">#</td>
             <td className="p-2 border-r">
               <input type="text" className="border p-1" />
             </td>
             <td className="p-2 border-r">
               <input type="text" className="border p-1" />
             </td>
-            <td className="p-2 border-r"></td>
+            <td className="p-2 border-r">#</td>
           </tr>
           {questions.map((question: Question) => {
-            console.log("question",question)
+            console.log("question", question);
             return (
               <tr className="bg-gray-100 text-center border-b text-sm text-gray-600">
                 <td className="p-2 border-r">
@@ -150,14 +196,10 @@ const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): R
                   ) : (
                     <>
                       <Button
-                        onClick={editQuestion}
-                        class="w-1/2 bg-blue-900 p-2 text-white hover:shadow-lg text-base font-bold rounded-md transform hover:scale-150"
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        onClick={()=>removeQuestion}
-                        class="w-1/2 bg-red-900 p-2 text-white hover:shadow-lg text-base font-bold rounded-sm transform focus:scale-50 transition-transform duration-300"
+                        variant="outline"
+                        colorscheme="purple"
+                        backgroundColor="purple.300"
+                        onClick={() => removeQuestion(question.id)}
                       >
                         Remove
                       </Button>
@@ -169,8 +211,14 @@ const Questions = ({ questions, level, removeQuestionFromLevel, }: PropTypes): R
           })}
         </tbody>
       </table>
-      
-      <QuestionFormModal onSubmit={submitAddQuestion} onClose={toggleModalClose} modalOpen={modalState} toggleModalOpen={toggleModalOpen}  error={message}/>
+
+      <QuestionFormModal
+        onSubmit={submitAddQuestion}
+        onClose={toggleModalClose}
+        modalOpen={modalState}
+        toggleModalOpen={toggleModalOpen}
+        error={message}
+      />
     </div>
   );
 };

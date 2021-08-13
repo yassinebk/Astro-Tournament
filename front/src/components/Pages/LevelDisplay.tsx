@@ -2,7 +2,7 @@ import { useMutation, useReactiveVar } from "@apollo/client";
 import { Box, Heading, HStack, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { ALL_LEVELS, REMOVE_LEVEL_QUESTIONS,ADD_LEVEL_QUESTIONS } from "../../queries/Level";
+import { REMOVE_LEVEL_QUESTIONS,ADD_LEVEL_QUESTIONS } from "../../queries/Level";
 import { levelsState, questionsState, setNotification } from "../../store";
 import { idType, Level,Question } from "../../types";
 import NumberEditField from "../Basic/NumberEditField";
@@ -26,7 +26,7 @@ const LevelDisplay = (props: PropTypes) => {
   const levels = useReactiveVar(levelsState);
   const { id }: idType = useParams();
   const allQuestions = useReactiveVar(questionsState)
-  
+
   const [addToQuestionsList, AquestionsList_result] = useMutation(ADD_LEVEL_QUESTIONS, {
     onError: (error: any) => {
       if (error && error.graphQLErrors) {
@@ -35,7 +35,7 @@ const LevelDisplay = (props: PropTypes) => {
       }
     }
      })
- 
+
   const [removeFromQuestionsList, RquestionsList_result] = useMutation(REMOVE_LEVEL_QUESTIONS, {
     onError: (error: any) => {
       if (error && error.graphQLErrors) {
@@ -44,7 +44,7 @@ const LevelDisplay = (props: PropTypes) => {
       }
     }
      })
-     
+
   /*
    * Getting the level from the list
    */
@@ -54,10 +54,10 @@ const LevelDisplay = (props: PropTypes) => {
       console.log("levels", levels);
 
       setLevel(levels.find((l) => l.id === id));
-        
+
         console.log("level",level)
       console.log(allQuestions)
-        
+
       setNonAddedQuestions(allQuestions
         .filter(q => !(level?.questions
               .map(q => q.id)
@@ -69,14 +69,14 @@ const LevelDisplay = (props: PropTypes) => {
       }
     }
   }, [levels]);
-  
+
   useEffect(() => {
     if (AquestionsList_result.data) {
       console.log(AquestionsList_result.data);
-      
+
     }
   },[AquestionsList_result.data])
-  
+
 
 
   /*
@@ -84,7 +84,7 @@ const LevelDisplay = (props: PropTypes) => {
    * @returns the level Updated + Updating the cache
    */
   const numberOnChange = (event:any) => {
-    const number = parseInt(event); 
+    const number = parseInt(event);
     if (!isNaN(number)) {
       levelNumber.setValue(number);
     }
@@ -95,9 +95,9 @@ const LevelDisplay = (props: PropTypes) => {
 
     return null;
   };
-  
+
   const submitQuestionsAdd = () => {
-    console.log("submitting")    
+    console.log("submitting")
     if (level) {
       addToQuestionsList({
         variables: {
@@ -119,7 +119,7 @@ const LevelDisplay = (props: PropTypes) => {
        }
       })
       setNonAddedQuestions(nonAddedQuestions.concat(question))
-   } 
+   }
   }
 
   if (!level) {

@@ -1,28 +1,30 @@
-import { AuthenticationError, gql, UserInputError,ForbiddenError } from "apollo-server-express";
+import {
+  AuthenticationError,
+  ForbiddenError,
+  gql,
+  UserInputError,
+} from "apollo-server-express";
 import { Context } from "../../types";
 import { User } from "../generated/graphql";
 import Data from "../models";
 
 const Query = gql`
-type Query {
-   #User 
-    allUsers(role:String):[User!]!
-    findUser(id:ID!):User!
-    me:User
-    participantsCount:Int!
-
+  type Query {
+    #User
+    allUsers(role: String): [User!]!
+    findUser(id: ID!): User!
+    me: User
+    participantsCount: Int!
 
     # Level
-    allLevels:[Level]!
-    getLevel(id:ID!):Level
+    allLevels: [Level]!
+    getLevel(id: ID!): Level
 
-   #Question 
-    getQuestions(id:ID!):[Questions!]!
-    allQuestions:[Questions!]!
-
-
-}
-`
+    #Question
+    getQuestions(id: ID!): [Questions!]!
+    allQuestions: [Questions!]!
+  }
+`;
 
 const resolvers = {
       Query: {
@@ -30,8 +32,7 @@ const resolvers = {
           /* Questions Query*/
 
          allQuestions: async () => {
-              const questions = await Data.QuestionModel.find({});
-              return questions;
+             return await Data.QuestionModel.find({});
               },
           getQuestions: async (_, args) => {
             const Level = await Data.levelModel.findById(args.id).populate("questions");
@@ -41,8 +42,7 @@ const resolvers = {
           /*Levels Query*/
 
         allLevels: async () => {
-            const levels = await Data.levelModel.find({}).populate("questions");
-            return levels;
+            return await Data.levelModel.find({}).populate("questions");
         },
 
         getLevel: async (_,args) => {

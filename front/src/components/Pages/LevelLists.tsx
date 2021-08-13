@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, VStack, HStack, Box, Text } from "@chakra-ui/react";
-import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { Link, Route} from "react-router-dom";
 import { OperationVariables, QueryResult } from "@apollo/client";
 import { Level } from "../../types";
 import Fetching from "../Basic/Fetching";

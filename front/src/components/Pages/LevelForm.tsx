@@ -1,5 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { ADD_QUESTION, ALL_QUESTIONS } from "../../queries/Questions";
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import QuestionFormModal from "./QuestionFormModal";
