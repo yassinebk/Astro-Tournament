@@ -9,7 +9,7 @@ import envs from "../utils/configs";
 import Data from "../models";
 import jwt from "jsonwebtoken";
 import {QTypes, Resolvers} from "../generated/graphql";
-import pubsub from "./constants";
+import pubsub from "./Constants";
 
 const Mutation = gql`
   type Mutation {

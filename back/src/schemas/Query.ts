@@ -5,8 +5,8 @@ import {
   UserInputError,
 } from "apollo-server-express";
 import { Context } from "../../types";
-import { User } from "../generated/graphql";
 import Data from "../models";
+import { User } from "src/models/User";
 
 const Query = gql`
   type Query {
@@ -27,59 +27,59 @@ const Query = gql`
 `;
 
 const resolvers = {
-      Query: {
+  Query: {
+    /* Questions Query*/
 
-          /* Questions Query*/
-
-         allQuestions: async () => {
-             return await Data.QuestionModel.find({});
-              },
-          getQuestions: async (_, args) => {
-            const Level = await Data.levelModel.findById(args.id).populate("questions");
-            return Level.questions;
-          },
-
-          /*Levels Query*/
-
-        allLevels: async () => {
-            return await Data.levelModel.find({}).populate("questions");
-        },
-
-        getLevel: async (_,args) => {
-            const level = await Data.levelModel.findById(args.id).populate("questions");
-            if (!level) throw new ForbiddenError("Level Not FOUND 404");
-            return level;
-        },
-
-        /*User Query*/
-
-        participantsCount: async (_) => Data.UserModel.collection.countDocuments(),
-        allUsers: async (_, args) => {
-            if (!args.role) {
-                const users = await Data.UserModel.find({});
-                return users;
-            }
-            const users: User[] = await Data.UserModel.find({ role: args.role });
-            if (!users)
-                throw new AuthenticationError("Permission denied");
-            return users;
-        },
-        findUser: async (_: any, args: { id: any; }) => {
-            const user = await Data.UserModel.findById(args.id).populate("level");
-            if (!user) throw new UserInputError("Invalid ID");
-            return user;
-        },
-        me: (_, context: Context) => {
-            return context.currentUser;
-        },
-
+    allQuestions: async () => {
+      return await Data.QuestionModel.find({});
+    },
+    getQuestions: async (_, args) => {
+      const Level = await Data.levelModel
+        .findById(args.id)
+        .populate("questions");
+      return Level.questions;
     },
 
-}
+    /*Levels Query*/
+
+    allLevels: async () => {
+      return await Data.levelModel.find({}).populate("questions");
+    },
+
+    getLevel: async (_, args) => {
+      const level = await Data.levelModel
+        .findById(args.id)
+        .populate("questions");
+      if (!level) throw new ForbiddenError("Level Not FOUND 404");
+      return level;
+    },
+
+    /*User Query*/
+
+    participantsCount: async (_) => Data.UserModel.collection.countDocuments(),
+    allUsers: async (_, args) => {
+      if (!args.role) {
+        const users = await Data.UserModel.find({});
+        return users;
+      }
+      const users: User[] = await Data.UserModel.find({ role: args.role });
+      if (!users) throw new AuthenticationError("Permission denied");
+      return users;
+    },
+    findUser: async (_: any, args: { id: any }) => {
+      const user = await Data.UserModel.findById(args.id).populate("level");
+      if (!user) throw new UserInputError("Invalid ID");
+      return user;
+    },
+    me: (_, context: Context) => {
+      return context.currentUser;
+    },
+  },
+};
 
 const QuerySchema = {
-    schema: Query,
-    resolvers
-}
+  schema: Query,
+  resolvers,
+};
 
 export default QuerySchema;

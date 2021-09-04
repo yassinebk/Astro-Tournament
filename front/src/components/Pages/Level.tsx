@@ -7,7 +7,7 @@ import LevelsList from "./LevelLists";
 import { Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import { QueryResult, OperationVariables } from "@apollo/client";
-import LevelDisplay from "../Pages/LevelDisplay";
+import LevelDisplay from "./LevelDisplay";
 import LevelForm from "./LevelForm";
 
 const Level = (): JSX.Element => {

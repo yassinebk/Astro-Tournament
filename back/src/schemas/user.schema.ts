@@ -1,5 +1,4 @@
 import { gql } from "apollo-server-express";
-import { User } from "../generated/graphql";
 
 const User = gql`
   enum Role {
