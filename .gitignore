@@ -3,4 +3,5 @@ front/node_modules
 back/package-lock.json
 front/package-lock.json
 front/.git
-bachk/.git
+back/.env
+back/dist

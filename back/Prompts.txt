@@ -1,0 +1,7 @@
+{
+
+  "addUserRole": "ADMIN",
+  "addUserEmail": "yassinebk23@gmail.com",
+  "addUserUsername": "yassienbk",
+  "addUserPassword": "illkillthemall"
+}

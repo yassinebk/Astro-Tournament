@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-express";
-import pubsub from "./constants";
+import pubsub from "./Constants";
 
 
 
@@ -11,11 +11,10 @@ type Subscription {
 `
 const resolvers = {
   Subscription: {
-    participantJoined:{subscribe: () => pubsub.asyncIterator(['USER_LIST_UPDATE']),
-    leaderBoardCheck:{subscribe:()=>pubsub.asyncIterator(["USER_SCORE_UPDATE"])}
+    participantJoined: {subscribe: () => pubsub.asyncIterator(['USER_LIST_UPDATE'])},
+    leaderboardCheck:{subscribe:()=> pubsub.asyncIterator(["USER_SCORE_UPDATE"])}
   }
-  }
-}
+  };
 
 const SubscriptionSchema = {
   schema: Subscriptions,

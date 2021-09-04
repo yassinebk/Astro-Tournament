@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable react/jsx-no-undef */
+import React, { useEffect } from 'react';
+import { useReactiveVar } from '@apollo/client';
+import {  tokenState, userState } from './store';
+import NoAuth from './components/Views/NoAuth';
+import Admin from './components/Views/Admin';
+import Player from './components/Views/Player';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  
+  const user = useReactiveVar(userState)
+
+console.log("user",user)
+
+  useEffect(() => {
+    if (localStorage.getItem("AuthUser"))
+      {
+      const authInfo = JSON.parse(localStorage.getItem("AuthUser") as string);
+      userState(authInfo.user);
+      tokenState(authInfo.token);
+      }} , [])
+
+  if (!user) return ( <NoAuth/>)
+ else if (user.role === "ADMIN") return (<Admin />)
+ else return (<Player />)
+  
 }
 
 export default App;
