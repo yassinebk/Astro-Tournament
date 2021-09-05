@@ -8,12 +8,13 @@ export class FieldError {
   message: string;
 }
 
-type errorTypes =
+export type errorTypes =
   | "AuthorizationError"
   | "IllegalActionError"
   | "404NOTFOUND"
   | "UnknownError"
-  | "UserInputError";
+  | "UserInputError"
+  | "PrivilegeError";
 
 @ObjectType()
 export class OperationError {

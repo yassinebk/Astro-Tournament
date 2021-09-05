@@ -3,6 +3,7 @@
     "dependencies": {
         "@graphql-tools/schema": "^7.1.5",
         "@typegoose/typegoose": "^8.2.0",
+        "@types/express-jwt": "^6.0.2",
         "@types/jsonwebtoken": "^8.5.5",
         "@types/mongoose": "^5.11.97",
         "apollo-server-express": "^3.1.1",
@@ -16,6 +17,7 @@
         "lodash": "^4.17.21",
         "mongoose": "^6.0.4",
         "mongoose-autopopulate": "^0.14.0",
+        "nodemon": "^2.0.12",
         "reflect-metadata": "^0.1.13",
         "subscriptions-transport-ws": "^0.9.19",
         "type-graphql": "^1.1.1"
@@ -38,6 +40,7 @@
     "name": "back",
     "scripts": {
         "start": "node dist/index.js ",
+        "start:dev": "nodemon dist/index.js ",
         "dev": " tsc --watch",
         "test": "jest "
     },

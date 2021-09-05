@@ -1,31 +1,30 @@
 import { UserRegisterInfos } from "../utils/UserInputTypes";
+import { FieldError } from "./FieldError.type";
 
-export const validateRegister = (options: UserRegisterInfos) => {
+export const validateRegister = (
+  options: UserRegisterInfos
+): FieldError[] | null => {
+  const errors: FieldError[] = [];
   const { username, email, password } = options;
   if (username.length <= 3)
-    return [
-      {
-        field: "username",
-        message: "username should be at least 3 characters long",
-      },
-    ];
+    errors.push({
+      field: "username",
+      message: "username should be at least 3 characters long",
+    });
   if (email.length <= 3 || !email.includes("@")) {
-    return [
-      {
-        field: "email",
-        message: "email might be invalid",
-      },
-    ];
+    errors.push({
+      field: "email",
+      message: "email might be invalid",
+    });
   }
 
+  console.log(password.length);
   if (password.length < 8) {
-    return [
-      {
-        field: "password",
-        message: "password should be at least 8 characters long",
-      },
-    ];
+    errors.push({
+      field: "password",
+      message: "password should be at least 8 characters long",
+    });
   }
 
-  return null;
+  return errors.length > 0 ? errors : null;
 };

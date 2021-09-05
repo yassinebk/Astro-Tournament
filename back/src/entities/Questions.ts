@@ -1,7 +1,7 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType, registerEnumType } from "type-graphql";
 
-enum QUESTION_TYPE {
+export enum QUESTION_TYPE {
   MULTIA = "MULTIANSWERS",
   ANSWER = "ANSWER",
 }
@@ -25,8 +25,20 @@ export class Questions {
   @prop({ type: [String] })
   @Field(() => [String], { nullable: true, defaultValue: [] })
   choices: string[];
+
+  @prop({ type: Number })
+  @Field({ defaultValue: 100 })
+  points: number;
+
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Field(() => Date)
+  updatedAt?: Date;
 }
 
-const QuestionModel = getModelForClass(Questions);
+const QuestionModel = getModelForClass(Questions, {
+  schemaOptions: { timestamps: true },
+});
 
 export default QuestionModel;

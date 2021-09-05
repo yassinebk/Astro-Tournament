@@ -6,8 +6,10 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { MyContext, token } from "../types";
+import { MyContext } from "../types";
 import UserModel, { User } from "./entities/User";
+import LevelResolver from "./resolvers/level";
+import QuestionsResolver from "./resolvers/questions";
 import { UserResolver } from "./resolvers/user";
 import envs from "./utils/configs";
 import connectToDb from "./utils/connect";
@@ -19,12 +21,14 @@ mongoose.set("debug", true);
 
 void (async function () {
   const app = express();
+
   app.use(cors());
+
   const httpServer = createServer(app);
 
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [UserResolver, LevelResolver, QuestionsResolver],
       validate: false,
     }),
     debug: true,
@@ -32,17 +36,18 @@ void (async function () {
       const auth = req ? req.headers.authorization : null;
       console.log(auth);
       if (auth && auth.toLocaleLowerCase().startsWith("bearer ")) {
-        const decodedToken: token = jwt.verify(
+        const decodedToken: string = jwt.verify(
           auth.substring(7),
           envs.JWT_SECRET_KEY as jwt.Secret
-        ) as token;
+        ) as string;
+        console.log("decodedToken", decodedToken);
         const currentUser: User | null = await UserModel.findById(
-          decodedToken.id
+          decodedToken
         ).populate("level");
 
         console.log(currentUser);
 
-        return { currentUser: currentUser, token: decodedToken };
+        return { currentUser, token: decodedToken };
       }
       return { currentUser: null, token: null };
     },

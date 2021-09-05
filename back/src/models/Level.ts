@@ -20,6 +20,6 @@ const Level = new mongoose.Schema({
   ],
 });
 
-const levelModel = mongoose.model("Level", Level);
+const LevelModel = mongoose.model("Level", Level);
 
-export default levelModel;
+export default LevelModel;

@@ -1,0 +1,155 @@
+import QuestionModel, { Questions, QUESTION_TYPE } from "../entities/Questions";
+import UserModel from "../entities/User";
+import { setError } from "../utils/errorTypes";
+import { OperationError } from "../utils/FieldError.type";
+import { isAuth, isAdmin } from "../utils/isAuth";
+import BooleanResponse from "../utils/ResponseTypes";
+import {
+  Arg,
+  Ctx,
+  Field,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from "type-graphql";
+import { MyContext } from "types";
+
+@ObjectType()
+class CrudQuestionResponse {
+  @Field({ nullable: true })
+  question?: Questions;
+
+  @Field({ nullable: true })
+  error?: OperationError;
+}
+
+@InputType()
+class NewQuestionInfo {
+  @Field(() => QUESTION_TYPE, { nullable: false })
+  questionType: QUESTION_TYPE;
+
+  @Field({ nullable: false })
+  answer: string;
+
+  @Field(() => [String], { nullable: true })
+  choices?: string[];
+}
+
+@InputType()
+class editQuestionInfo {
+  @Field(() => QUESTION_TYPE, { nullable: true })
+  questionType?: QUESTION_TYPE;
+
+  @Field({ nullable: false })
+  answer?: string;
+
+  @Field(() => [String], { nullable: true })
+  choices?: string[];
+}
+
+@Resolver(Questions)
+class QuestionsResolver {
+  @Query(() => [Questions])
+  async allQuestions(): Promise<Questions[]> {
+    const questions = await QuestionModel.find({});
+    return questions;
+  }
+
+  @Query(() => CrudQuestionResponse)
+  async findQuestion(
+    @Arg("questionId") questionId: string
+  ): Promise<CrudQuestionResponse> {
+    const question = await QuestionModel.findById(questionId);
+    if (!question) return setError("404NOTFOUND", "Question not found");
+
+    return { question };
+  }
+
+  @Mutation(() => CrudQuestionResponse)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async addQuestion(
+    @Arg("options") questionInfo: NewQuestionInfo
+  ): Promise<CrudQuestionResponse> {
+    if (
+      questionInfo.questionType === "MULTIANSWERS" &&
+      (!questionInfo.choices || questionInfo.choices.length === 0)
+    ) {
+      return setError(
+        "UserInputError",
+        "choices should be provided for multiple answers"
+      );
+    }
+    if (questionInfo.answer.length === 0) {
+      return setError("UserInputError", "Answer should be provided");
+    }
+    try {
+      const newQuestion = await QuestionModel.create(questionInfo);
+
+      return { question: newQuestion };
+    } catch (error) {
+      return setError("UnknownError", error.message);
+    }
+  }
+
+  @Mutation(() => BooleanResponse)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async deleteQuestion(
+    @Arg("questionId") questionId: string
+  ): Promise<BooleanResponse> {
+    const question = await QuestionModel.findById(questionId);
+    if (!question) {
+      throw new Error("Question not found");
+    }
+    await QuestionModel.findByIdAndDelete(question);
+    return { value: true };
+  }
+
+  @Mutation(() => CrudQuestionResponse)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async editQuestion(
+    @Arg("questionId") questionId: string,
+    @Arg("newInfos") newInfos: editQuestionInfo
+  ): Promise<CrudQuestionResponse> {
+    try {
+      const question = await QuestionModel.findByIdAndUpdate(
+        questionId,
+        newInfos,
+        { new: true }
+      );
+      if (!question)
+        throw new Error("Unknown Error happned whwen updatig question");
+
+      return { question };
+    } catch (error) {
+      return setError("UnknownError", error.message);
+    }
+  }
+
+  @Mutation(() => BooleanResponse)
+  @UseMiddleware(isAuth)
+  async answerQuestion(
+    @Arg("answer") answer: string,
+    @Arg("questionId") questionId: string,
+    @Ctx() { currentUser }: MyContext
+  ): Promise<BooleanResponse> {
+    const question = await QuestionModel.findById(questionId);
+    if (!question) {
+      return setError("404NOTFOUND", "Question not found");
+    }
+    if (question.answer === answer) {
+      const user = UserModel.findById(currentUser!._id);
+      user.score += question.points;
+      await user.save();
+      return { value: true };
+    }
+    return { value: false };
+  }
+}
+
+export default QuestionsResolver;
