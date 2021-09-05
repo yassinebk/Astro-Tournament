@@ -1,0 +1,269 @@
+mutation login($loginOptions: UserLoginInfos!) {
+  login(options: $loginOptions) {
+    user {
+      _id
+      username
+      email
+      createdAt
+      lastLogin
+    }
+    errors {
+      field
+      message
+    }
+    token
+  }
+}
+
+mutation setScore($setScoreScore: Int!, $setScoreUserId: String!) {
+  setScore(score: $setScoreScore, userId: $setScoreUserId) {
+    error {
+      message
+      type
+    }
+    value
+  }
+}
+
+mutation register($registerOptions: UserRegisterInfos!) {
+  register(options: $registerOptions) {
+    user {
+      _id
+      answeredQuestions {
+        _id
+        points
+      }
+      email
+      username
+      fullname
+      lastLogin
+      createdAt
+      level {
+        _id
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+
+mutation setLevel($setLevelLevelId: String!, $setLevelUserId: String!) {
+  setLevel(levelId: $setLevelLevelId, userId: $setLevelUserId) {
+    error {
+      message
+      type
+    }
+    value
+  }
+}
+
+mutation setRole($setRoleRole: String!, $setRoleUserId: String!) {
+  setRole(role: $setRoleRole, userId: $setRoleUserId) {
+    error {
+      message
+      type
+    }
+    value
+  }
+}
+
+mutation answerQuestion(
+  $answerQuestionQuestionId: String!
+  $answerQuestionAnswer: String!
+) {
+  answerQuestion(
+    questionId: $answerQuestionQuestionId
+    answer: $answerQuestionAnswer
+  ) {
+    value
+    error {
+      message
+      type
+    }
+  }
+}
+
+mutation addQuestion($addQuestionOptions: NewQuestionInfo!){
+  addQuestion(options: $addQuestionOptions) {
+    error {
+      message
+      type
+    }
+    question {
+      _id
+      answer
+      question
+      points
+      questionType
+      choices
+    }
+  }
+}
+
+mutation editQuestion(
+  $editQuestionNewInfos: editQuestionInfo!
+  $editQuestionQuestionId: String!
+) {
+  editQuestion(
+    newInfos: $editQuestionNewInfos
+    questionId: $editQuestionQuestionId
+  ) {
+    error {
+      message
+      type
+    }
+    question {
+      questionType
+      _id
+      answer
+      choices
+      updatedAt
+    }
+  }
+}
+
+mutation addQuestionToLevel(
+  $addQuestionToLevelQuestionId: String!
+  $addQuestionToLevelLevelId: String!
+) {
+  addQuestionToLevel(
+    questionId: $addQuestionToLevelQuestionId
+    levelId: $addQuestionToLevelLevelId
+  ) {
+    error {
+      message
+      type
+    }
+    level {
+      _id
+      updatedAt
+      Questions {
+        _id
+        answer
+      }
+      updatedAt
+      number
+    }
+  }
+}
+
+mutation setLevelNumber(
+  $setLevelNumberLevelId: String!
+  $setLevelNumberNumber: Int!
+) {
+  setLevelNumber(
+    levelId: $setLevelNumberLevelId
+    number: $setLevelNumberNumber
+  ) {
+   error {
+     message
+     type
+   }
+   level {
+     _id
+     createdAt
+     updatedAt
+     number
+   }
+  }
+}
+
+mutation addLevel($addLevelOptions: NewLevelInput!) {
+  addLevel(options: $addLevelOptions) {
+    error {
+      field
+      message
+    }
+    level {
+      _id
+      createdAt
+      number
+      updatedAt
+    }
+  }
+}
+
+query allLevel {
+  allLevels {
+    _id
+    number
+    createdAt
+    Questions {
+      _id
+      answer
+      points
+      question
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query getLevel($getLevelLevelId: String!) {
+  getLevel(levelId: $getLevelLevelId) {
+    _id
+    createdAt
+    updatedAt
+    number
+    Questions {
+      _id
+      answer
+      question
+    }
+  }
+}
+
+query allQuestions {
+  allQuestions {
+    _id
+    answer
+    question
+    createdAt
+    points
+    updatedAt
+  }
+}
+
+query findQuestion($findQuestionQuestionId: String!) {
+  findQuestion(questionId: $findQuestionQuestionId) {
+    error {
+      message
+      type
+    }
+    question {
+      answer
+      choices
+      createdAt
+      updatedAt
+      points
+      question
+      questionType
+    }
+  }
+}
+
+query participantsCount {
+  participantsCount
+}
+
+query allUsers {
+  allUsers {
+    createdAt
+    score
+    username
+    levelNumber
+
+
+  }
+}
+
+query findUser($findUserUserId: String!) {
+  findUser(userId: $findUserUserId) {
+    _id
+    username
+    level
+
+  }
+}

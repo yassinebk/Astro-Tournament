@@ -1,13 +1,12 @@
+import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
 import express from "express";
 import { createServer } from "http";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
-import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { MyContext } from "../types";
-import UserModel, { User } from "./entities/User";
+import UserModel, { UserNoPassword } from "./entities/User";
 import LevelResolver from "./resolvers/level";
 import QuestionsResolver from "./resolvers/questions";
 import { UserResolver } from "./resolvers/user";
@@ -17,7 +16,7 @@ import connectToDb from "./utils/connect";
 console.log(`Connecting to ${envs.MONGODB_URI}`);
 
 connectToDb({ db: envs.MONGODB_URI ? envs.MONGODB_URI : "" });
-mongoose.set("debug", true);
+//mongoose.set("debug", true);
 
 void (async function () {
   const app = express();
@@ -34,18 +33,18 @@ void (async function () {
     debug: true,
     context: async ({ req }): Promise<MyContext> => {
       const auth = req ? req.headers.authorization : null;
-      console.log(auth);
       if (auth && auth.toLocaleLowerCase().startsWith("bearer ")) {
         const decodedToken: string = jwt.verify(
           auth.substring(7),
           envs.JWT_SECRET_KEY as jwt.Secret
         ) as string;
-        console.log("decodedToken", decodedToken);
-        const currentUser: User | null = await UserModel.findById(
-          decodedToken
+        //console.log("decodedToken", decodedToken);
+        const currentUser: UserNoPassword | null = await UserModel.findById(
+          decodedToken,
+          { password: 0 }
         ).populate("level");
 
-        console.log(currentUser);
+        //console.log(currentUser);
 
         return { currentUser, token: decodedToken };
       }

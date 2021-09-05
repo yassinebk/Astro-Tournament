@@ -34,9 +34,9 @@ export class User {
   @Field(() => Role)
   public role: Role;
 
-  @prop({ ref: "Level", autopopulate: true })
+  @prop({ ref: "Level" })
   @Field(() => Level, { nullable: true })
-  level: Ref<Level> | Level;
+  public level: Ref<Level>;
 
   @prop({ ref: "Questions", default: [] })
   @Field(() => [Questions])
@@ -73,17 +73,19 @@ export class UserNoPassword {
   @Field(() => Role)
   public role: Role;
 
+  @prop({ ref: "Level", default: null, autopopulate: true })
   @Field(() => ID, { nullable: true })
-  level: Ref<Level>;
+  public level: Ref<Level>;
 
+  @prop({ ref: "Questions", default: [], autopopulate: true })
   @Field(() => [Questions])
-  answeredQuestions: Ref<Questions>[];
+  public answeredQuestions: Ref<Questions>[];
 
   @Field(() => Int, { defaultValue: 0 })
   public score: number;
 
   @Field(() => Date)
-  createdAt: Date;
+  public createdAt: Date;
 
   @Field(() => Date, { nullable: true })
   public updatedAt: Date | null;

@@ -4,7 +4,6 @@ import { Questions } from "./Questions";
 
 @ObjectType()
 export class Level {
-  @prop()
   @Field(() => ID)
   public _id: string;
 
@@ -12,7 +11,7 @@ export class Level {
   @Field(() => Int, { nullable: true })
   public number?: number;
 
-  @prop({ ref: "Questions", default: [] })
+  @prop({ ref: "Questions", default: [], autopopulate: true })
   @Field(() => [Questions], { nullable: false })
   public Questions: Ref<Questions>[];
 

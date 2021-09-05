@@ -18,9 +18,9 @@ import envs from "../utils/configs";
 import { setError } from "../utils/errorTypes";
 import { FieldError } from "../utils/FieldError.type";
 import { isAdmin, isAuth } from "../utils/isAuth";
+import BooleanResponse from "../utils/ResponseTypes";
 import { UserLoginInfos, UserRegisterInfos } from "../utils/UserInputTypes";
 import { validateRegister } from "../utils/validateRegister";
-import BooleanResponse from "../utils/ResponseTypes";
 @ObjectType()
 class UserResponse {
   @Field(() => [FieldError], { nullable: true })
@@ -73,7 +73,9 @@ export class UserResolver {
 
   @Query(() => [UserBasicInfo], { defaultValue: [] })
   async allUsers(): Promise<UserBasicInfo[]> {
-    const allUsers = await UserModel.find({}).populate("level");
+    const allUsers = await UserModel.find({}, { password: 0 }).populate(
+      "level"
+    );
 
     console.log("UserList", allUsers);
     await setTimeout(() => console.log("waiting"), 10000);
@@ -97,8 +99,9 @@ export class UserResolver {
   async register(
     @Arg("options") options: UserRegisterInfos
   ): Promise<UserResponse> {
-    const errors =  validateRegister(options);
+    const errors = validateRegister(options);
     if (errors) {
+      console.log("error", errors);
       return { errors };
     }
     let user;
@@ -226,6 +229,10 @@ export class UserResolver {
     } catch (error) {
       return {
         value: false,
+        error: {
+          message: error.message,
+          type: "UnknownError",
+        },
       };
     }
     return { value: true };
@@ -236,16 +243,16 @@ export class UserResolver {
   @UseMiddleware(isAdmin)
   async setScore(
     @Arg("userId") userId: string,
-    @Arg("score") score: number
+    @Arg("score", () => Int) score: number
   ): Promise<BooleanResponse> {
-    const user = await UserModel.findById({ userId });
+    const user = await UserModel.findById(userId, { password: 0 });
     if (!user) {
       return setError("404NOTFOUND", "user not found");
     }
 
     user.score = score;
     try {
-      await user?.save();
+      await user.save();
     } catch (error) {
       return setError("UnknownError", error.message);
     }

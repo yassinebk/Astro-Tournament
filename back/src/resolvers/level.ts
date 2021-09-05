@@ -1,19 +1,19 @@
-import LevelModel, { Level } from "../entities/Level";
-import QuestionModel from "../entities/Questions";
-import { setError } from "../utils/errorTypes";
-import { FieldError, OperationError } from "../utils/FieldError.type";
-import { isAdmin, isAuth } from "../utils/isAuth";
-import BooleanResponse from "../utils/ResponseTypes";
 import {
   Arg,
   Field,
   InputType,
+  Int,
   Mutation,
   ObjectType,
   Query,
   Resolver,
   UseMiddleware,
 } from "type-graphql";
+import LevelModel, { Level } from "../entities/Level";
+import QuestionModel from "../entities/Questions";
+import { setError } from "../utils/errorTypes";
+import { FieldError, OperationError } from "../utils/FieldError.type";
+import { isAdmin, isAuth } from "../utils/isAuth";
 
 @ObjectType()
 class AddLevelResponse {
@@ -43,7 +43,7 @@ class NewLevelInput {
 class LevelResolver {
   @Query(() => [Level], { nullable: false })
   async allLevels() {
-    const levels = LevelModel.find({});
+    const levels = LevelModel.find({}).populate("Questions");
     return levels;
   }
 
@@ -71,7 +71,18 @@ class LevelResolver {
           },
         };
       else {
-        return { level: await LevelModel.create({ createdAt: new Date() }) };
+        const level = new LevelModel({ number: newLevel.number });
+        await level.save();
+
+        if (!level) {
+          return {
+            error: {
+              field: "form",
+              message: "error has happened",
+            },
+          };
+        }
+        return { level };
       }
     } catch (error) {
       return {
@@ -83,31 +94,35 @@ class LevelResolver {
     }
   }
 
-  @Mutation(() => Level)
+  @Mutation(() => CrudLevelResponse)
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setLevelNumber(
-    @Arg("number") number: number,
+    @Arg("number", () => Int) number: number,
     @Arg("levelId") levelId: string
-  ): Promise<BooleanResponse> {
+  ): Promise<CrudLevelResponse> {
     const oldLevelNumber = await LevelModel.findOne({ number: number });
 
-    if (oldLevelNumber) {
-      return setError(
-        "UserInputError",
-        "There exists another level with that number"
-      );
-    }
     const level = await LevelModel.findById(levelId);
 
     if (!level) {
       return setError("404NOTFOUND", "Level not found");
     }
+
+    if (oldLevelNumber && level) {
+      if (level.id === oldLevelNumber.id) {
+        return setError("UserInputError", "the level already has this number");
+      }
+      return setError(
+        "UserInputError",
+        "There exists another level with that number "
+      );
+    }
+
     level.number = number;
-    level.updatedAt = new Date();
     await level.save();
 
-    return { value: true };
+    return { level };
   }
 
   @Mutation(() => CrudLevelResponse)
@@ -122,13 +137,19 @@ class LevelResolver {
     if (!level) {
       return setError("404NOTFOUND", "Level Not found");
     }
+    if (level.Questions.includes(questionId)) {
+      return setError(
+        "IllegalActionError",
+        "The question already exists in the level"
+      );
+    }
     const question = await QuestionModel.findById(questionId);
     if (!question) {
       return setError("404NOTFOUND", "Question Not found");
     }
     level.Questions = level.Questions.concat(questionId);
-    level.updatedAt = new Date();
-    level.save();
+    await level.save();
+    await level.populate("Questions");
     return { level };
   }
 }

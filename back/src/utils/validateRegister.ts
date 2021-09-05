@@ -26,5 +26,9 @@ export const validateRegister = (
     });
   }
 
-  return errors.length > 0 ? errors : null;
+  console.log(errors.length);
+
+  const returnedErrors = errors.length === 0 ? null : errors;
+  console.log(returnedErrors);
+  return returnedErrors;
 };

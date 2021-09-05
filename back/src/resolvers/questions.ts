@@ -1,14 +1,9 @@
-import QuestionModel, { Questions, QUESTION_TYPE } from "../entities/Questions";
-import UserModel from "../entities/User";
-import { setError } from "../utils/errorTypes";
-import { OperationError } from "../utils/FieldError.type";
-import { isAuth, isAdmin } from "../utils/isAuth";
-import BooleanResponse from "../utils/ResponseTypes";
 import {
   Arg,
   Ctx,
   Field,
   InputType,
+  Int,
   Mutation,
   ObjectType,
   Query,
@@ -16,6 +11,12 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { MyContext } from "types";
+import QuestionModel, { Questions, QUESTION_TYPE } from "../entities/Questions";
+import UserModel from "../entities/User";
+import { setError } from "../utils/errorTypes";
+import { OperationError } from "../utils/FieldError.type";
+import { isAdmin, isAuth } from "../utils/isAuth";
+import BooleanResponse from "../utils/ResponseTypes";
 
 @ObjectType()
 class CrudQuestionResponse {
@@ -31,11 +32,17 @@ class NewQuestionInfo {
   @Field(() => QUESTION_TYPE, { nullable: false })
   questionType: QUESTION_TYPE;
 
+  @Field()
+  question: string;
+
   @Field({ nullable: false })
   answer: string;
 
   @Field(() => [String], { nullable: true })
   choices?: string[];
+
+  @Field(() => Int)
+  points: number;
 }
 
 @InputType()
@@ -43,11 +50,14 @@ class editQuestionInfo {
   @Field(() => QUESTION_TYPE, { nullable: true })
   questionType?: QUESTION_TYPE;
 
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   answer?: string;
 
   @Field(() => [String], { nullable: true })
   choices?: string[];
+
+  @Field(() => Int, { nullable: true })
+  points?: number;
 }
 
 @Resolver(Questions)
@@ -87,7 +97,10 @@ class QuestionsResolver {
       return setError("UserInputError", "Answer should be provided");
     }
     try {
-      const newQuestion = await QuestionModel.create(questionInfo);
+      console.log(questionInfo);
+      const newQuestion = new QuestionModel(questionInfo);
+      console.log(newQuestion);
+      await newQuestion.save();
 
       return { question: newQuestion };
     } catch (error) {
@@ -117,11 +130,15 @@ class QuestionsResolver {
     @Arg("newInfos") newInfos: editQuestionInfo
   ): Promise<CrudQuestionResponse> {
     try {
+      if (newInfos.choices && newInfos.choices.length > 0) {
+        newInfos.questionType = "MULTIANSWERS" as QUESTION_TYPE;
+      }
       const question = await QuestionModel.findByIdAndUpdate(
         questionId,
         newInfos,
         { new: true }
       );
+
       if (!question)
         throw new Error("Unknown Error happned whwen updatig question");
 
@@ -143,7 +160,15 @@ class QuestionsResolver {
       return setError("404NOTFOUND", "Question not found");
     }
     if (question.answer === answer) {
-      const user = UserModel.findById(currentUser!._id);
+      const user = await UserModel.findById(currentUser!._id);
+      if (!user) {
+        return {
+          error: {
+            type: "404NOTFOUND",
+            message: "User was not found",
+          },
+        };
+      }
       user.score += question.points;
       await user.save();
       return { value: true };

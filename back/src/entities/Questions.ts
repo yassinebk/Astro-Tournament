@@ -1,5 +1,5 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import { Field, ID, ObjectType, registerEnumType } from "type-graphql";
+import { Field, ID, Int, ObjectType, registerEnumType } from "type-graphql";
 
 export enum QUESTION_TYPE {
   MULTIA = "MULTIANSWERS",
@@ -10,7 +10,6 @@ registerEnumType(QUESTION_TYPE, { name: "QUESTION_TYPE" });
 
 @ObjectType()
 export class Questions {
-  @prop()
   @Field(() => ID)
   public _id: string;
 
@@ -19,15 +18,19 @@ export class Questions {
   public questionType: QUESTION_TYPE;
 
   @prop()
+  @Field(() => String)
+  question: string;
+
+  @prop()
   @Field(() => String, { nullable: false })
   answer: string;
 
   @prop({ type: [String] })
   @Field(() => [String], { nullable: true, defaultValue: [] })
-  choices: string[];
+  choices?: string[];
 
   @prop({ type: Number })
-  @Field({ defaultValue: 100 })
+  @Field(() => Int, { defaultValue: 100 })
   points: number;
 
   @Field(() => Date)
