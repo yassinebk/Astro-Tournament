@@ -1,0 +1,15 @@
+query allLevel {
+  allLevels {
+    _id
+    number
+    createdAt
+    Questions {
+      _id
+      answer
+      points
+      question
+      createdAt
+      updatedAt
+    }
+  }
+}

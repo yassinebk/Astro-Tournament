@@ -43,6 +43,12 @@ class UserLoginResponse {
 }
 
 @ObjectType()
+class MeResponse {
+  @Field(() => UserNoPassword, { nullable: true })
+  user?: UserNoPassword;
+}
+
+@ObjectType()
 class UserBasicInfo {
   @Field()
   score: number;
@@ -306,5 +312,11 @@ export class UserResolver {
     return {
       value: true,
     };
+  }
+
+  @Query(() => MeResponse, { nullable: true })
+  async me(@Ctx() { currentUser }: MyContext) {
+    if (!currentUser) return null;
+    return { user: currentUser };
   }
 }

@@ -1,0 +1,9 @@
+mutation setRole($setRoleRole: String!, $setRoleUserId: String!) {
+  setRole(role: $setRoleRole, userId: $setRoleUserId) {
+    error {
+      message
+      type
+    }
+    value
+  }
+}

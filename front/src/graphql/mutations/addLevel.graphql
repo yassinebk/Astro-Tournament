@@ -1,0 +1,14 @@
+mutation addLevel($addLevelOptions: NewLevelInput!) {
+  addLevel(options: $addLevelOptions) {
+    error {
+      field
+      message
+    }
+    level {
+      _id
+      createdAt
+      number
+      updatedAt
+    }
+  }
+}

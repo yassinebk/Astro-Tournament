@@ -1,0 +1,16 @@
+mutation addQuestion($options: NewQuestionInfo!) {
+  addQuestion(options: $options) {
+    error {
+      message
+      type
+    }
+    question {
+      _id
+      answer
+      question
+      points
+      questionType
+      choices
+    }
+  }
+}

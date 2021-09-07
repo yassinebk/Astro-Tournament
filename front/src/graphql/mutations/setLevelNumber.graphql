@@ -1,0 +1,14 @@
+mutation setLevelNumber($levelId: String!, $number: Int!) {
+  setLevelNumber(levelId: $levelId, number: $number) {
+    error {
+      message
+      type
+    }
+    level {
+      _id
+      createdAt
+      updatedAt
+      number
+    }
+  }
+}

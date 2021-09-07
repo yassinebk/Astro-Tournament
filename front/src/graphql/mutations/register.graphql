@@ -1,0 +1,23 @@
+mutation register($options: UserRegisterInfos!) {
+  register(options: $options) {
+    user {
+      _id
+      answeredQuestions {
+        _id
+        points
+      }
+      email
+      username
+      fullname
+      lastLogin
+      createdAt
+      level {
+        _id
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

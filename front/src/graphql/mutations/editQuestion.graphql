@@ -1,0 +1,15 @@
+mutation editQuestion($newInfos: editQuestionInfo!, $QuestionId: String!) {
+  editQuestion(newInfos: $newInfos, questionId: $questionId) {
+    error {
+      message
+      type
+    }
+    question {
+      questionType
+      _id
+      answer
+      choices
+      updatedAt
+    }
+  }
+}

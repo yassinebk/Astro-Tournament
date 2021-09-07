@@ -1,0 +1,9 @@
+mutation answerQuestion($questionId: String!, $answer: String!) {
+  answerQuestion(questionId: $questionId, answer: $answer) {
+    value
+    error {
+      message
+      type
+    }
+  }
+}

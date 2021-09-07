@@ -1,0 +1,9 @@
+mutation setScore($score: Int!, $id: String!) {
+  setScore(score: $score, userId: $id) {
+    error {
+      message
+      type
+    }
+    value
+  }
+}

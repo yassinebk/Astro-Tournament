@@ -68,7 +68,7 @@ export class UserNoPassword {
   public username: string;
 
   @Field()
-  public email: string;
+  public email?: string;
 
   @Field(() => Role)
   public role: Role;
@@ -85,10 +85,10 @@ export class UserNoPassword {
   public score: number;
 
   @Field(() => Date)
-  public createdAt: Date;
+  public createdAt?: Date;
 
   @Field(() => Date, { nullable: true })
-  public updatedAt: Date | null;
+  public updatedAt?: Date | null;
 
   @Field(() => Date, { nullable: true })
   public lastLogin: Date | null;

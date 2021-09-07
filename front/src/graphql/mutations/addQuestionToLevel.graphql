@@ -1,0 +1,18 @@
+mutation addQuestionToLevel($questionId: String!, $levelId: String!) {
+  addQuestionToLevel(questionId: $levelQuestionId, levelId: $levelId) {
+    error {
+      message
+      type
+    }
+    level {
+      _id
+      updatedAt
+      Questions {
+        _id
+        answer
+      }
+      updatedAt
+      number
+    }
+  }
+}

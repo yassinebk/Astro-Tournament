@@ -6,7 +6,7 @@ import { createServer } from "http";
 import jwt from "jsonwebtoken";
 import { buildSchema } from "type-graphql";
 import { MyContext } from "../types";
-import UserModel, { UserNoPassword } from "./entities/User";
+import UserModel, { User } from "./entities/User";
 import LevelResolver from "./resolvers/level";
 import QuestionsResolver from "./resolvers/questions";
 import { UserResolver } from "./resolvers/user";
@@ -39,16 +39,16 @@ void (async function () {
           envs.JWT_SECRET_KEY as jwt.Secret
         ) as string;
         //console.log("decodedToken", decodedToken);
-        const currentUser: UserNoPassword | null = await UserModel.findById(
+        const currentUser: User | null = await UserModel.findById(
           decodedToken,
           { password: 0 }
         ).populate("level");
 
         //console.log(currentUser);
 
-        return { currentUser, token: decodedToken };
+        return { currentUser };
       }
-      return { currentUser: null, token: null };
+      return { currentUser: null };
     },
   });
 

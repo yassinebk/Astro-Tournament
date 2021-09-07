@@ -1,0 +1,13 @@
+query getLevel($levelId: String!) {
+  getLevel(levelId: $levelId) {
+    _id
+    createdAt
+    updatedAt
+    number
+    Questions {
+      _id
+      answer
+      question
+    }
+  }
+}
