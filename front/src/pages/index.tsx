@@ -1,10 +1,14 @@
 import { Text } from "@chakra-ui/react";
+import AuthProvider from "../components/Auth";
 import { Container } from "../components/Container";
+import withApollo from "../utils/createApolloClient";
 
 const Index = () => (
-  <Container height="100vh">
-    <Text>Hello </Text>
-  </Container>
+  <AuthProvider>
+    <Container height="100vh">
+      <Text>Hello </Text>
+    </Container>
+  </AuthProvider>
 );
 
-export default Index;
+export default withApollo({ ssr: false })(Index);

@@ -1,5 +1,5 @@
 mutation addQuestionToLevel($questionId: String!, $levelId: String!) {
-  addQuestionToLevel(questionId: $levelQuestionId, levelId: $levelId) {
+  addQuestionToLevel(questionId: $questionId, levelId: $levelId) {
     error {
       message
       type

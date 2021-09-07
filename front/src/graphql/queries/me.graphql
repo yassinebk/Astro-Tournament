@@ -1,9 +1,11 @@
-query me {
-  user {
-    _id
-    username
-    level
-    role
-    lastlogin
+query Me {
+  me {
+    user {
+      _id
+      username
+      level
+      role
+      lastLogin
+    }
   }
 }

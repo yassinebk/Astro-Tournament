@@ -21,7 +21,12 @@ connectToDb({ db: envs.MONGODB_URI ? envs.MONGODB_URI : "" });
 void (async function () {
   const app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: envs.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
 
   const httpServer = createServer(app);
 
@@ -53,7 +58,7 @@ void (async function () {
   });
 
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   const PORT = 4000;
   httpServer.listen(PORT, () => {});

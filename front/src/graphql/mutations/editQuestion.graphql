@@ -1,4 +1,4 @@
-mutation editQuestion($newInfos: editQuestionInfo!, $QuestionId: String!) {
+mutation editQuestion($newInfos: editQuestionInfo!, $questionId: String!) {
   editQuestion(newInfos: $newInfos, questionId: $questionId) {
     error {
       message
