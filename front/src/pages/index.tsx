@@ -1,14 +1,22 @@
-import { Text } from "@chakra-ui/react";
-import AuthProvider from "../components/Auth";
+import React from "react";
+import CallForActions from "../components/CallForActions";
+import { Cards } from "../components/Cards";
 import { Container } from "../components/Container";
+import Countdown from "../components/Countdown";
+import { Footer } from "../components/Footer";
+import Hero from "../components/Hero";
+import { Navbar } from "../components/Navbar";
 import withApollo from "../utils/createApolloClient";
 
 const Index = () => (
-  <AuthProvider>
-    <Container height="100vh">
-      <Text>Hello </Text>
-    </Container>
-  </AuthProvider>
+  <Container height="100%">
+    <Navbar />
+    <Hero />
+    <Countdown />
+    <Cards />
+    <CallForActions />
+    <Footer />
+  </Container>
 );
 
-export default withApollo({ ssr: false })(Index);
+export default withApollo({ ssr: true })(Index);

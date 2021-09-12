@@ -1,0 +1,16 @@
+.defaultNavbar {
+  display: none !important;
+}
+
+.navbarDropdown {
+  display: none !important;
+}
+
+/* @media (min-width: "360px") {
+  .defaultNavbar {
+    display: none;
+  }
+  .navbarDropdown {
+    display: none;
+  }
+} */
