@@ -1,22 +1,15 @@
-import { VStack, HStack } from "@chakra-ui/layout";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { HStack, VStack } from "@chakra-ui/layout";
 import {
-  Button,
-  Box,
-  DrawerBody,
-  IconButton,
-  Link,
-  DrawerOverlay,
-  Drawer,
-  useDisclosure,
-  DrawerCloseButton,
-  DrawerContent,
+  Box, Button, Drawer, DrawerBody, DrawerCloseButton,
+  DrawerContent, DrawerOverlay, IconButton,
+  Link, useDisclosure
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
-import Logo from "./Logo";
 import "../styles/Navbar.module.css";
+import Logo from "./Logo";
 
-import { HamburgerIcon } from "@chakra-ui/icons";
 
 interface NavbarProps {}
 
@@ -49,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
       />
       <HStack
         className="defaultNavbar"
-        fontSize={["16px", "19px", "md", "lg", "2xl"]}
+        fontSize={["20px", "22px", "xl", "lg", "2xl"]}
         fontWeight="bold"
         height="100%"
         justifyContent={[
@@ -105,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           finalFocusRef={btnRef}
           size="full"
         >
-          <DrawerOverlay />
+          <DrawerOverlay height="70vh" />
           <DrawerContent
             maxW="900px"
             background="linear-gradient(180deg, rgba(0, 0, 0, 0.9) 20%, rgba(41, 39, 78, 0.5) 100%)"
@@ -147,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
                     colorScheme="teal"
                     variant="solid"
                     fontSize="inherit"
-                    height={[12, 15, 16]}
+                    minH="50px"
                   >
                     Compete Now
                   </Button>
