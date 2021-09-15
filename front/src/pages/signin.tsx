@@ -107,8 +107,7 @@ const Signin: React.FC<signupProps> = ({}) => {
               password: "",
             }}
             onSubmit={async (values, { setErrors }) => {
-              console.log(values);
-              signin({
+              await signin({
                 variables: {
                   option: {
                     usernameOrEmail: values.usernameOrEmail,
@@ -116,13 +115,16 @@ const Signin: React.FC<signupProps> = ({}) => {
                   },
                 },
               });
+              console.log(data.login);
               if (data?.login.errors) {
                 setErrors(toErrorMap(data.login.errors));
               } else if (data.login.user) {
                 const { token, user } = data.login;
+
                 const authUser = { token, user };
                 localStorage.setItem("authUser", JSON.stringify(authUser));
-                router.push("/");
+                console.log(localStorage.getItem("authUser"));
+                console.log("here444");
               }
             }}
           >

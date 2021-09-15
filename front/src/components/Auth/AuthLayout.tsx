@@ -18,7 +18,7 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
       bgColor="blackAlpha.900"
       height="100vh"
     >
-      <AuthNavbar />
+      <Navbar />
       {/* <Sidebar /> */}
       {children}
       <ScrollToTopBtn />

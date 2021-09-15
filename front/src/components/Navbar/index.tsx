@@ -1,23 +1,30 @@
-import { Router, useRouter } from "next/dist/client/router";
+import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
-import { useMeQuery } from "../../generated/graphql";
+import { useMeQuery, UserNoPassword } from "../../generated/graphql";
 import { AuthNavbar } from "./AuthNavbar";
 import { NoAuthNavbar } from "./NoAuthNavbar";
 
 interface NavbarProps {}
 export const Navbar: React.FC<NavbarProps> = () => {
   const { data, loading } = useMeQuery();
-  const [auth, setAuth] = useState(null);
+  const [auth, setAuth] = useState<null | UserNoPassword>(null);
   const router = useRouter();
 
   useEffect(() => {
+    console.log("here");
     if (!loading && data) {
       if (data.me?.user) {
-        router.push(`/user/${data.me.user._id}`);
-      } else {
-        setAuth(null);
+        setAuth(data.me.user as UserNoPassword);
+        router.push(
+          `/user/${
+            data.me.user._id
+          }/dashboard/${data.me.user.role.toLowerCase()}`
+        );
       }
       console.log(data);
+    } else {
+      setAuth(null);
+      router.push("/");
     }
   }, [data, loading]);
   if (auth) {
