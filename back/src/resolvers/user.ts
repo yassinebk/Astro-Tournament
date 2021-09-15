@@ -319,4 +319,20 @@ export class UserResolver {
     if (!currentUser) return null;
     return { user: currentUser };
   }
+  @Mutation(()=> UserChangeToken)]
+  async changePassword(
+    @Arg("email") email:string
+  )
+  {
+  /*
+     Check the email in the db  
+     if not send an error  
+     else send an email having a token 
+     save a token in the db in a temporrary field 
+     check the token correcteness 
+     accept the password
+
+  */
+  }
+
 }

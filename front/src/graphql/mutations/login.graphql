@@ -6,6 +6,8 @@ mutation login($option: UserLoginInfos!) {
       email
       createdAt
       lastLogin
+      level
+      role
     }
     errors {
       field

@@ -1,17 +1,24 @@
 import { Button } from "@chakra-ui/button";
 import { Box, Divider, Flex, Heading, Text, VStack } from "@chakra-ui/layout";
+import { Link } from "@chakra-ui/react";
 import { AiOutlineGoogle } from "@react-icons/all-files/ai/AiOutlineGoogle";
 import { Form, Formik } from "formik";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
+import * as Yup from "yup";
 import { Container } from "../components/Container";
 import { Footer } from "../components/Footer";
 import InputField from "../components/InputField";
 import { Navbar } from "../components/Navbar";
-import * as Yup from "yup";
+import { useRegisterMutation } from "../generated/graphql";
+import withApollo from "../utils/createApolloClient";
+import toErrorMap from "../utils/toErrorMap";
+import NextLink from "next/link";
 
 interface signupProps {}
 
 const validationSchema = Yup.object().shape({
+  fullname: Yup.string().required().min(1, "fullname should be valid"),
   username: Yup.string()
     .min(3, "Username too short")
     .max(35, "Username cannot be longer than 35 characts")
@@ -27,6 +34,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const Signup: React.FC<signupProps> = ({}) => {
+  const [signup, { loading, error, data }] = useRegisterMutation();
+  const router = useRouter();
   return (
     <Container>
       <Navbar />
@@ -47,14 +56,11 @@ const Signup: React.FC<signupProps> = ({}) => {
           bgPos="center center"
           w="full"
           bgClip="padding-box"
-          //h={["auto", "auto", "100%"]}
           bgRepeat="repeat"
           bgBlendMode="lighten"
           paddingY="10%"
           borderRadius="24px"
           marginBottom={["-6", "-6", "0"]}
-
-          //background="linear-gradient(0deg, rgba(46, 25, 69, 0.32), rgba(46, 25, 69, 0.32)), url(.jpg)"
         >
           <Heading
             fontSize={["xl"]}
@@ -86,6 +92,7 @@ const Signup: React.FC<signupProps> = ({}) => {
           <Formik
             validationSchema={validationSchema}
             initialValues={{
+              fullname: "",
               username: "",
               confirmPassword: "",
               password: "",
@@ -93,6 +100,21 @@ const Signup: React.FC<signupProps> = ({}) => {
             }}
             onSubmit={async (values, { setErrors }) => {
               console.log(values);
+              await signup({
+                variables: {
+                  options: {
+                    email: values.email,
+                    username: values.username,
+                    password: values.password,
+                    fullname: values.fullname,
+                  },
+                },
+              });
+              if (data.register.errors) {
+                setErrors(toErrorMap(data.register.errors));
+              } else if (data.register.user) {
+                router.push("/");
+              }
             }}
           >
             {({ isSubmitting, errors }) => (
@@ -170,7 +192,9 @@ const Signup: React.FC<signupProps> = ({}) => {
                           fontSize: 22,
                         }}
                       >
-                        Signin
+                        <NextLink href="/signin">
+                          <Link>Signin</Link>
+                        </NextLink>
                       </span>
                     </Text>
                   </Box>
@@ -185,4 +209,4 @@ const Signup: React.FC<signupProps> = ({}) => {
   );
 };
 
-export default Signup;
+export default withApollo({ ssr: true })(Signup);

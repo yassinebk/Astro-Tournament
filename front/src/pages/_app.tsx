@@ -1,9 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import AuthProvider from "../components/Auth";
-
-import theme from "../theme";
 import { AppProps } from "next/app";
-import withApollo from "../utils/createApolloClient";
+import theme from "../theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

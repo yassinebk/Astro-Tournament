@@ -1,21 +1,27 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { HStack, VStack } from "@chakra-ui/layout";
 import {
-  Box, Button, Drawer, DrawerBody, DrawerCloseButton,
-  DrawerContent, DrawerOverlay, IconButton,
-  Link, useDisclosure
+  HStack,
+  Link,
+  Button,
+  IconButton,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
+  VStack,
+  Box,
+  useDisclosure,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import React from "react";
-import "../styles/Navbar.module.css";
-import Logo from "./Logo";
+import Logo from "../Logo";
+import NextLink from "next/link";
 
+interface NoAuthNavbarProps {}
 
-interface NavbarProps {}
-
-export const Navbar: React.FC<NavbarProps> = ({}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
+export const NoAuthNavbar: React.FC<NoAuthNavbarProps> = ({}) => {
+  const { onOpen, isOpen, onClose } = useDisclosure();
+    const btnRef = React.useRef();
   return (
     <HStack
       paddingY={[3, 5]}
@@ -108,7 +114,6 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
             backdropBlur="100px"
           >
             <DrawerCloseButton position="absolute" left={4} fontSize={23} />
-
             <DrawerBody>
               <VStack
                 width="full"

@@ -331,7 +331,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserLoginResponse', token?: Maybe<string>, user?: Maybe<{ __typename?: 'UserNoPassword', _id: string, username: string, email: string, createdAt: any, lastLogin?: Maybe<any> }>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserLoginResponse', token?: Maybe<string>, user?: Maybe<{ __typename?: 'UserNoPassword', _id: string, username: string, email: string, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role }>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
 export type RegisterMutationVariables = Exact<{
   options: UserRegisterInfos;
@@ -643,6 +643,8 @@ export const LoginDocument = gql`
       email
       createdAt
       lastLogin
+      level
+      role
     }
     errors {
       field
