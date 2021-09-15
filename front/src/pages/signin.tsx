@@ -13,7 +13,7 @@ import { Form, Formik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import * as Yup from "yup";
-import { Container } from "../components/Container";
+import { Container } from "../components/NoAuth/Container";
 import { Footer } from "../components/Footer";
 import InputField from "../components/InputField";
 import { Navbar } from "../components/Navbar";

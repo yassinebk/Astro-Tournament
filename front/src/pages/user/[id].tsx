@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/layout";
 import React from "react";
-import AuthLayout from "../../components/AuthLayout";
+import AuthLayout from "../../components/Auth/AuthLayout";
 import withApollo from "../../utils/createApolloClient";
 
 interface AuthenticaedHomePageProps {}

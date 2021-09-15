@@ -1,7 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, IconButton, Img, Text } from "@chakra-ui/react";
 import React, { MouseEventHandler, useState } from "react";
-import { useKeyPress } from "../utils/useKeyboardEvent";
+import { useKeyPress } from "../../utils/useKeyboardEvent";
 
 interface Image {
   src: string;

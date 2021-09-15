@@ -12,12 +12,14 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   useEffect(() => {
     if (!loading && data) {
-      if (data.me.user) {
+      if (data.me?.user) {
         router.push(`/user/${data.me.user._id}`);
+      } else {
+        setAuth(null);
       }
       console.log(data);
     }
-  });
+  }, [data, loading]);
   if (auth) {
     return <AuthNavbar role={auth.role} />;
   }

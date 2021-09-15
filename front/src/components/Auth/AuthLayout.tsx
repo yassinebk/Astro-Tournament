@@ -1,10 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import { Role } from "../generated/graphql";
-import Navbar from "./Navbar";
-import AuthNavbar from "./Navbar/AuthNavbar";
-import ScrollToTopBtn from "./ScrollToTopBtn";
-import { Sidebar } from "./Sidebar";
+import { Role } from "../../generated/graphql";
+import Navbar from "../Navbar";
+import AuthNavbar from "../Navbar/AuthNavbar";
+import ScrollToTopBtn from "../ScrollToTopBtn";
+import { Sidebar } from "../Sidebar";
 
 interface authLayoutProps {}
 

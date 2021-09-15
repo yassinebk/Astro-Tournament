@@ -10,10 +10,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Container } from "../components/Container";
+import { Container } from "../components/NoAuth/Container";
 import { Footer } from "../components/Footer";
-import GridImage from "../components/GridImage";
-import ImageGallery from "../components/ImageGallery";
+import GridImage from "../components/NoAuth/GridImage";
+import ImageGallery from "../components/NoAuth/ImageGallery";
 import { Navbar } from "../components/Navbar";
 import withApollo from "../utils/createApolloClient";
 

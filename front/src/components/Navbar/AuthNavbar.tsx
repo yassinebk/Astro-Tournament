@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -14,49 +15,58 @@ import {
 import { AiOutlineMessage } from "@react-icons/all-files/ai/AiOutlineMessage";
 import { AiOutlineTrophy } from "@react-icons/all-files/ai/AiOutlineTrophy";
 import { FiFacebook } from "@react-icons/all-files/fi/FiFacebook";
-import { GrUserAdd } from "@react-icons/all-files/gr/GrUserAdd";
 import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
 import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
 import { VscSettingsGear } from "@react-icons/all-files/vsc/VscSettingsGear";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { Role } from "../../generated/graphql";
 import Logo from "../Logo";
+import { NavbarIcon } from "./Icon";
+interface AuthNavbarProps {
+  role: Role;
+}
 
-interface AuthNavbarProps {}
-
-export const AuthNavbar: React.FC<AuthNavbarProps> = ({}) => {
-  const role = "ADMIN";
+export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  const apolloClient = useApolloClient();
+  const logout = async () => {
+    localStorage.removeItem("authUser");
+    await apolloClient.resetStore();
+    router.reload();
+  };
+  const router = useRouter();
   const DropDownContent = () => {
     if (role === "ADMIN")
       return (
         <>
-          <IconButton aria-label="Dashboard" icon={<IoGridOutline />} />
-          <IconButton aria-label="Add person" icon={<GrUserAdd />} />
-          <IconButton aria-label="Trophy" icon={<AiOutlineTrophy />} />
-          <IconButton aria-label="Settings" icon={<VscSettingsGear />} />
-          <IconButton
-            aria-label="Logout"
-            color="#D03636"
-            icon={<IoExitOutline />}
+          <NavbarIcon label="Dashboard" Icon={IoGridOutline} />
+          <NavbarIcon label="Trophy" Icon={AiOutlineTrophy} />
+          <NavbarIcon label="Settings" Icon={VscSettingsGear} />
+          <NavbarIcon
+            label="Logout"
+            color="#E07676"
+            Icon={IoExitOutline}
+            onClick={logout}
           />
         </>
       );
     return (
       <>
-        <IconButton aria-label="Trophy" icon={<AiOutlineTrophy />} />
-        <IconButton aria-label="Messages" icon={<AiOutlineMessage />} />
-        <IconButton
-          aria-label="Social Media Facebook"
+        <NavbarIcon label="Trophy" Icon={AiOutlineTrophy} />
+        <NavbarIcon label="Messages" Icon={AiOutlineMessage} />
+        <NavbarIcon
+          label="Social Media Facebook"
           color="facebook.900"
-          icon={<FiFacebook />}
+          Icon={FiFacebook}
         />
-        <IconButton aria-label="Settings" icon={<VscSettingsGear />} />
-        <IconButton
+        <NavbarIcon label="Settings" Icon={VscSettingsGear} />
+        <NavbarIcon
           color="#D03636"
-          aria-label="Logout"
-          icon={<IoExitOutline />}
+          label="Logout"
+          Icon={IoExitOutline}
+          onClick={logout}
         />
       </>
     );
@@ -103,7 +113,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({}) => {
         size="full"
       >
         <DrawerOverlay
-          bg=" linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 94.79%)"
+          bg=" linear-gradient(180deg, rgba(0, 0, 0, 0.9) 20%, rgba(0, 0, 0, 0.1) 94.79%)"
           backdropBlur="20px"
           marginTop="20%"
           marginBottom="5%"
@@ -113,11 +123,23 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({}) => {
           maxH="662px"
           marginY="auto"
           color="white"
-          backdropBlur="100px"
+          bgColor="transparent"
         >
-          <DrawerCloseButton position="absolute" left={4} fontSize={23} />
-          <DrawerBody>
-            <VStack fontSize="xl" color="white">
+          <DrawerBody paddingTop="68px">
+            <DrawerCloseButton
+              position="absolute"
+              left={4}
+              top={4}
+              fontSize={23}
+            />
+            <VStack
+              color="white"
+              justifyContent="space-around"
+              alignItems="center"
+              minW="70px"
+              minH="500px"
+              fontSize="50px"
+            >
               <DropDownContent />
             </VStack>
           </DrawerBody>
