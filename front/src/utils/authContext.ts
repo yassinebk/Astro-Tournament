@@ -1,7 +1,6 @@
-import { create } from "domain";
 import { stringify } from "querystring";
 import { createContext, useState } from "react";
-import { useMeLazyQuery, useMeQuery } from "../generated/graphql";
+import { useMeQuery } from "../generated/graphql";
 
 export const useAuth = () => {
   const [value, setValue] = useState(null);
