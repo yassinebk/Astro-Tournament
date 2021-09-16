@@ -11,16 +11,15 @@ import {
 import { AiOutlineGoogle } from "@react-icons/all-files/ai/AiOutlineGoogle";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
 import React from "react";
 import * as Yup from "yup";
-import { Container } from "../components/NoAuth/Container";
 import { Footer } from "../components/Footer";
 import InputField from "../components/InputField";
-import { Navbar } from "../components/Navbar";
+import { Container } from "../components/NoAuth/Container";
 import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
 import withApollo from "../utils/createApolloClient";
 import toErrorMap from "../utils/toErrorMap";
-import NextLink from "next/link";
 
 interface signupProps {}
 
@@ -33,6 +32,11 @@ const Signin: React.FC<signupProps> = ({}) => {
   const [signin, { data, loading, error }] = useLoginMutation({
     notifyOnNetworkStatusChange: true,
     update: (cache, { data }) => {
+      const { token, user } = data.login;
+      const authUser = { token, user };
+      console.log("here444");
+      localStorage.setItem("authUser", JSON.stringify(authUser));
+      console.log(localStorage.getItem("authUser"));
       cache.writeQuery<MeQuery>({
         query: MeDocument,
         data: {
@@ -49,7 +53,6 @@ const Signin: React.FC<signupProps> = ({}) => {
   const router = useRouter();
   return (
     <Container>
-      <Navbar />
       <Flex
         flexDir={["column", "column", "column", "row"]}
         marginTop={[8, 8, 12]}
@@ -115,16 +118,8 @@ const Signin: React.FC<signupProps> = ({}) => {
                   },
                 },
               });
-              console.log(data.login);
               if (data?.login.errors) {
                 setErrors(toErrorMap(data.login.errors));
-              } else if (data.login.user) {
-                const { token, user } = data.login;
-
-                const authUser = { token, user };
-                localStorage.setItem("authUser", JSON.stringify(authUser));
-                console.log(localStorage.getItem("authUser"));
-                console.log("here444");
               }
             }}
           >

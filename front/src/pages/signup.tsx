@@ -4,16 +4,16 @@ import { Link } from "@chakra-ui/react";
 import { AiOutlineGoogle } from "@react-icons/all-files/ai/AiOutlineGoogle";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
 import React from "react";
 import * as Yup from "yup";
-import { Container } from "../components/NoAuth/Container";
 import { Footer } from "../components/Footer";
 import InputField from "../components/InputField";
-import { Navbar } from "../components/Navbar";
+import { NoAuthNavbar } from "../components/Navbar";
+import { Container } from "../components/NoAuth/Container";
 import { useRegisterMutation } from "../generated/graphql";
 import withApollo from "../utils/createApolloClient";
 import toErrorMap from "../utils/toErrorMap";
-import NextLink from "next/link";
 
 interface signupProps {}
 
@@ -38,7 +38,7 @@ const Signup: React.FC<signupProps> = ({}) => {
   const router = useRouter();
   return (
     <Container>
-      <Navbar />
+      <NoAuthNavbar />
       <Flex
         flexDir={["column", "column", "column", "row"]}
         marginTop={[8, 8, 12]}

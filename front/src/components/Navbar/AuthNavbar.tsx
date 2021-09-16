@@ -33,7 +33,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
   const apolloClient = useApolloClient();
   const logout = async () => {
     localStorage.removeItem("authUser");
-    await apolloClient.resetStore();
+    apolloClient.resetStore();
     router.push("/");
   };
   const router = useRouter();

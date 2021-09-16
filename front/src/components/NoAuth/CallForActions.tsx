@@ -1,7 +1,7 @@
-import { Button, IconButton } from "@chakra-ui/button";
-import { Box, Flex, Heading, HStack, VStack } from "@chakra-ui/layout";
-import React from "react";
+import { Button } from "@chakra-ui/button";
+import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
 import { IoLogoAndroid } from "@react-icons/all-files/io/IoLogoAndroid";
+import React from "react";
 
 interface CallForActionsProps {}
 

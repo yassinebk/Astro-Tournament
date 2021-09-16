@@ -1,11 +1,14 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import Navbar from "../Navbar";
+import AuthContext from "../../utils/authContext";
+import { AuthNavbar } from "../Navbar";
 import ScrollToTopBtn from "../ScrollToTopBtn";
+import { useContext } from "react";
 
 interface authLayoutProps {}
 
 export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
+  const auth = useContext(AuthContext);
   return (
     <Flex
       alignItems="center"
@@ -13,9 +16,9 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
       position="relative"
       justifyContent="flex-start"
       bgColor="blackAlpha.900"
-      height="100vh"
+      minHeight="100vh"
     >
-      <Navbar />
+      <AuthNavbar role={auth} />
       {/* <Sidebar /> */}
       {children}
       <ScrollToTopBtn />

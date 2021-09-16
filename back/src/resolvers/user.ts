@@ -1,5 +1,6 @@
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import { filterUserPassword } from "../utils/filterPasswordUser";
 import {
   Arg,
   Ctx,
@@ -40,6 +41,12 @@ class UserLoginResponse {
 
   @Field(() => String, { nullable: true })
   token?: string;
+}
+
+@ObjectType()
+class UserChangeToken {
+  @Field()
+  token: string;
 }
 
 @ObjectType()
@@ -135,20 +142,7 @@ export class UserResolver {
     const user = await UserModel.findById({ _id: userId });
     if (!user) return null;
     else {
-      const returnUser: UserNoPassword = {
-        _id: user._id,
-        answeredQuestions: user.answeredQuestions,
-        role: user.role,
-        level: user.level,
-        email: user.email,
-        createdAt: user.createdAt,
-        fullname: user.fullname,
-        updatedAt: user.updatedAt,
-        lastLogin: user.lastLogin,
-        score: user.score,
-        username: user.username,
-      };
-
+      const returnUser: UserNoPassword = filterUserPassword(user);
       return returnUser;
     }
   }
@@ -195,21 +189,7 @@ export class UserResolver {
       envs.JWT_SECRET_KEY as string,
       {}
     );
-    console.log("return User", user);
-    const returnUser: UserNoPassword = {
-      _id: user._id,
-      answeredQuestions: user.answeredQuestions,
-      role: user.role,
-      level: user.level,
-      email: user.email,
-      createdAt: user.createdAt,
-      fullname: user.fullname,
-      updatedAt: user.updatedAt,
-      lastLogin: user.lastLogin,
-      score: user.score,
-      username: user.username,
-    };
-
+    const returnUser: UserNoPassword = filterUserPassword(user);
     return {
       token,
       user: returnUser,
@@ -319,12 +299,10 @@ export class UserResolver {
     if (!currentUser) return null;
     return { user: currentUser };
   }
-  @Mutation(()=> UserChangeToken)]
-  async changePassword(
-    @Arg("email") email:string
-  )
-  {
-  /*
+
+  @Mutation(() => UserChangeToken)
+  async changePassword(@Arg("email") _email: string) {
+    /*
      Check the email in the db  
      if not send an error  
      else send an email having a token 
@@ -334,5 +312,4 @@ export class UserResolver {
 
   */
   }
-
 }

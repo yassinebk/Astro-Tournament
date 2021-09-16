@@ -16,7 +16,7 @@ import connectToDb from "./utils/connect";
 console.log(`Connecting to ${envs.MONGODB_URI}`);
 
 connectToDb({ db: envs.MONGODB_URI ? envs.MONGODB_URI : "" });
-mongoose.set("debug", true);
+//mongoose.set("debug", true);
 
 void (async function () {
   const app = express();
@@ -47,7 +47,7 @@ void (async function () {
         const currentUser: User | null = await UserModel.findById(
           decodedToken,
           { password: 0 }
-        ).populate("level");
+        ).populate("level", "currentQuestion");
 
         //console.log(currentUser);
 

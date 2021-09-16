@@ -51,6 +51,7 @@ export type Level = {
   Questions: Array<Questions>;
   _id: Scalars['ID'];
   createdAt?: Maybe<Scalars['DateTime']>;
+  name: Scalars['String'];
   number?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -66,6 +67,7 @@ export type Mutation = {
   addQuestion: CrudQuestionResponse;
   addQuestionToLevel: CrudLevelResponse;
   answerQuestion: BooleanResponse;
+  changePassword: UserChangeToken;
   deleteQuestion: BooleanResponse;
   editQuestion: CrudQuestionResponse;
   editRole: BooleanResponse;
@@ -90,6 +92,7 @@ export type MutationAddQuestionArgs = {
 
 export type MutationAddQuestionToLevelArgs = {
   levelId: Scalars['String'];
+  orderNumber?: Maybe<Scalars['Int']>;
   questionId: Scalars['String'];
 };
 
@@ -97,6 +100,11 @@ export type MutationAddQuestionToLevelArgs = {
 export type MutationAnswerQuestionArgs = {
   answer: Scalars['String'];
   questionId: Scalars['String'];
+};
+
+
+export type MutationChangePasswordArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -151,6 +159,7 @@ export type MutationSetScoreArgs = {
 };
 
 export type NewLevelInput = {
+  name: Scalars['String'];
   number?: Maybe<Scalars['Float']>;
 };
 
@@ -206,6 +215,7 @@ export type Questions = {
   answer: Scalars['String'];
   choices?: Maybe<Array<Scalars['String']>>;
   createdAt: Scalars['DateTime'];
+  orderNumber?: Maybe<Scalars['Int']>;
   points?: Maybe<Scalars['Int']>;
   question: Scalars['String'];
   questionType: Question_Type;
@@ -222,6 +232,7 @@ export type User = {
   _id: Scalars['ID'];
   answeredQuestions: Array<Questions>;
   createdAt: Scalars['DateTime'];
+  currentQuestion: Questions;
   email: Scalars['String'];
   fullname?: Maybe<Scalars['String']>;
   lastLogin?: Maybe<Scalars['DateTime']>;
@@ -241,6 +252,11 @@ export type UserBasicInfo = {
   username: Scalars['String'];
 };
 
+export type UserChangeToken = {
+  __typename?: 'UserChangeToken';
+  token: Scalars['String'];
+};
+
 export type UserLoginInfos = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
@@ -258,6 +274,7 @@ export type UserNoPassword = {
   _id: Scalars['ID'];
   answeredQuestions: Array<Questions>;
   createdAt: Scalars['DateTime'];
+  currentQuestion: Questions;
   email: Scalars['String'];
   fullname?: Maybe<Scalars['String']>;
   lastLogin?: Maybe<Scalars['DateTime']>;
@@ -305,6 +322,7 @@ export type AddQuestionMutation = { __typename?: 'Mutation', addQuestion: { __ty
 export type AddQuestionToLevelMutationVariables = Exact<{
   questionId: Scalars['String'];
   levelId: Scalars['String'];
+  orderNumber?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -411,7 +429,7 @@ export type GetLevelQuery = { __typename?: 'Query', getLevel?: Maybe<{ __typenam
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'MeResponse', user?: Maybe<{ __typename?: 'UserNoPassword', _id: string, username: string, level?: Maybe<string>, role: Role, lastLogin?: Maybe<any> }> }> };
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'MeResponse', user?: Maybe<{ __typename?: 'UserNoPassword', score?: Maybe<number>, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role, username: string, fullname?: Maybe<string>, _id: string, currentQuestion: { __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, points?: Maybe<number> }, answeredQuestions: Array<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number> }> }> }> };
 
 export type ParticipantsCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -506,8 +524,12 @@ export type AddQuestionMutationHookResult = ReturnType<typeof useAddQuestionMuta
 export type AddQuestionMutationResult = Apollo.MutationResult<AddQuestionMutation>;
 export type AddQuestionMutationOptions = Apollo.BaseMutationOptions<AddQuestionMutation, AddQuestionMutationVariables>;
 export const AddQuestionToLevelDocument = gql`
-    mutation addQuestionToLevel($questionId: String!, $levelId: String!) {
-  addQuestionToLevel(questionId: $questionId, levelId: $levelId) {
+    mutation addQuestionToLevel($questionId: String!, $levelId: String!, $orderNumber: Int) {
+  addQuestionToLevel(
+    questionId: $questionId
+    levelId: $levelId
+    orderNumber: $orderNumber
+  ) {
     error {
       message
       type
@@ -542,6 +564,7 @@ export type AddQuestionToLevelMutationFn = Apollo.MutationFunction<AddQuestionTo
  *   variables: {
  *      questionId: // value for 'questionId'
  *      levelId: // value for 'levelId'
+ *      orderNumber: // value for 'orderNumber'
  *   },
  * });
  */
@@ -1139,11 +1162,29 @@ export const MeDocument = gql`
     query Me {
   me {
     user {
-      _id
-      username
+      currentQuestion {
+        _id
+        questionType
+        question
+        points
+      }
+      answeredQuestions {
+        _id
+        questionType
+        question
+        answer
+        choices
+        points
+        orderNumber
+      }
+      score
+      createdAt
+      lastLogin
       level
       role
-      lastLogin
+      username
+      fullname
+      _id
     }
   }
 }

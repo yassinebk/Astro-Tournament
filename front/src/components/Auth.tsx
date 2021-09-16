@@ -14,22 +14,24 @@ export function AuthProvider({ children }) {
     if (!loading && data) {
       if (data.me?.user) {
         setAuth(data.me.user as UserNoPassword);
-        router.push(
-          `/user/${
-            data.me.user._id
-          }/dashboard/${data.me.user.role.toLowerCase()}`
-        );
 
+        router.push(`/${data.me.user._id}/dashboard`);
         console.log(data);
       }
-      console.log(data);
+      // } else {
+      //   setAuth(null);
+      // }
     } else {
       setAuth(null);
       router.push("/");
     }
   }, [data, loading]);
 
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={data?.me?.user?.role}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-export default withApollo({ ssr: true })(AuthProvider);
+export default withApollo({ ssr: false })(AuthProvider);

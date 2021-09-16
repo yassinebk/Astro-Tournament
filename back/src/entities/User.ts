@@ -42,6 +42,10 @@ export class User {
   @Field(() => [Questions])
   answeredQuestions: Ref<Questions>[];
 
+  @prop({ ref: "Questions" })
+  @Field(() => Questions)
+  currentQuestion: Ref<Questions>;
+
   @prop({ type: () => Number, default: 0 })
   @Field(() => Int, { defaultValue: 0 })
   public score: number;
@@ -80,6 +84,10 @@ export class UserNoPassword {
   @prop({ ref: "Questions", default: [], autopopulate: true })
   @Field(() => [Questions])
   public answeredQuestions: Ref<Questions>[];
+
+  @prop({ ref: "Questions" })
+  @Field(() => Questions, { nullable: true })
+  public currentQuestion: Ref<Questions>;
 
   @Field(() => Int, { defaultValue: 0 })
   public score: number;

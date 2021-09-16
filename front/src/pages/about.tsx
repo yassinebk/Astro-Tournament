@@ -10,11 +10,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Container } from "../components/NoAuth/Container";
 import { Footer } from "../components/Footer";
+import { Container } from "../components/NoAuth/Container";
 import GridImage from "../components/NoAuth/GridImage";
 import ImageGallery from "../components/NoAuth/ImageGallery";
-import { Navbar } from "../components/Navbar";
 import withApollo from "../utils/createApolloClient";
 
 interface aboutProps {}
@@ -84,7 +83,6 @@ export const About: React.FC<aboutProps> = ({}) => {
   };
   return (
     <Container>
-      <Navbar />
       <Grid
         // marginBottom="3vh"
         paddingX="9%"
