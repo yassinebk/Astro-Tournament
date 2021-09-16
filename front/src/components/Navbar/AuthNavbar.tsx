@@ -23,6 +23,7 @@ import React from "react";
 import { Role } from "../../generated/graphql";
 import Logo from "../Logo";
 import { NavbarIcon } from "./Icon";
+import NextLink from "next/link";
 interface AuthNavbarProps {
   role: Role;
 }
@@ -86,10 +87,22 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       color="white"
       display={["flex", "flex", "flex", "flex", "none"]}
     >
-      <Logo
-        width={["48px", "60px", "80px"]}
-        height={["48px", "60px", "80px"]}
-      />
+      <NextLink href="/">
+        <Button
+          bgColor="transparent"
+          w="auto"
+          h="auto"
+          display="block"
+          _focus={{ bgColor: "transparent" }}
+          _hover={{ bgColor: "transparent" }}
+          _active={{ bgColor: "transparent" }}
+        >
+          <Logo
+            width={["48px", "60px", "80px"]}
+            height={["48px", "60px", "80px"]}
+          />
+        </Button>
+      </NextLink>
       <Button
         ref={btnRef}
         onClick={onOpen}
@@ -113,7 +126,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
         size="full"
       >
         <DrawerOverlay
-          bg=" linear-gradient(180deg, rgba(0, 0, 0, 0.9) 20%, rgba(0, 0, 0, 0.1) 94.79%)"
+          bg=" linear-gradient(180deg, rgba(0, 0, 0, 0.9) 20%, rgba(0, 0, 0, 0.8) 94.79%)"
           backdropBlur="20px"
           marginTop="20%"
           marginBottom="5%"

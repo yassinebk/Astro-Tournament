@@ -274,7 +274,7 @@ export type UserNoPassword = {
   _id: Scalars['ID'];
   answeredQuestions: Array<Questions>;
   createdAt: Scalars['DateTime'];
-  currentQuestion: Questions;
+  currentQuestion?: Maybe<Questions>;
   email: Scalars['String'];
   fullname?: Maybe<Scalars['String']>;
   lastLogin?: Maybe<Scalars['DateTime']>;
@@ -393,7 +393,7 @@ export type SetScoreMutation = { __typename?: 'Mutation', setScore: { __typename
 export type AllLevelQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllLevelQuery = { __typename?: 'Query', allLevels: Array<{ __typename?: 'Level', _id: string, number?: Maybe<number>, createdAt?: Maybe<any>, Questions: Array<{ __typename?: 'Questions', _id: string, answer: string, points?: Maybe<number>, question: string, createdAt: any, updatedAt: any }> }> };
+export type AllLevelQuery = { __typename?: 'Query', allLevels: Array<{ __typename?: 'Level', name: string, _id: string, number?: Maybe<number>, createdAt?: Maybe<any>, Questions: Array<{ __typename?: 'Questions', questionType: Question_Type, _id: string, answer: string, points?: Maybe<number>, question: string, createdAt: any, updatedAt: any }> }> };
 
 export type AllQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -429,7 +429,7 @@ export type GetLevelQuery = { __typename?: 'Query', getLevel?: Maybe<{ __typenam
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'MeResponse', user?: Maybe<{ __typename?: 'UserNoPassword', score?: Maybe<number>, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role, username: string, fullname?: Maybe<string>, _id: string, currentQuestion: { __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, points?: Maybe<number> }, answeredQuestions: Array<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number> }> }> }> };
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'MeResponse', user?: Maybe<{ __typename?: 'UserNoPassword', score?: Maybe<number>, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role, username: string, fullname?: Maybe<string>, _id: string, currentQuestion?: Maybe<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, points?: Maybe<number> }>, answeredQuestions: Array<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number> }> }> }> };
 
 export type ParticipantsCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -914,10 +914,12 @@ export type SetScoreMutationOptions = Apollo.BaseMutationOptions<SetScoreMutatio
 export const AllLevelDocument = gql`
     query allLevel {
   allLevels {
+    name
     _id
     number
     createdAt
     Questions {
+      questionType
       _id
       answer
       points

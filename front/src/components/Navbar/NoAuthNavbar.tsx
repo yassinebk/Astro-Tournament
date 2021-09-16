@@ -21,7 +21,7 @@ interface NoAuthNavbarProps {}
 
 export const NoAuthNavbar: React.FC<NoAuthNavbarProps> = ({}) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-    const btnRef = React.useRef();
+  const btnRef = React.useRef();
   return (
     <HStack
       paddingY={[3, 5]}

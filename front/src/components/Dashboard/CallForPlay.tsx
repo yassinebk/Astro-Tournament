@@ -47,8 +47,11 @@ export const CallForPlay: React.FC<CallForPlayProps> = ({}) => {
           </svg>
         </Box>
       </Box>
-      <NextLink href={""}>
+      <NextLink href={router.asPath.replace("dashboard", "player/levels")}>
         <Button
+          _focus={{ bgColor: "transparent" }}
+          _hover={{ bgColor: "transparent" }}
+          _active={{ bgColor: "transparent" }}
           style={{ marginTop: "auto" }}
           fontSize="90px"
           bgColor="transparent"
