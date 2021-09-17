@@ -5,7 +5,8 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import { setContext } from "apollo-link-context";
+import { setContext } from "@apollo/client/link/context";
+
 import { withApollo as createWithApollo } from "next-apollo";
 import { isBrowser } from "./isBrowser";
 
@@ -34,7 +35,7 @@ const httpLink = new HttpLink({
 });
 
 const apolloClient = new ApolloClient({
-  link: from([httpLink]),
+  link: from([authLink as any, httpLink]),
   cache: new InMemoryCache(),
   ssrMode: isBrowser(),
 });

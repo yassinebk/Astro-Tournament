@@ -1,13 +1,25 @@
 import { Button } from "@chakra-ui/button";
-import { Box, Divider, Flex, Heading, Text, VStack } from "@chakra-ui/layout";
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/layout";
 import { AiOutlineGoogle } from "@react-icons/all-files/ai/AiOutlineGoogle";
 import { Form, Formik } from "formik";
+import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
 import React from "react";
-import { Container } from "../components/Container";
+import * as Yup from "yup";
 import { Footer } from "../components/Footer";
 import InputField from "../components/InputField";
-import { Navbar } from "../components/Navbar";
-import * as Yup from "yup";
+import { Container } from "../components/NoAuth/Container";
+import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
+import withApollo from "../utils/createApolloClient";
+import toErrorMap from "../utils/toErrorMap";
 
 interface signupProps {}
 
@@ -16,10 +28,31 @@ const validationSchema = Yup.object().shape({
   password: Yup.string(),
 });
 
-const Signup: React.FC<signupProps> = ({}) => {
+const Signin: React.FC<signupProps> = ({}) => {
+  const [signin, { data, loading, error }] = useLoginMutation({
+    notifyOnNetworkStatusChange: true,
+    update: (cache, { data }) => {
+      const { token, user } = data.login;
+      const authUser = { token, user };
+      console.log("here444");
+      localStorage.setItem("authUser", JSON.stringify(authUser));
+      console.log(localStorage.getItem("authUser"));
+      cache.writeQuery<MeQuery>({
+        query: MeDocument,
+        data: {
+          __typename: "Query",
+
+          me: {
+            user: data.login?.user,
+          },
+        },
+      });
+    },
+  });
+
+  const router = useRouter();
   return (
     <Container>
-      <Navbar />
       <Flex
         flexDir={["column", "column", "column", "row"]}
         marginTop={[8, 8, 12]}
@@ -38,14 +71,11 @@ const Signup: React.FC<signupProps> = ({}) => {
           bgPos="center center"
           w="full"
           bgClip="padding-box"
-          //h={["auto", "auto", "100%"]}
           bgRepeat="repeat"
           bgBlendMode="lighten"
           paddingY="10%"
           borderRadius="24px"
           marginBottom={["-6", "-6", "0"]}
-
-          //background="linear-gradient(0deg, rgba(46, 25, 69, 0.32), rgba(46, 25, 69, 0.32)), url(.jpg)"
         >
           <Heading
             fontSize={["xl"]}
@@ -65,7 +95,6 @@ const Signup: React.FC<signupProps> = ({}) => {
           <Button
             h={14}
             maxW="600px"
-            //h={[]}
             w="100%"
             colorScheme="red"
             color="#071173"
@@ -77,16 +106,24 @@ const Signup: React.FC<signupProps> = ({}) => {
           <Formik
             validationSchema={validationSchema}
             initialValues={{
-              username: "",
-              confirmPassword: "",
+              usernameOrEmail: "",
               password: "",
-              email: "",
             }}
             onSubmit={async (values, { setErrors }) => {
-              console.log(values);
+              await signin({
+                variables: {
+                  option: {
+                    usernameOrEmail: values.usernameOrEmail,
+                    password: values.password,
+                  },
+                },
+              });
+              if (data?.login.errors) {
+                setErrors(toErrorMap(data.login.errors));
+              }
             }}
           >
-            {({ isSubmitting, errors }) => (
+            {({ isSubmitting }) => (
               <Form
                 color="white"
                 style={{
@@ -116,6 +153,7 @@ const Signup: React.FC<signupProps> = ({}) => {
                 </VStack>
                 <VStack justifyContent="flex-start" paddingTop={12}>
                   <Button
+                    type="submit"
                     marginX="auto"
                     justifySelf="center"
                     minW="115px"
@@ -137,7 +175,7 @@ const Signup: React.FC<signupProps> = ({}) => {
                     alignItems="center"
                   >
                     <Text color="white" fontSize={["sm", "xl"]}>
-                      Already Have an Account ?{"   "}
+                      Doesn't have an Account ?{"   "}
                       <span
                         style={{
                           justifySelf: "center",
@@ -147,7 +185,9 @@ const Signup: React.FC<signupProps> = ({}) => {
                           fontSize: 22,
                         }}
                       >
-                        Signin
+                        <NextLink href="/signup">
+                          <Link>Sign up</Link>
+                        </NextLink>
                       </span>
                     </Text>
                   </Box>
@@ -162,4 +202,4 @@ const Signup: React.FC<signupProps> = ({}) => {
   );
 };
 
-export default Signup;
+export default withApollo({ ssr: true })(Signin);

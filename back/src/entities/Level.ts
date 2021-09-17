@@ -15,6 +15,10 @@ export class Level {
   @Field(() => [Questions], { nullable: false })
   public Questions: Ref<Questions>[];
 
+  @prop()
+  @Field(() => String, { nullable: false })
+  public name:string
+
   @Field(() => Date, { nullable: true })
   public createdAt: Date;
 

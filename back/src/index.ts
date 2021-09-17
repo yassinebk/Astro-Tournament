@@ -22,6 +22,7 @@ void (async function () {
   const app = express();
 
   app.use(
+    // cors()
     cors({
       origin: envs.CORS_ORIGIN,
       credentials: true,
@@ -47,7 +48,7 @@ void (async function () {
         const currentUser: User | null = await UserModel.findById(
           decodedToken,
           { password: 0 }
-        ).populate("level");
+        ).populate("level", "currentQuestion");
 
         //console.log(currentUser);
 
@@ -58,7 +59,7 @@ void (async function () {
   });
 
   await server.start();
-  server.applyMiddleware({ app, cors: false });
+  server.applyMiddleware({ app, cors:false});
 
   const PORT = 4000;
   httpServer.listen(PORT, () => {});

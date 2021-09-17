@@ -1,4 +1,5 @@
 import { Flex, useColorMode, FlexProps } from "@chakra-ui/react";
+import { NoAuthNavbar } from "../Navbar";
 
 export const Container = (props: FlexProps) => {
   const { colorMode } = useColorMode();
@@ -20,6 +21,7 @@ export const Container = (props: FlexProps) => {
       color={color[colorMode]}
       {...props}
     >
+      <NoAuthNavbar />
       {props.children}
     </Flex>
   );

@@ -4,12 +4,13 @@ import {
   Arg,
   Ctx,
   Field,
+  ID,
   Int,
   Mutation,
   ObjectType,
   Query,
   Resolver,
-  UseMiddleware,
+  UseMiddleware
 } from "type-graphql";
 import { MyContext } from "types";
 import LevelModel, { Level } from "../entities/Level";
@@ -17,6 +18,7 @@ import UserModel, { Role, User, UserNoPassword } from "../entities/User";
 import envs from "../utils/configs";
 import { setError } from "../utils/errorTypes";
 import { FieldError } from "../utils/FieldError.type";
+import { filterUserPassword } from "../utils/filterPasswordUser";
 import { isAdmin, isAuth } from "../utils/isAuth";
 import BooleanResponse from "../utils/ResponseTypes";
 import { UserLoginInfos, UserRegisterInfos } from "../utils/UserInputTypes";
@@ -40,6 +42,12 @@ class UserLoginResponse {
 
   @Field(() => String, { nullable: true })
   token?: string;
+}
+
+@ObjectType()
+class UserChangeToken {
+  @Field()
+  token: string;
 }
 
 @ObjectType()
@@ -131,24 +139,11 @@ export class UserResolver {
   }
 
   @Query(() => UserNoPassword, { nullable: true })
-  async findUser(@Arg("userId") userId: string) {
+  async findUser(@Arg("userId",()=>ID) userId: string) {
     const user = await UserModel.findById({ _id: userId });
     if (!user) return null;
     else {
-      const returnUser: UserNoPassword = {
-        _id: user._id,
-        answeredQuestions: user.answeredQuestions,
-        role: user.role,
-        level: user.level,
-        email: user.email,
-        createdAt: user.createdAt,
-        fullname: user.fullname,
-        updatedAt: user.updatedAt,
-        lastLogin: user.lastLogin,
-        score: user.score,
-        username: user.username,
-      };
-
+      const returnUser: UserNoPassword = filterUserPassword(user);
       return returnUser;
     }
   }
@@ -195,21 +190,7 @@ export class UserResolver {
       envs.JWT_SECRET_KEY as string,
       {}
     );
-    console.log("return User", user);
-    const returnUser: UserNoPassword = {
-      _id: user._id,
-      answeredQuestions: user.answeredQuestions,
-      role: user.role,
-      level: user.level,
-      email: user.email,
-      createdAt: user.createdAt,
-      fullname: user.fullname,
-      updatedAt: user.updatedAt,
-      lastLogin: user.lastLogin,
-      score: user.score,
-      username: user.username,
-    };
-
+    const returnUser: UserNoPassword = filterUserPassword(user);
     return {
       token,
       user: returnUser,
@@ -220,7 +201,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async editRole(
-    @Arg("userId") userId: string,
+    @Arg("userId",()=>ID) userId: string,
     @Arg("role") role: Role
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId);
@@ -248,7 +229,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setScore(
-    @Arg("userId") userId: string,
+    @Arg("userId",()=>ID) userId: string,
     @Arg("score", () => Int) score: number
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId, { password: 0 });
@@ -298,7 +279,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setRole(
-    @Arg("userId") userId: string,
+    @Arg("userId",()=>ID) userId: string,
     @Arg("role") role: Role
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId);
@@ -319,4 +300,38 @@ export class UserResolver {
     if (!currentUser) return null;
     return { user: currentUser };
   }
+
+  @Mutation(() => UserChangeToken)
+  async changePassword(@Arg("email") _email: string) {
+    /*
+     Check the email in the db  
+     if not send an error  
+     else send an email having a token 
+     save a token in the db in a temporrary field 
+     check the token correcteness 
+     accept the password
+
+  */
+  }
+  @Query(() => Int,{nullable:true}) 
+  @UseMiddleware(isAuth)
+  async getUnansweredQuestions(
+    @Arg("levelId",()=>ID) levelId:string,
+    @Ctx() {currentUser}:MyContext
+  )
+  {
+    const level = await LevelModel.findById(levelId);
+    if (!level)
+      return null;
+
+    const leftQuestions = level?.Questions.filter(q=>currentUser?.answeredQuestions.includes(q))
+
+    return leftQuestions.length;
+
+
+
+
+  }
+
+ 
 }

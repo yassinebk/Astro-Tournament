@@ -170,6 +170,7 @@ class QuestionsResolver {
         };
       }
       user.score += question.points;
+      user.currentQuestion = question._id;
       await user.save();
       return { value: true };
     }

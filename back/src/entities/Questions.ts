@@ -33,6 +33,10 @@ export class Questions {
   @Field(() => Int, { defaultValue: 100 })
   points: number;
 
+  @prop({ type: Number })
+  @Field(() => Int, { defaultValue: 0 })
+  orderNumber: number;
+
   @Field(() => Date)
   createdAt: Date;
 

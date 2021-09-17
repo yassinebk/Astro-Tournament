@@ -1,5 +1,13 @@
-mutation addQuestionToLevel($questionId: String!, $levelId: String!) {
-  addQuestionToLevel(questionId: $questionId, levelId: $levelId) {
+mutation addQuestionToLevel(
+  $questionId: String!
+  $levelId: String!
+  $orderNumber: Int
+) {
+  addQuestionToLevel(
+    questionId: $questionId
+    levelId: $levelId
+    orderNumber: $orderNumber
+  ) {
     error {
       message
       type

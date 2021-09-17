@@ -10,7 +10,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import LevelModel, { Level } from "../entities/Level";
-import QuestionModel from "../entities/Questions";
+import QuestionModel, { Questions } from "../entities/Questions";
 import { setError } from "../utils/errorTypes";
 import { FieldError, OperationError } from "../utils/FieldError.type";
 import { isAdmin, isAuth } from "../utils/isAuth";
@@ -37,6 +37,9 @@ class CrudLevelResponse {
 class NewLevelInput {
   @Field({ defaultValue: 999 })
   number: number;
+
+  @Field(() => String, { nullable: false })
+  name: string;
 }
 
 @Resolver(Level)
@@ -71,7 +74,10 @@ class LevelResolver {
           },
         };
       else {
-        const level = new LevelModel({ number: newLevel.number });
+        const level = new LevelModel({
+          number: newLevel.number,
+          name: newLevel.name,
+        });
         await level.save();
 
         if (!level) {
@@ -130,22 +136,37 @@ class LevelResolver {
   @UseMiddleware(isAdmin)
   async addQuestionToLevel(
     @Arg("levelId") levelId: string,
-    @Arg("questionId") questionId: string
+    @Arg("questionId") questionId: string,
+    @Arg("orderNumber", () => Int, { nullable: true }) orderNumber: number
   ): Promise<CrudLevelResponse> {
-    const level = await LevelModel.findById(levelId);
+    const level = await LevelModel.findById(levelId).populate("Questions");
 
     if (!level) {
       return setError("404NOTFOUND", "Level Not found");
     }
-    if (level.Questions.includes(questionId)) {
+
+    const questionsId = level.Questions!.map((q) => (q as Questions)._id);
+    const question = await QuestionModel.findById(questionId);
+    if (!question) {
+      return setError("404NOTFOUND", "Question Not found");
+    }
+    if (questionsId.includes(questionId)) {
       return setError(
         "IllegalActionError",
         "The question already exists in the level"
       );
     }
-    const question = await QuestionModel.findById(questionId);
-    if (!question) {
-      return setError("404NOTFOUND", "Question Not found");
+    if (orderNumber != 0) {
+      if (
+        level.Questions.map((q) => (q as Questions).orderNumber).includes(
+          orderNumber
+        )
+      ) {
+        return setError(
+          "IllegalActionError",
+          "there exists already a question that position"
+        );
+      }
     }
     level.Questions = level.Questions.concat(questionId);
     await level.save();

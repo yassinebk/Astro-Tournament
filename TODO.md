@@ -1,19 +1,23 @@
-# Tasks 
+# Tasks
 
-## Features 
- 
-- Navbar : full compatible 
-- LevelForm : With all the features 
-- Level Display : With all the features 
-- Live Notification : Independent Notification Stream 
+- Implements the Level View
+- Implements the Questions View
+- Implements the default Editor Display (horizontal Cards)
 
+## Features
 
-## Tests 
-- Components 
-- Pages 
-- View 
+- LevelForm : With all the features
+- Level Display : With all the features
+- Live Notification : Independent Notification Stream
 
-## Documentation 
-- TS Documentation on all Files 
-- Refactoring and functions exporting  
-- Type Checking and TS improving 
+## Tests
+
+- Components
+- Pages
+- View
+
+## Documentation
+
+- TS Documentation on all Files
+- Refactoring and functions exporting
+- Type Checking and TS improving
