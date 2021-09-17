@@ -1,14 +1,34 @@
 mutation login($option: UserLoginInfos!) {
   login(options: $option) {
     user {
-      _id
-      username
+      currentQuestion {
+        _id
+        questionType
+        question
+        points
+      }
+      answeredQuestions {
+        _id
+        questionType
+        question
+        answer
+        choices
+        points
+        orderNumber
+      }
       email
+      score
       createdAt
       lastLogin
       level
       role
+      username
+      fullname
+      _id          
+      level
+      role
     }
+
     errors {
       field
       message
@@ -16,3 +36,4 @@ mutation login($option: UserLoginInfos!) {
     token
   }
 }
+

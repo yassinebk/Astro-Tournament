@@ -1,6 +1,6 @@
 import { stringify } from "querystring";
 import { createContext, useState } from "react";
-import { useMeQuery } from "../generated/graphql";
+import { Questions, useMeQuery, UserNoPassword } from "../generated/graphql";
 
 export const useAuth = () => {
   const [value, setValue] = useState(null);
@@ -30,6 +30,6 @@ export const useAuth = () => {
   };
 };
 
-const AuthContext = createContext(null);
+const AuthContext = createContext<any>(null);
 
 export default AuthContext;

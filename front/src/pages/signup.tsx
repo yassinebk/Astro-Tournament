@@ -38,7 +38,6 @@ const Signup: React.FC<signupProps> = ({}) => {
   const router = useRouter();
   return (
     <Container>
-      <NoAuthNavbar />
       <Flex
         flexDir={["column", "column", "column", "row"]}
         marginTop={[8, 8, 12]}

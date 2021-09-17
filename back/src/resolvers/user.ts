@@ -1,16 +1,16 @@
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
-import { filterUserPassword } from "../utils/filterPasswordUser";
 import {
   Arg,
   Ctx,
   Field,
+  ID,
   Int,
   Mutation,
   ObjectType,
   Query,
   Resolver,
-  UseMiddleware,
+  UseMiddleware
 } from "type-graphql";
 import { MyContext } from "types";
 import LevelModel, { Level } from "../entities/Level";
@@ -18,6 +18,7 @@ import UserModel, { Role, User, UserNoPassword } from "../entities/User";
 import envs from "../utils/configs";
 import { setError } from "../utils/errorTypes";
 import { FieldError } from "../utils/FieldError.type";
+import { filterUserPassword } from "../utils/filterPasswordUser";
 import { isAdmin, isAuth } from "../utils/isAuth";
 import BooleanResponse from "../utils/ResponseTypes";
 import { UserLoginInfos, UserRegisterInfos } from "../utils/UserInputTypes";
@@ -138,7 +139,7 @@ export class UserResolver {
   }
 
   @Query(() => UserNoPassword, { nullable: true })
-  async findUser(@Arg("userId") userId: string) {
+  async findUser(@Arg("userId",()=>ID) userId: string) {
     const user = await UserModel.findById({ _id: userId });
     if (!user) return null;
     else {
@@ -200,7 +201,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async editRole(
-    @Arg("userId") userId: string,
+    @Arg("userId",()=>ID) userId: string,
     @Arg("role") role: Role
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId);
@@ -228,7 +229,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setScore(
-    @Arg("userId") userId: string,
+    @Arg("userId",()=>ID) userId: string,
     @Arg("score", () => Int) score: number
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId, { password: 0 });
@@ -278,7 +279,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setRole(
-    @Arg("userId") userId: string,
+    @Arg("userId",()=>ID) userId: string,
     @Arg("role") role: Role
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId);
@@ -312,4 +313,25 @@ export class UserResolver {
 
   */
   }
+  @Query(() => Int,{nullable:true}) 
+  @UseMiddleware(isAuth)
+  async getUnansweredQuestions(
+    @Arg("levelId",()=>ID) levelId:string,
+    @Ctx() {currentUser}:MyContext
+  )
+  {
+    const level = await LevelModel.findById(levelId);
+    if (!level)
+      return null;
+
+    const leftQuestions = level?.Questions.filter(q=>currentUser?.answeredQuestions.includes(q))
+
+    return leftQuestions.length;
+
+
+
+
+  }
+
+ 
 }

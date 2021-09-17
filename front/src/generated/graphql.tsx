@@ -349,7 +349,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserLoginResponse', token?: Maybe<string>, user?: Maybe<{ __typename?: 'UserNoPassword', _id: string, username: string, email: string, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role }>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserLoginResponse', token?: Maybe<string>, user?: Maybe<{ __typename?: 'UserNoPassword', score?: Maybe<number>, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role, username: string, fullname?: Maybe<string>, _id: string, currentQuestion?: Maybe<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, points?: Maybe<number> }>, answeredQuestions: Array<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number> }> }>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
 export type RegisterMutationVariables = Exact<{
   options: UserRegisterInfos;
@@ -429,7 +429,7 @@ export type GetLevelQuery = { __typename?: 'Query', getLevel?: Maybe<{ __typenam
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'MeResponse', user?: Maybe<{ __typename?: 'UserNoPassword', score?: Maybe<number>, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role, username: string, fullname?: Maybe<string>, _id: string, currentQuestion?: Maybe<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, points?: Maybe<number> }>, answeredQuestions: Array<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number> }> }> }> };
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'MeResponse', user?: Maybe<{ __typename?: 'UserNoPassword', email: string, score?: Maybe<number>, createdAt: any, lastLogin?: Maybe<any>, level?: Maybe<string>, role: Role, username: string, fullname?: Maybe<string>, _id: string, currentQuestion?: Maybe<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, points?: Maybe<number> }>, answeredQuestions: Array<{ __typename?: 'Questions', _id: string, questionType: Question_Type, question: string, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number> }> }> }> };
 
 export type ParticipantsCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -661,11 +661,29 @@ export const LoginDocument = gql`
     mutation login($option: UserLoginInfos!) {
   login(options: $option) {
     user {
-      _id
-      username
-      email
+      currentQuestion {
+        _id
+        questionType
+        question
+        points
+      }
+      answeredQuestions {
+        _id
+        questionType
+        question
+        answer
+        choices
+        points
+        orderNumber
+      }
+      score
       createdAt
       lastLogin
+      level
+      role
+      username
+      fullname
+      _id
       level
       role
     }
@@ -1164,6 +1182,7 @@ export const MeDocument = gql`
     query Me {
   me {
     user {
+      email
       currentQuestion {
         _id
         questionType

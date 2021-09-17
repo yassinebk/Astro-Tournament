@@ -1,6 +1,8 @@
 # Tasks
 
-- Make the Auth handler a context because currently the navbar loads a bit before it changes the view
+- Implements the Level View
+- Implements the Questions View
+- Implements the default Editor Display (horizontal Cards)
 
 ## Features
 

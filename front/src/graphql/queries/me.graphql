@@ -1,8 +1,10 @@
 query Me {
   me {
     user {
+      email
       currentQuestion {
         _id
+        
         questionType
         question
         points

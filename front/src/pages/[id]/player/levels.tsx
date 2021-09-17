@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, VStack } from "@chakra-ui/layout";
+import { Flex, Heading, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import React, { useEffect } from "react";
 import AuthLayout from "../../../components/Auth/AuthLayout";

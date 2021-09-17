@@ -23,7 +23,7 @@ import React from "react";
 import { Role } from "../../generated/graphql";
 import Logo from "../Logo";
 import { NavbarIcon } from "./Icon";
-import NextLink from "next/link";
+import NextLink from "next/link"
 interface AuthNavbarProps {
   role: Role;
 }
@@ -34,7 +34,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
   const apolloClient = useApolloClient();
   const logout = async () => {
     localStorage.removeItem("authUser");
-    apolloClient.resetStore();
+    await apolloClient.resetStore();
     router.push("/");
   };
   const router = useRouter();
