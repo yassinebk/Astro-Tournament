@@ -1,31 +1,8 @@
 query Me {
   me {
     user {
+      ...UserNoPassword
       email
-      currentQuestion {
-        _id
-        
-        questionType
-        question
-        points
-      }
-      answeredQuestions {
-        _id
-        questionType
-        question
-        answer
-        choices
-        points
-        orderNumber
-      }
-      score
-      createdAt
-      lastLogin
-      level
-      role
-      username
-      fullname
-      _id
     }
   }
 }

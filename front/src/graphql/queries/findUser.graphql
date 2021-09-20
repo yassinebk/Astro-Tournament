@@ -1,7 +1,5 @@
-query findUser($userId: String!) {
+query findUser($userId: ID!) {
   findUser(userId: $userId) {
-    _id
-    username
-    level
+    ...UserNoPassword
   }
 }

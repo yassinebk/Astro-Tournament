@@ -1,58 +1,101 @@
-import { IconButton } from '@chakra-ui/button';
-import Icon from '@chakra-ui/icon';
-import { Flex,Text ,Heading, HStack, VStack } from '@chakra-ui/layout';
-import { IoGridOutline } from '@react-icons/all-files/io5/IoGridOutline';
-import React from 'react'
-import AuthLayout from '../Auth/AuthLayout';
-
+import { Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "@react-icons/all-files";
+import { AiOutlineMessage } from "@react-icons/all-files/ai/AiOutlineMessage";
+import { AiOutlineQuestion } from "@react-icons/all-files/ai/AiOutlineQuestion";
+import { AiOutlineStar } from "@react-icons/all-files/ai/AiOutlineStar";
+import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
+import { RiUser3Line } from "@react-icons/all-files/ri/RiUser3Line";
+import NextLink from "next/link";
+import React from "react";
+import { replaceRouterLastPath } from "../../utils/routerNav";
 
-interface AdminHomepageProps {
-    IconSrc: IconType
-    text:string
-    label:string
-    variant:"solid"|"oultine"
+interface AdminHomepageCardProps {
+  IconSrc: IconType;
+  text: string;
+  label: string;
+  variant: "solid" | "outline";
+  link: string;
 }
 
+interface AdminHomepageProps {}
 
-
-
-const AdminHomePageCardsDashboard = ({ label,variant, IconSrc, text }) => {
-    return (
-        <HStack justifyContent="space-between"
-        bgColor={variant==="outline"?"transparent":"#7FD8D8"}
-        color={variant==="outline"?"transparent":"#7FD8D8"}
+const AdminHomePageCardsDashboard: React.FC<AdminHomepageCardProps> = ({
+  label,
+  variant,
+  IconSrc,
+  text,
+  link,
+}) => {
+  return (
+    <NextLink href={link}>
+      <Button
+        aria-label={label}
+        icon={<IconSrc />}
+        justifyContent="space-around"
+        bgColor={variant === "outline" ? "transparent" : "#7FD8D8"}
+        color={variant === "outline" ? "transparent" : "#7FD8D8"}
+        variant={variant}
         minW="280px"
         minH="80px"
-        >
-            <IconButton aria-label={label} icon={<IconSrc />} color="white"
-            _focus={{bgColor:"tranparent"}}
-            _hover={{bgColor:"tranparent",scale:2,transition:"ease-in 2ms"}}
-            _active={{bgColor:"tranparent"}}
-            />
-            <Text>
-                {text}
-            </Text>
+        size="lg"
+        _focus={{ bgColor: "tranparent" }}
+        _hover={{ bgColor: "tranparent", scale: 2, transition: "ease-in 2ms" }}
+        _active={{ bgColor: "tranparent" }}
+      >
+        <IconSrc color="white" fontSize="50px" />
+        <Text w="full" color={variant === "solid" ? "white" : "#7FD8D8"}>
+          {text}
+        </Text>
+      </Button>
+    </NextLink>
+  );
+};
+export const AdminHomepage: React.FC<AdminHomepageProps> = ({}) => {
+  return (
+    <Flex w="100vw" flexDir="column" paddingX="8%" paddingY="10%">
+      <HStack>
+        <IoGridOutline
+          size="xl"
+          fontSize={2}
+          style={{ color: "white", width: "30px", height: "30px" }}
+        />
+        <Heading fontSize="3xl" color="#83CCD3">
+          Dashboard{" "}
+        </Heading>
+      </HStack>
 
-    </HStack>)
-    
-}
-export const AdminHomepage: React.FC<AdminHomepageProps> = ({}) => (
-    <AuthLayout>
-        <Flex >
-            <HStack>
-                <Icon icon={IoGridOutline} size="xl"/>
-                    <Heading fontSize="3xl" color="#83CCD3">
-                    Dashboard </Heading>
-                </HStack>
-                
-
-            <VStack>
-                
-            </VStack>
-        </Flex>
-
-    </AuthLayout>
-)
+      <VStack spacing={8} marginTop={12}>
+        <AdminHomePageCardsDashboard
+          link={replaceRouterLastPath("dashboard", "admin/levelEditor")}
+          text="Edit Levels"
+          IconSrc={AiOutlineStar}
+          label="edit levels"
+          variant="outline"
+        />
+        <AdminHomePageCardsDashboard
+          link={replaceRouterLastPath("dashboard", "admin/questionsEditor")}
+          text="Edit Queestions"
+          IconSrc={AiOutlineQuestion}
+          label="edit questions"
+          variant="outline"
+        />
+        <AdminHomePageCardsDashboard
+          link={replaceRouterLastPath("dashboard", "admin/usersList")}
+          text="List of Users"
+          IconSrc={RiUser3Line}
+          label="list of Users"
+          variant="outline"
+        />
+        <AdminHomePageCardsDashboard
+          link="/"
+          text="List of Users"
+          IconSrc={AiOutlineMessage}
+          label="Send a "
+          variant="solid"
+        />
+      </VStack>
+    </Flex>
+  );
+};
 
 export default AdminHomepage;

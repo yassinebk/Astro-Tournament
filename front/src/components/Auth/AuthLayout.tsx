@@ -12,7 +12,7 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
   const auth = useContext(AuthContext);
   // const router = useRouter();
   // if (!auth&&typeof window!==undefined) {
-  //  router.push("/"); 
+  //  router.push("/");
   // }
   return (
     <Flex
@@ -21,7 +21,7 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
       position="relative"
       justifyContent="flex-start"
       bgColor="blackAlpha.900"
-      minHeight="100vh"
+      minH="100vh"
     >
       <AuthNavbar role={auth?.role} />
       {/* <Sidebar /> */}
@@ -32,4 +32,3 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
 };
 
 export default AuthLayout;
-

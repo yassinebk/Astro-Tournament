@@ -9,23 +9,22 @@ export function AuthProvider({ children }) {
   const [auth, setAuth] = useState<null | UserNoPassword>(null);
   const router = useRouter();
 
-  
   useEffect(() => {
     if (!loading && data) {
       if (data.me?.user) {
         setAuth(data.me.user as UserNoPassword);
 
-        if (router.asPath === "/"||router.asPath==="/signin")
+        if (router.asPath === "/" || router.asPath === "/signin")
           router.push(`/${data.me.user._id}/dashboard`);
         console.log(data);
       }
       // } else {
       //   setAuth(null);
       // }
-    } else {
+    } else if (!data && loading) {
       setAuth(null);
-      console.log('here')
-       router.push("/")
+      console.log("here");
+      router.push("/");
     }
   }, [data, loading, router.asPath]);
 

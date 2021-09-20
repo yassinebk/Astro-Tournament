@@ -5,13 +5,7 @@ query findQuestion($questionId: String!) {
       type
     }
     question {
-      answer
-      choices
-      createdAt
-      updatedAt
-      points
-      question
-      questionType
+      ...QuestionInfo
     }
   }
 }

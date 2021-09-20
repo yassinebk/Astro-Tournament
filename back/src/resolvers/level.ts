@@ -1,6 +1,7 @@
 import {
   Arg,
   Field,
+  ID,
   InputType,
   Int,
   Mutation,
@@ -140,7 +141,6 @@ class LevelResolver {
     @Arg("orderNumber", () => Int, { nullable: true }) orderNumber: number
   ): Promise<CrudLevelResponse> {
     const level = await LevelModel.findById(levelId).populate("Questions");
-
     if (!level) {
       return setError("404NOTFOUND", "Level Not found");
     }
@@ -156,22 +156,64 @@ class LevelResolver {
         "The question already exists in the level"
       );
     }
-    if (orderNumber != 0) {
-      if (
-        level.Questions.map((q) => (q as Questions).orderNumber).includes(
-          orderNumber
-        )
-      ) {
-        return setError(
-          "IllegalActionError",
-          "there exists already a question that position"
-        );
-      }
+    if (
+      level.Questions.map((q) => (q as Questions).orderNumber).includes(
+        orderNumber
+      )
+    ) {
+      return setError(
+        "IllegalActionError",
+        "Illegal Action a question in the same order already exists"
+      );
     }
+
     level.Questions = level.Questions.concat(questionId);
     await level.save();
     await level.populate("Questions");
     return { level };
+  }
+
+  @Mutation(() => CrudLevelResponse)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async removeQuestionFromLevel(
+    @Arg("levelId", () => ID, { nullable: false }) levelId: string,
+    @Arg("questionId", () => ID, { nullable: false }) questionId: string
+  ): Promise<CrudLevelResponse> {
+    const level = await LevelModel.findById(levelId);
+
+    if (!level) {
+      return setError("404NOTFOUND", "Level Not found");
+    }
+
+    const questionsId = level.Questions!.map((q) => (q as Questions)._id);
+    const question = await QuestionModel.findById(questionId);
+    if (!question) {
+      return setError("404NOTFOUND", "Question Not found");
+    }
+    if (!questionsId.includes(questionId)) {
+      return setError(
+        "IllegalActionError",
+        "The question the level doesn't have the question"
+      );
+    }
+
+    level.Questions = level.Questions.filter((q) => q !== questionId);
+    await level.save();
+    await level.populate("Questions");
+    return { level };
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  @UseMiddleware(isAdmin)
+  async deleteLevel(@Arg("levelId", () => ID) levelId: string) {
+    try {
+      await LevelModel.findByIdAndDelete(levelId);
+    } catch (error) {
+      return false;
+    }
+    return true;
   }
 }
 

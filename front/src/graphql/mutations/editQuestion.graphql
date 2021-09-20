@@ -5,11 +5,7 @@ mutation editQuestion($newInfos: editQuestionInfo!, $questionId: String!) {
       type
     }
     question {
-      questionType
-      _id
-      answer
-      choices
-      updatedAt
-    }
+      ...QuestionInfo
+         }
   }
 }

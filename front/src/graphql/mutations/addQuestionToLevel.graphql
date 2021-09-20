@@ -15,12 +15,13 @@ mutation addQuestionToLevel(
     level {
       _id
       updatedAt
-      Questions {
-        _id
-        answer
-      }
-      updatedAt
+      createdAt
+      name
       number
+      Questions {
+        ...QuestionInfo
+      }
+     
     }
   }
 }

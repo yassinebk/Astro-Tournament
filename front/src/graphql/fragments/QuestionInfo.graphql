@@ -1,0 +1,9 @@
+fragment QuestionInfo on Questions {
+  _id
+  answer
+  question
+  points
+  questionType
+  choices
+  orderNumber
+}

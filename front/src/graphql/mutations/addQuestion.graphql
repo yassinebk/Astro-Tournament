@@ -5,12 +5,7 @@ mutation addQuestion($options: NewQuestionInfo!) {
       type
     }
     question {
-      _id
-      answer
-      question
-      points
-      questionType
-      choices
+      ...QuestionInfo
     }
   }
 }

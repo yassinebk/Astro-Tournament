@@ -23,7 +23,7 @@ import React from "react";
 import { Role } from "../../generated/graphql";
 import Logo from "../Logo";
 import { NavbarIcon } from "./Icon";
-import NextLink from "next/link"
+import NextLink from "next/link";
 interface AuthNavbarProps {
   role: Role;
 }
@@ -75,7 +75,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
   return (
     <HStack
       boxShadow="0px 4px 4px rgba(221, 218, 218, 0.25)"
-      miH="110px"
+      minH="110px"
       bgColor="#181717"
       paddingY={[3, 5]}
       paddingX={[2, 4, 6, 8, 16]}

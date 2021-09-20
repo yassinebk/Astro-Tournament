@@ -1,0 +1,4 @@
+fragment OperationError on OperationError {
+  type
+  message
+}

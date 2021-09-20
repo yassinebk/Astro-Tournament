@@ -20,15 +20,20 @@ const calculateTimeLeft = ({ day, month }) => {
     return timeLeft;
   }
 };
+
 const Countdown: React.FC<CountdownProps> = ({}) => {
-  const [timeLeftForEvent, setTimeLeft] = useState<any>(
-    calculateTimeLeft({ day: 13, month: 11 })
-  );
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  const [timeLeftForEvent, setTimeLeft] = useState<any>(0);
+
+  const timePassing = async () => {
+    setTimeout(() => {
       setTimeLeft(calculateTimeLeft({ day: 13, month: 11 }));
     }, 1000);
+  };
+
+  useEffect(() => {
+    timePassing();
   });
+
   return (
     <VStack
       marginY={["20px", "40px", "58px"]}

@@ -5,10 +5,8 @@ mutation addLevel($addLevelOptions: NewLevelInput!) {
       message
     }
     level {
-      _id
-      createdAt
-      number
-      updatedAt
+      ...LevelInfo
+    
     }
   }
 }

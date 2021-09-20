@@ -19,7 +19,7 @@ export const Levels: React.FC<levelsProps> = ({}) => {
         <Flex
           justifyContent="center"
           alignItems="center"
-          w="100%"
+          minW="100%"
           minH="500px"
           h="100%"
           marginTop="20px"

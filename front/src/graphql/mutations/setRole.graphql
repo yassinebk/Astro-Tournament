@@ -1,4 +1,4 @@
-mutation setRole($setRoleRole: String!, $setRoleUserId: String!) {
+mutation setRole($setRoleRole: String!, $setRoleUserId: ID!) {
   setRole(role: $setRoleRole, userId: $setRoleUserId) {
     error {
       message

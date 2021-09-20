@@ -1,4 +1,4 @@
-mutation setScore($score: Int!, $id: String!) {
+mutation setScore($score: Int!, $id: ID!) {
   setScore(score: $score, userId: $id) {
     error {
       message

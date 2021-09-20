@@ -1,0 +1,20 @@
+fragment UserInfo on User {
+  currentQuestion {
+    ...QuestionInfo
+  }
+  answeredQuestions {
+    ...QuestionInfo
+  }
+  email
+  score
+  createdAt
+  lastLogin
+  role
+  username
+  fullname
+  _id
+  level {
+    ...LevelInfo
+  }
+  role
+}

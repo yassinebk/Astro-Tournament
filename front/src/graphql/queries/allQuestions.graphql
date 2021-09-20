@@ -1,10 +1,5 @@
 query allQuestions {
   allQuestions {
-    _id
-    answer
-    question
-    createdAt
-    points
-    updatedAt
+    ...QuestionInfo
   }
 }

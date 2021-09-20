@@ -1,8 +1,8 @@
 mutation setLevelNumber($levelId: String!, $number: Int!) {
   setLevelNumber(levelId: $levelId, number: $number) {
     error {
-      message
-      type
+      ...OperationError
+   
     }
     level {
       _id

@@ -18,7 +18,6 @@ export const validateRegister = (
     });
   }
 
-  console.log(password.length);
   if (password.length < 8) {
     errors.push({
       field: "password",
@@ -26,9 +25,7 @@ export const validateRegister = (
     });
   }
 
-  console.log(errors.length);
-
   const returnedErrors = errors.length === 0 ? null : errors;
-  console.log(returnedErrors);
+  console.log("returned Errors", returnedErrors);
   return returnedErrors;
 };

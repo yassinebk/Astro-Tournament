@@ -10,7 +10,7 @@ import {
   ObjectType,
   Query,
   Resolver,
-  UseMiddleware
+  UseMiddleware,
 } from "type-graphql";
 import { MyContext } from "types";
 import LevelModel, { Level } from "../entities/Level";
@@ -23,8 +23,9 @@ import { isAdmin, isAuth } from "../utils/isAuth";
 import BooleanResponse from "../utils/ResponseTypes";
 import { UserLoginInfos, UserRegisterInfos } from "../utils/UserInputTypes";
 import { validateRegister } from "../utils/validateRegister";
+
 @ObjectType()
-class UserResponse {
+export class UserResponse {
   @Field(() => [FieldError], { nullable: true })
   errors?: FieldError[];
 
@@ -139,7 +140,7 @@ export class UserResolver {
   }
 
   @Query(() => UserNoPassword, { nullable: true })
-  async findUser(@Arg("userId",()=>ID) userId: string) {
+  async findUser(@Arg("userId", () => ID) userId: string) {
     const user = await UserModel.findById({ _id: userId });
     if (!user) return null;
     else {
@@ -201,7 +202,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async editRole(
-    @Arg("userId",()=>ID) userId: string,
+    @Arg("userId", () => ID) userId: string,
     @Arg("role") role: Role
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId);
@@ -229,7 +230,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setScore(
-    @Arg("userId",()=>ID) userId: string,
+    @Arg("userId", () => ID) userId: string,
     @Arg("score", () => Int) score: number
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId, { password: 0 });
@@ -279,7 +280,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async setRole(
-    @Arg("userId",()=>ID) userId: string,
+    @Arg("userId", () => ID) userId: string,
     @Arg("role") role: Role
   ): Promise<BooleanResponse> {
     const user = await UserModel.findById(userId);
@@ -313,25 +314,21 @@ export class UserResolver {
 
   */
   }
-  @Query(() => Int,{nullable:true}) 
+  @Query(() => Int, { nullable: true })
   @UseMiddleware(isAuth)
   async getUnansweredQuestions(
-    @Arg("levelId",()=>ID) levelId:string,
-    @Ctx() {currentUser}:MyContext
-  )
-  {
+    @Arg("levelId", () => ID) levelId: string,
+    @Ctx() { currentUser }: MyContext
+  ) {
     const level = await LevelModel.findById(levelId);
-    if (!level)
-      return null;
+    if (!level) return null;
 
-    const leftQuestions = level?.Questions.filter(q=>currentUser?.answeredQuestions.includes(q))
+    const leftQuestions = level?.Questions.filter((q) =>
+      currentUser?.answeredQuestions.includes(q)
+    );
 
     return leftQuestions.length;
-
-
-
-
   }
-
- 
 }
+
+export default UserResolver;
