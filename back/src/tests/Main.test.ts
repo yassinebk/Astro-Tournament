@@ -5,9 +5,9 @@ import { UserResponse } from "../resolvers/user";
 import envs from "../utils/configs";
 import connectToDb from "../utils/connect";
 import setContext from "../utils/setContext";
-import loginMutation from "./graphql/mutations/loginMutation";
-import registerMutation from "./graphql/mutations/registerMutation";
-import allUsers from "./graphql/queries/allUsers";
+import loginMutation from "./helpers/graphql/mutations/login";
+import registerMutation from "./helpers/graphql/mutations/register";
+import allUsers from "./helpers/graphql/queries/allUsers";
 import { clearDatabase } from "./helpers/clearDatabase";
 
 const createServer = async () => {
@@ -57,14 +57,7 @@ describe("Authentication Flow", () => {
     expect(res.data).toBeDefined();
     expect(userResponseData.user).toBeDefined();
     if (!userResponseData.user) throw Error("user undefined");
-    expect(userResponseData.user._id).toBeDefined();
-    expect(userResponseData.user.createdAt).toBeDefined();
-    expect(userResponseData.user.score).toEqual(0);
     expect(userResponseData.user.username).toEqual("user");
-    expect(userResponseData.user.fullname).toEqual("Bob roj");
-    expect(userResponseData.user.lastLogin).toBeNull();
-    expect(userResponseData.user.level).toBeNull();
-    expect(userResponseData.user.answeredQuestions.length).toEqual(0);
 
     expect(userResponseData.errors).toBeNull();
   });
@@ -80,7 +73,6 @@ describe("Authentication Flow", () => {
       variables: { options: newUser },
     });
 
-    console.log("res", res!.errors![0]);
     expect(res.errors).toBeDefined();
     expect(res!.errors!.length).toEqual(1);
     expect(res!.errors![0].message).toEqual(
@@ -90,7 +82,7 @@ describe("Authentication Flow", () => {
 
   test("userAdded", async () => {
     const res = await server.executeOperation({ query: allUsers });
-    expect(res!.data!.allLeves).toBe(1);
+    expect(res!.data!.allUsers.length).toBe(1);
   });
 
   test("login successful with email", async () => {
@@ -103,6 +95,7 @@ describe("Authentication Flow", () => {
       query: loginMutation,
       variables: { options: user },
     });
+    console.log("res", res);
     if (!res.data) throw new Error("unknown error");
     const userResponseData = res.data.login;
     expect(res).toBeDefined();
@@ -115,10 +108,9 @@ describe("Authentication Flow", () => {
     expect(userResponseData.user.score).toEqual(0);
     expect(userResponseData.user.username).toEqual("user");
     expect(userResponseData.user.fullname).toEqual("Bob roj");
-    expect(userResponseData.user.lastLogin).toBeNull();
     expect(userResponseData.user.level).toBeNull();
     expect(userResponseData.user.answeredQuestions.length).toEqual(0);
-
+    expect(userResponseData.token).toBeDefined();
     expect(userResponseData.errors).toBeNull();
   });
 

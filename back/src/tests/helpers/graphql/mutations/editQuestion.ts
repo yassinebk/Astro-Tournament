@@ -1,4 +1,5 @@
 import { gql } from "apollo-server-express";
+import QuestionInfoFragment from "../fragments/QuestionInfo";
 
 const editQuestionMutation = gql`
   mutation editQuestion($newInfos: editQuestionInfo!, $questionId: String!) {
@@ -12,6 +13,7 @@ const editQuestionMutation = gql`
       }
     }
   }
+  ${QuestionInfoFragment}
 `;
 
 export default editQuestionMutation;

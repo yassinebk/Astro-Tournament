@@ -1,4 +1,5 @@
 import { gql } from "apollo-server-express";
+import QuestionInfoFragment from "../fragments/QuestionInfo";
 
 const addQuestionToLevelMutation = gql`
   mutation addQuestionToLevel(
@@ -27,7 +28,7 @@ const addQuestionToLevelMutation = gql`
       }
     }
   }
+  ${QuestionInfoFragment}
 `;
-
 
 export default addQuestionToLevelMutation;

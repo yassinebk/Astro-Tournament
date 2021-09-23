@@ -1,6 +1,5 @@
-import { gql } from "apollo-server-express";
 
-const OperationErrorFragment = gql`
+const OperationErrorFragment = `
   fragment OperationError on OperationError {
     type
     message

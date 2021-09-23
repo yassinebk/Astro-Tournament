@@ -12,21 +12,22 @@ import QuestionsResolver from "./resolvers/questions";
 import { UserResolver } from "./resolvers/user";
 import envs from "./utils/configs";
 import connectToDb from "./utils/connect";
+import { mongoose } from "@typegoose/typegoose";
 
 console.log(`Connecting to ${envs.MONGODB_URI}`);
 
 connectToDb({ db: envs.MONGODB_URI ? envs.MONGODB_URI : "" });
-//mongoose.set("debug", true);
+mongoose.set("debug", true);
 
 void (async function () {
   const app = express();
 
   app.use(
-    // cors()
-    cors({
-      origin: [envs.CORS_ORIGIN as string, "http://localhost:4000"],
-      credentials: true,
-    })
+    cors()
+    // cors({
+    // origin: [envs.CORS_ORIGIN as string, "http://localhost:4000"],
+    // credentials: true,
+    // })
   );
 
   const httpServer = createServer(app);
@@ -59,8 +60,10 @@ void (async function () {
   });
 
   await server.start();
-  server.applyMiddleware({ app, cors: false });
+  server.applyMiddleware({ app /*, cors: false */ });
 
   const PORT = 4000;
-  httpServer.listen(PORT, () => {});
+  httpServer.listen(PORT, () => {
+    console.log("server is running at port 4000");
+  });
 })();

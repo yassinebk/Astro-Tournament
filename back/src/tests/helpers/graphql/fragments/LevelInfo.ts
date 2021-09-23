@@ -1,6 +1,6 @@
-import { gql } from "apollo-server-core";
+import QuestionInfoFragment from "./QuestionInfo";
 
-const LevelInfoFragment = gql`
+const LevelInfoFragment = `
   fragment LevelInfo on Level {
     _id
     name
@@ -8,17 +8,10 @@ const LevelInfoFragment = gql`
     createdAt
     updatedAt
     Questions {
-      question
-      _id
-      questionType
-      answer
-      choices
-      points
-      orderNumber
-      createdAt
-      updatedAt
+      ...QuestionInfo
     }
   }
+  ${QuestionInfoFragment}
 `;
 
 export default LevelInfoFragment;

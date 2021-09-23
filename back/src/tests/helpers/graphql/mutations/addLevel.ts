@@ -1,4 +1,5 @@
 import { gql } from "apollo-server-core";
+import LevelInfoFragment from "../fragments/LevelInfo";
 
 const addLevelMutation = gql`
   mutation addLevel($addLevelOptions: NewLevelInput!) {
@@ -12,5 +13,6 @@ const addLevelMutation = gql`
       }
     }
   }
+  ${LevelInfoFragment}
 `;
 export default addLevelMutation;

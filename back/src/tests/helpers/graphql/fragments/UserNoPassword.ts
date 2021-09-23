@@ -1,6 +1,7 @@
-import { gql } from "apollo-server-express";
+import LevelInfoFragment from "./LevelInfo";
+import QuestionInfoFragment from "./QuestionInfo";
 
-const UserNoPasswordFragment = gql`
+const UserNoPasswordFragment = `
   fragment UserNoPassword on User {
     currentQuestion {
       ...QuestionInfo
@@ -21,6 +22,8 @@ const UserNoPasswordFragment = gql`
     }
     role
   }
+  ${LevelInfoFragment}
+  ${QuestionInfoFragment}
 `;
 
 export default UserNoPasswordFragment;

@@ -13,7 +13,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { MyContext } from "types";
-import LevelModel, { Level } from "../entities/Level";
+import LevelModel from "../entities/Level";
 import UserModel, { Role, User, UserNoPassword } from "../entities/User";
 import envs from "../utils/configs";
 import { setError } from "../utils/errorTypes";
@@ -65,8 +65,8 @@ class UserBasicInfo {
   @Field()
   username: string;
 
-  @Field(() => Int, { nullable: true })
-  levelNumber?: number | null;
+  @Field(() => String, { nullable: true })
+  levelNumber?: string | null;
 
   @Field()
   createdAt: Date;
@@ -88,12 +88,8 @@ export class UserResolver {
 
   @Query(() => [UserBasicInfo], { defaultValue: [] })
   async allUsers(): Promise<UserBasicInfo[]> {
-    const allUsers = await UserModel.find({}, { password: 0 }).populate(
-      "level"
-    );
-
-    console.log("UserList", allUsers);
-    await setTimeout(() => console.log("waiting"), 10000);
+    const allUsers = await UserModel.find({}, { password: 0 });
+    // console.log("allUsers", allUsers);
 
     if (!allUsers) return [];
     const returnedUserList = allUsers.map((u) => {
@@ -101,12 +97,12 @@ export class UserResolver {
         username: u.username,
         score: u.score,
         createdAt: u.createdAt,
-        levelNumber: (u?.level as Level).number,
+        levelNumber: u.level as string,
       };
 
       return user;
     });
-    console.log("returnedUserList", returnedUserList);
+    // console.log("returnedUserList", returnedUserList);
     return returnedUserList;
   }
 
@@ -116,7 +112,7 @@ export class UserResolver {
   ): Promise<UserResponse> {
     const errors = validateRegister(options);
     if (errors) {
-      console.log("error", errors);
+      // console.log("error", errors);
       return { errors };
     }
     let user;
@@ -133,7 +129,7 @@ export class UserResolver {
           errors: [{ field: "form", message: "username  or email exists " }],
         };
       }
-      console.log("error:", error.code);
+      // console.log("error:", error.code);
     }
 
     return { user };
@@ -163,7 +159,10 @@ export class UserResolver {
       ? { email: options.usernameOrEmail }
       : { username: options.usernameOrEmail };
 
-    const user = await UserModel.findOne(searchPrompt);
+    const user = await UserModel.findOne(searchPrompt).populate(
+      "answeredQuestions",
+      "currentQuestion"
+    );
     if (!user) {
       return {
         errors: [
@@ -185,7 +184,7 @@ export class UserResolver {
 
     console.log(user);
     const userJSON = user.toJSON();
-    console.log("userJSON", userJSON);
+    // console.log("userJSON", userJSON);
     const token = jwt.sign(
       userJSON._id.toString(),
       envs.JWT_SECRET_KEY as string,

@@ -1,6 +1,5 @@
-import { gql } from "apollo-server-express";
 
-const FieldErrorFragment = gql`
+const FieldErrorFragment = `
   fragment FieldError on FieldError {
     field
     message

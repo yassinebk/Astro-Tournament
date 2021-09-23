@@ -1,4 +1,6 @@
 import { gql } from "apollo-server-express";
+import LevelInfoFragment from "../fragments/LevelInfo";
+import OperationErrorFragment from "../fragments/OperationError";
 
 const removeQuestionFromLevelMutation = gql`
   mutation removeQuestionFromLevel($questionId: ID!, $levelId: ID!) {
@@ -11,6 +13,8 @@ const removeQuestionFromLevelMutation = gql`
       }
     }
   }
+  ${OperationErrorFragment}
+  ${LevelInfoFragment}
 `;
 
 export default removeQuestionFromLevelMutation;

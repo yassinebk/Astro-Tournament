@@ -1,7 +1,7 @@
 import { gql } from "apollo-server-express";
 
 const allUsersQuery = gql`
-  query allUsers {
+  query AllUsers {
     allUsers {
       createdAt
       score

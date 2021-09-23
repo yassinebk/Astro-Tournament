@@ -1,8 +1,9 @@
 import { gql } from "apollo-server-express";
+import QuestionInfoFragment from "../fragments/QuestionInfo";
 
 const loginMutation = gql`
-  mutation login($option: UserLoginInfos!) {
-    login(options: $option) {
+  mutation login($options: UserLoginInfos!) {
+    login(options: $options) {
       user {
         currentQuestion {
           ...QuestionInfo
@@ -14,7 +15,6 @@ const loginMutation = gql`
         score
         createdAt
         lastLogin
-        level
         role
         username
         fullname
@@ -30,6 +30,7 @@ const loginMutation = gql`
       token
     }
   }
+  ${QuestionInfoFragment}
 `;
 
 export default loginMutation;

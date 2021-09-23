@@ -1,6 +1,4 @@
-import { gql } from "apollo-server-express";
-
-const QuestionInfoMutation = gql`
+const QuestionInfoFragment = `
   fragment QuestionInfo on Questions {
     _id
     answer
@@ -12,5 +10,4 @@ const QuestionInfoMutation = gql`
   }
 `;
 
-
-export default QuestionInfoMutation;
+export default QuestionInfoFragment;
