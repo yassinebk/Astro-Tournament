@@ -39,6 +39,9 @@ class NewLevelInput {
   @Field({ defaultValue: 999 })
   number: number;
 
+  @Field({ nullable: true })
+  levelPictureUrl: string;
+
   @Field(() => String, { nullable: false })
   name: string;
 }
@@ -76,6 +79,7 @@ class LevelResolver {
         };
       else {
         const level = new LevelModel({
+          levelPictureUrl: newLevel.levelPictureUrl,
           number: newLevel.number,
           name: newLevel.name,
         });

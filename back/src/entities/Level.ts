@@ -17,11 +17,14 @@ export class Level {
 
   @prop()
   @Field(() => String, { nullable: false })
-  public name:string
+  public name: string;
+
+  @prop(/*default picture url*/)
+  @Field(() => String, { nullable: false })
+  public levelPictureUrl: string;
 
   @Field(() => Date, { nullable: true })
   public createdAt: Date;
-
   @Field(() => Date, { nullable: true })
   public updatedAt?: Date;
 }

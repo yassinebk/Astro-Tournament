@@ -7,6 +7,7 @@ const LevelInfoFragment = `
     number
     createdAt
     updatedAt
+    levelPictureUrl
     Questions {
       ...QuestionInfo
     }
