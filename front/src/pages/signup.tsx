@@ -18,7 +18,9 @@ import toErrorMap from "../utils/toErrorMap";
 interface signupProps {}
 
 const validationSchema = Yup.object().shape({
-  fullname: Yup.string().required().min(1, "fullname should be valid"),
+  fullname: Yup.string()
+    .required("Full name is required")
+    .min(1, "fullname should be valid"),
   username: Yup.string()
     .min(3, "Username too short")
     .max(35, "Username cannot be longer than 35 characts")
@@ -34,7 +36,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const Signup: React.FC<signupProps> = ({}) => {
-  const [signup, { loading, error, data }] = useRegisterMutation();
+  const [signup, { loading, error, data }] = useRegisterMutation({
+    notifyOnNetworkStatusChange: true,
+  });
   const router = useRouter();
   return (
     <Container>
@@ -109,9 +113,11 @@ const Signup: React.FC<signupProps> = ({}) => {
                   },
                 },
               });
+              console.log("here");
               if (data.register.errors) {
                 setErrors(toErrorMap(data.register.errors));
               } else if (data.register.user) {
+                console.log("here2");
                 router.push("/");
               }
             }}
@@ -130,13 +136,28 @@ const Signup: React.FC<signupProps> = ({}) => {
               >
                 <VStack spacing={4}>
                   <InputField
+                    color="white"
+                    bgColor="white"
+                    w="90%"
+                    name="fullname"
+                    placeholder="Full name"
+                    label="Full name"
+                    required
+                  />
+                  <InputField
                     name="username"
+                    color="white"
+                    bgColor="white"
+                    w="90%"
                     placeholder="should be least 5 characters long"
                     label="Username"
                     required
                   />
                   <InputField
                     name="email"
+                    color="white"
+                    bgColor="white"
+                    w="90%"
                     placeholder="user@provider.com"
                     required
                     label="Email"
@@ -144,13 +165,19 @@ const Signup: React.FC<signupProps> = ({}) => {
                   />
                   <InputField
                     name="password"
+                    color="white"
+                    bgColor="white"
+                    w="90%"
                     required
                     placeholder="should be at least 8 characters long"
                     label="password"
                     type="password"
                   />
                   <InputField
-                    name="confirm-password"
+                    color="white"
+                    bgColor="white"
+                    w="90%"
+                    name="confirmPassword"
                     label="Confirm password"
                     placeholder="confirm your password"
                     type="password"
@@ -161,6 +188,7 @@ const Signup: React.FC<signupProps> = ({}) => {
                 <VStack justifyContent="flex-start" paddingTop={12}>
                   <Button
                     marginX="auto"
+                    type="submit"
                     justifySelf="center"
                     minW="115px"
                     minH="50px"

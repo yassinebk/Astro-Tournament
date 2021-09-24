@@ -141,14 +141,20 @@ const Signin: React.FC<signupProps> = ({}) => {
                     placeholder="should be least 5 characters long"
                     label="Username or Email"
                     required
+                    color="white"
+                    bgColor="white"
+                    w="90%"
                   />
 
                   <InputField
+                    w="90%"
                     name="password"
                     required
                     placeholder="should be at least 8 characters long"
                     label="password"
                     type="password"
+                    color="white"
+                    bgColor="white"
                   />
                 </VStack>
                 <VStack justifyContent="flex-start" paddingTop={12}>

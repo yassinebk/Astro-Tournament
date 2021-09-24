@@ -80,7 +80,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
             size="lg"
             icon={<EditIcon />}
             boxShadow=" 4px 4px 8px rgba(81, 78, 128, 0.67)"
-            onClick={onOpenEditModal}
+            onClick={() => onOpenEditModal()}
             fontSize="25px"
           />
           <IconButton
@@ -91,7 +91,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
             fontSize="20px"
             fontWeight="light"
             icon={<DeleteIcon />}
-            onClick={onOpenDeleteModal}
+            onClick={() => onOpenDeleteModal()}
             size="lg"
           />
         </HStack>

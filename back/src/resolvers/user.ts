@@ -126,7 +126,7 @@ export class UserResolver {
     } catch (error) {
       if (error.code === 11000) {
         return {
-          errors: [{ field: "form", message: "username  or email exists " }],
+          errors: [{ field: "form", message: "Username or Email exists" }],
         };
       }
       // console.log("error:", error.code);
@@ -166,7 +166,7 @@ export class UserResolver {
     if (!user) {
       return {
         errors: [
-          { field: "usernameOrEmail", message: "wrong username or email" },
+          { field: "usernameOrEmail", message: "Wrong Username or Email" },
         ],
       };
     }
@@ -176,13 +176,13 @@ export class UserResolver {
     );
     if (!valid) {
       return {
-        errors: [{ field: "password", message: "wrong password" }],
+        errors: [{ field: "password", message: "Wrong password" }],
       };
     }
     user.lastLogin = new Date();
     await user.save();
 
-    console.log(user);
+    // console.log(user);
     const userJSON = user.toJSON();
     // console.log("userJSON", userJSON);
     const token = jwt.sign(

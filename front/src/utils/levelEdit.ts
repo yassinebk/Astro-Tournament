@@ -9,5 +9,5 @@ export const levelEdit = () => {
     { data: addQuestionsToLevelData, loading: addQuestionsToLevelLoading },
   ] = useAddQuestionToLevelMutation();
 
-  const [removeQuestioFromLevel, { data, loading }] = useRemoveLevelFromQuestionMutation();
+  // const [removeQuestioFromLevel, { data, loading }] = useRemoveLevelFromQuestionMutation();
 };

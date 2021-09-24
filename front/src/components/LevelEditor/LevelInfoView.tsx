@@ -5,14 +5,10 @@ import QuestionHorizCard from "./QuestionHorizCard";
 
 interface LevelInfoViewProps {
   level: Level;
-  isOpen: boolean;
-  onClose;
 }
 
 export const LevelInfoView: React.FC<LevelInfoViewProps> = ({
   level,
-  isOpen,
-  onClose,
 }) => {
   return (
     <VStack

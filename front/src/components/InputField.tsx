@@ -10,8 +10,12 @@ import React, { InputHTMLAttributes } from "react";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
+  marginTop?: string;
   placeholder: string;
+  w?: string;
   label: string;
+  bgColor?: string;
+  color?: string;
   textArea?: boolean;
 };
 
@@ -31,13 +35,13 @@ const InputField: React.FC<InputFieldProps> = (props) => {
       isInvalid={!!error}
       minW="288px"
       minH="45px"
-      w="90%"
+      w={props.w ? props.w : ""}
+      color={props.color}
       fontSize={["xl", "2xl", "3xl"]}
     >
       <FormLabel
         htmlFor={field.name}
         fontSize="xl"
-        color="white"
         fontWeight="normal"
         textTransform="capitalize"
         letterSpacing="wide"
@@ -45,7 +49,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
         {props.label}
       </FormLabel>
       <InputOrTextArea
-        bgColor="white"
+        bgColor={props.bgColor}
         h={["45px", "50px", "55px"]}
         maxW="800px"
         {...field}
@@ -54,7 +58,13 @@ const InputField: React.FC<InputFieldProps> = (props) => {
         type={props.type}
       />
       {error ? (
-        <FormErrorMessage fontSize="md" fontWeight="italic">
+        <FormErrorMessage
+          color="red.200"
+          h="30px"
+          fontSize="md"
+          w={props.w}
+          fontWeight="italic"
+        >
           {error}
         </FormErrorMessage>
       ) : null}

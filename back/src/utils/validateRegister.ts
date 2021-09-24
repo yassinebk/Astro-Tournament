@@ -9,19 +9,19 @@ export const validateRegister = (
   if (username.length <= 3)
     errors.push({
       field: "username",
-      message: "username should be at least 3 characters long",
+      message: "Username should be at least 3 characters long",
     });
   if (email.length <= 3 || !email.includes("@")) {
     errors.push({
       field: "email",
-      message: "email might be invalid",
+      message: "Email is invalid",
     });
   }
 
   if (password.length < 8) {
     errors.push({
       field: "password",
-      message: "password should be at least 8 characters long",
+      message: "Password should be at least 8 characters long",
     });
   }
 

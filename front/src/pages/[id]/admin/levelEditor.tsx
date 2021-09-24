@@ -1,4 +1,5 @@
 import { Button, IconButton } from "@chakra-ui/button";
+import { useDisclosure } from "@chakra-ui/hooks";
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { Box, Flex, VStack } from "@chakra-ui/layout";
 import { useRouter } from "next/dist/client/router";
@@ -6,10 +7,12 @@ import React from "react";
 import AuthLayout from "../../../components/Auth/AuthLayout";
 import AuthLoadingScreen from "../../../components/AuthLoadingScreen";
 import { LevelHorizontalCard } from "../../../components/LevelEditor/LevelHorizontalCard";
+import NewLevelForm from "../../../components/LevelEditor/NewLevelForm";
 import {
   useAllLevelQuery,
   useDeleteLevelMutation,
 } from "../../../generated/graphql";
+// import NewLevelForm from "../../../components/LevelEditor/NewLevelForm";
 
 interface levelEditorProps {}
 
@@ -18,12 +21,15 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
   const { data, loading } = useAllLevelQuery();
   const [deleteLevel, { data: deleteLevelData, loading: deleteLevelLoading }] =
     useDeleteLevelMutation();
+  const { onOpen, onClose, isOpen } = useDisclosure();
 
   if (!data) {
     return <AuthLoadingScreen />;
   }
+
   return (
     <AuthLayout>
+      <NewLevelForm onClose={onClose} isOpen={isOpen}/>
       <Flex
         flexDir="column"
         justifyContent={["flex-start"]}
@@ -49,6 +55,7 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
         />
         <VStack spacing={4}>
           <Button
+            onClick={onOpen}
             leftIcon={<AddIcon />}
             minW="330px"
             minH="70px"
@@ -69,7 +76,7 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
               <LevelHorizontalCard
                 level={l}
                 deleteLevel={deleteLevel}
-                editLevel={editLevel}
+                // editLevel={editLevel}
               />
             </Box>
           ))}
