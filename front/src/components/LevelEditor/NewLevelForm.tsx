@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import {
   Button,
   FormControl,
@@ -21,12 +22,13 @@ interface NewLevelFormProps {
   isOpen: boolean;
 }
 const validationSchema = Yup.object().shape({
-  levelNumber: Yup.number().max(100, "max Level is 100"),
+  levelNumber: Yup.number().max(100, "Max Level is 100"),
   levelPictureUrl: Yup.string().min(3, "Url should be valid"),
   name: Yup.string().min(1, "Name should be at least 1 character long"),
 });
 
 const NewLevelForm: React.FC<NewLevelFormProps> = ({ isOpen, onClose }) => {
+  const client = useApolloClient();
   const [addLevel, { data, loading, error }] = useAddLevelMutation({
     notifyOnNetworkStatusChange: true,
   });
@@ -34,7 +36,9 @@ const NewLevelForm: React.FC<NewLevelFormProps> = ({ isOpen, onClose }) => {
     <FullPageModal
       onClose={onClose}
       isOpen={isOpen}
+      blurred={true}
       modalTitle={"Create new Level"}
+      ownBackButton={false}
     >
       <Formik
         validationSchema={validationSchema}
@@ -47,11 +51,22 @@ const NewLevelForm: React.FC<NewLevelFormProps> = ({ isOpen, onClose }) => {
         validateOnChange={true}
         onSubmit={async (values, { setErrors }) => {
           console.log("values", values);
-          addLevel({
-            name: values.name,
-            number: values.levelNumber,
-            levelPictureUrl: values.levelPictureUrl,
-          });
+          try {
+            await addLevel({
+              variables: {
+                addLevelOptions: {
+                  levelPictureUrl: values.levelPictureUrl,
+                  name: values.name,
+                  number: values.levelNumber,
+                },
+              },
+            });
+          } catch (error) {
+            console.log("error");
+          }
+
+          onClose();
+          client.refetchQueries({ include: "all" });
         }}
       >
         {({ isSubmitting, values, validateOnChange, setValues }) => {
@@ -61,7 +76,6 @@ const NewLevelForm: React.FC<NewLevelFormProps> = ({ isOpen, onClose }) => {
               style={{
                 width: "100%",
                 display: "flex",
-
                 justifyContent: "center",
                 flexDirection: "column",
                 flexWrap: "nowrap",
@@ -99,9 +113,9 @@ const NewLevelForm: React.FC<NewLevelFormProps> = ({ isOpen, onClose }) => {
                     </FormLabel>
 
                     <NumberInput
-                      onChange={(value) =>
-                        setValues({ ...values, levelNumber: parseInt(value) })
-                      }
+                      onChange={async (value) => {
+                        setValues({ ...values, levelNumber: parseInt(value) });
+                      }}
                       value={values.levelNumber}
                       defaultValue={values.levelNumber}
                       id="levelNumber"
@@ -117,7 +131,7 @@ const NewLevelForm: React.FC<NewLevelFormProps> = ({ isOpen, onClose }) => {
                   <InputField
                     marginTop="40px"
                     name="levelPictureUrl"
-                    placeholder="insert a picture link for the level"
+                    placeholder="Insert a picture link for the level"
                     label="Level Picture URL"
                     type="text"
                     color="white"

@@ -9,10 +9,10 @@ import AuthLoadingScreen from "../../../components/AuthLoadingScreen";
 import { LevelHorizontalCard } from "../../../components/LevelEditor/LevelHorizontalCard";
 import NewLevelForm from "../../../components/LevelEditor/NewLevelForm";
 import {
+  Level,
   useAllLevelQuery,
   useDeleteLevelMutation,
 } from "../../../generated/graphql";
-// import NewLevelForm from "../../../components/LevelEditor/NewLevelForm";
 
 interface levelEditorProps {}
 
@@ -29,7 +29,7 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
 
   return (
     <AuthLayout>
-      <NewLevelForm onClose={onClose} isOpen={isOpen}/>
+      <NewLevelForm onClose={onClose} isOpen={isOpen} />
       <Flex
         flexDir="column"
         justifyContent={["flex-start"]}
@@ -72,9 +72,10 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
             Add a level
           </Button>
           {data.allLevels.map((l) => (
-            <Box>
+            <Box key={l._id}>
               <LevelHorizontalCard
-                level={l}
+                /* TODO : remove the as  */
+                level={l as Level}
                 deleteLevel={deleteLevel}
                 // editLevel={editLevel}
               />

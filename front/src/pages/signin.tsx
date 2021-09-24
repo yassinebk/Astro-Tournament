@@ -141,7 +141,8 @@ const Signin: React.FC<signupProps> = ({}) => {
                     placeholder="should be least 5 characters long"
                     label="Username or Email"
                     required
-                    color="white"
+                    color="black"
+                    labelColor="white"
                     bgColor="white"
                     w="90%"
                   />
@@ -153,7 +154,8 @@ const Signin: React.FC<signupProps> = ({}) => {
                     placeholder="should be at least 8 characters long"
                     label="password"
                     type="password"
-                    color="white"
+                    color="black"
+                    labelColor="white"
                     bgColor="white"
                   />
                 </VStack>

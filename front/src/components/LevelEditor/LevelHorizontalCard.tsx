@@ -5,6 +5,7 @@ import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { useToken } from "@chakra-ui/system";
 import React from "react";
 import { Level } from "../../generated/graphql";
+import FullPageModal from "../FullPageModal";
 import ConfirmDialog from "./ConfirmDialog";
 import LevelInfoView from "./LevelInfoView";
 
@@ -18,21 +19,28 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
   deleteLevel,
 }) => {
   const {
-    onOpen: onOpenDeleteModal,
-    onClose: onCloseDeleteModal,
-    isOpen: isOpenDeleteModal,
+    onOpen: onOpenDeletePopup,
+    onClose: onCloseDeletePopup,
+    isOpen: isOpenDeletePopup,
   } = useDisclosure();
   const {
     onOpen: onOpenEditModal,
-    onClose: onCloseModal,
-    isOpen: isOpenModal,
+    onClose: onCloseEditModal,
+    isOpen: isOpenEditModal,
   } = useDisclosure();
   return (
     <>
+      <FullPageModal
+        ownBackButton={true}
+        isOpen={isOpenEditModal}
+        onClose={onCloseEditModal}
+      >
+        <LevelInfoView level={level} onClose={onCloseEditModal} />
+      </FullPageModal>
       <ConfirmDialog
-        onClose={onCloseDeleteModal}
+        onClose={onCloseDeletePopup}
         text={"Delete Level"}
-        isOpen={isOpenDeleteModal}
+        isOpen={isOpenDeletePopup}
         callback={async () => {
           try {
             await deleteLevel({
@@ -45,7 +53,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
           }
         }}
       />
-      <LevelInfoView level={level} />
+      {/* <LevelInfoView level={level} /> */}
       <HStack
         justifyContent={["space-evenly", "space-evenly", "stretch"]}
         alignItems="center"
@@ -91,7 +99,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
             fontSize="20px"
             fontWeight="light"
             icon={<DeleteIcon />}
-            onClick={() => onOpenDeleteModal()}
+            onClick={() => onOpenDeletePopup()}
             size="lg"
           />
         </HStack>

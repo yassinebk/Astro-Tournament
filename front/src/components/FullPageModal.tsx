@@ -15,41 +15,49 @@ import React from "react";
 
 interface FullPageModalProps {
   onClose: () => void;
-  modalTitle: string;
+  blurred?: boolean;
+  modalTitle?: string;
   isOpen: boolean;
+  ownBackButton: boolean;
 }
 
 export const FullPageModal: React.FC<FullPageModalProps> = ({
   onClose,
   isOpen,
   modalTitle,
+  blurred = false,
   children,
+  ownBackButton = false,
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="full">
-      <ModalOverlay minW="770px" backdropBlur={20} bgColor="rgba(0,0,0,0.9)" />
-      <ModalContent bgColor="transparent" color="white">
+      <ModalContent
+        color="white"
+        backdropFilter={blurred && "blur(20px)"}
+        bg={
+          blurred
+            ? "rgba(0, 0, 0, 0.64)"
+            : " linear-gradient(145.22deg, rgba(104, 99, 99, 0.21) 0%, rgba(0, 0, 0, 1) 100%, rgba(245, 245, 245, 0.8) 100%)"
+        }
+      >
         {modalTitle && (
           <ModalHeader color="#7FD8D8" paddingX="10%">
             {modalTitle}
           </ModalHeader>
         )}
-        <ModalCloseButton />
-        <ModalBody
-          maxH="800px"
-          backdropBlur="lg"
-          bg=" linear-gradient(145.22deg, rgba(104, 99, 99, 0.21) 0%, rgba(0, 0, 0, 1) 100%, rgba(245, 245, 245, 0.8) 100%)"
-        >
+        <ModalBody marginTop="15%" maxH="800px" backdropBlur="lg">
           <Flex flexDir="row" justifyContent="flex-start" w="100%">
-            <IconButton
-              bgColor="transparent"
-              icon={<ChevronLeftIcon />}
-              aria-label="go back"
-              onClick={onClose}
-              color="white"
-              size="lg"
-              fontSize="45px"
-            />
+            {!ownBackButton && (
+              <IconButton
+                bgColor="transparent"
+                icon={<ChevronLeftIcon />}
+                aria-label="go back"
+                onClick={onClose}
+                color="white"
+                size="lg"
+                fontSize="45px"
+              />
+            )}
           </Flex>
           {children}
         </ModalBody>

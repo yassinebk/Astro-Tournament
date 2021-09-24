@@ -51,6 +51,7 @@ export type Level = {
   Questions: Array<Questions>;
   _id: Scalars['ID'];
   createdAt?: Maybe<Scalars['DateTime']>;
+  levelPictureUrl: Scalars['String'];
   name: Scalars['String'];
   number?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -172,6 +173,7 @@ export type MutationSetScoreArgs = {
 };
 
 export type NewLevelInput = {
+  levelPictureUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   number?: Maybe<Scalars['Float']>;
 };
@@ -266,7 +268,7 @@ export type User = {
 export type UserBasicInfo = {
   __typename?: 'UserBasicInfo';
   createdAt: Scalars['DateTime'];
-  levelNumber?: Maybe<Scalars['Int']>;
+  levelNumber?: Maybe<Scalars['String']>;
   score: Scalars['Float'];
   username: Scalars['String'];
 };
@@ -449,7 +451,7 @@ export type AllQuestionsQuery = { __typename?: 'Query', allQuestions: Array<{ __
 export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllUsersQuery = { __typename?: 'Query', allUsers?: Maybe<Array<{ __typename?: 'UserBasicInfo', createdAt: any, score: number, username: string, levelNumber?: Maybe<number> }>> };
+export type AllUsersQuery = { __typename?: 'Query', allUsers?: Maybe<Array<{ __typename?: 'UserBasicInfo', createdAt: any, score: number, username: string, levelNumber?: Maybe<string> }>> };
 
 export type FindQuestionQueryVariables = Exact<{
   questionId: Scalars['String'];
