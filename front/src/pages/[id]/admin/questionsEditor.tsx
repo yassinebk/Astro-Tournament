@@ -1,6 +1,5 @@
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Button,
   Flex,
   IconButton,
@@ -11,8 +10,13 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import AuthLayout from "../../../components/Auth/AuthLayout";
 import AuthLoadingScreen from "../../../components/AuthLoadingScreen";
+import Toast from "../../../components/ErrorPopup";
 import NewQuestionForm from "../../../components/QuestionsEditor/NewQuestionForm";
-import { useAllQuestionsQuery } from "../../../generated/graphql";
+import QuestionHorizontalCard from "../../../components/QuestionsEditor/QuestionHorizontalCard";
+import {
+  useAllQuestionsQuery,
+  useDeleteQuestionMutation,
+} from "../../../generated/graphql";
 
 interface questionsEditorProps {}
 
@@ -20,6 +24,20 @@ export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
   const router = useRouter();
   const { data, loading } = useAllQuestionsQuery();
   const { onOpen, onClose, isOpen } = useDisclosure();
+  const [
+    deleteQuestion,
+    { data: deleteQuestionData, loading: deleteQuestionLoading },
+  ] = useDeleteQuestionMutation({
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: ["allQuestions"],
+    onError: ({ graphQLErrors, networkError }) => {
+      Toast({
+        popupMessage: graphQLErrors[0].message,
+        popupTitle: graphQLErrors[0].name,
+        popupType: "error",
+      });
+    },
+  });
 
   if (!data) {
     return <AuthLoadingScreen />;
@@ -51,7 +69,7 @@ export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
           size="xl"
           color="white"
         />
-        <VStack spacing={4}>
+        <VStack spacing={4} paddingX="6%">
           <Button
             onClick={onOpen}
             leftIcon={<AddIcon />}
@@ -70,7 +88,10 @@ export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
             Add question
           </Button>
           {data.allQuestions.map((q) => (
-            <Box></Box>
+            <QuestionHorizontalCard
+              question={q}
+              deleteQuestion={deleteQuestion}
+            />
           ))}
         </VStack>
       </Flex>

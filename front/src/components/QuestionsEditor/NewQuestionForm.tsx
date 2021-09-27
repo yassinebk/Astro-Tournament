@@ -15,6 +15,7 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { Question_Type, useAddQuestionMutation } from "../../generated/graphql";
+import Toast from "../ErrorPopup";
 import FullPageModal from "../FullPageModal";
 import InputField from "../InputField";
 import { SetFormQuestionTypeView } from "../LevelEditor/SetFormQuestionTypeView";
@@ -31,11 +32,19 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
   const [questionViewType, setQuestionType] = useState("TFANSWER");
   const [addQuestion, { data, loading, error }] = useAddQuestionMutation({
     notifyOnNetworkStatusChange: true,
+    refetchQueries: ["allQuestions"],
+    onError: ({ graphQLErrors, networkError }) => {
+      Toast({
+        popupMessage: graphQLErrors[0].message,
+        popupTitle: graphQLErrors[0].name,
+        popupType: "error",
+      });
+    },
   });
 
   const validationSchema = Yup.object().shape({
-    question: Yup.number().max(100, "Max Level is 100"),
-    answer: Yup.string().min(3, "Url should be valid"),
+    question: Yup.string(),
+    answer: Yup.string().min(1, "is This answer empty ? "),
     multipleChoices: Yup.string().min(
       1,
       "Name should be at least 1 character long"
@@ -56,30 +65,23 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
           answer: "",
           question: "",
           points: 100,
-          questionType: "",
+          questionType: "ANSWER",
           choices: [],
         }}
         validateOnChange={true}
         onSubmit={async (values, { setErrors }) => {
-          console.log("values", values);
-          try {
-            await addQuestion({
-              variables: {
-                options: {
-                  answer: values.answer,
-                  points: values.points,
-                  question: values.question,
-                  questionType: values.questionType as Question_Type,
-                  choices: values.choices,
-                },
+          await addQuestion({
+            variables: {
+              options: {
+                answer: values.answer,
+                points: values.points,
+                question: values.question,
+                questionType: values.questionType as Question_Type,
+                choices: values.choices,
               },
-            });
-          } catch (error) {
-            console.log("error");
-          }
-
+            },
+          });
           onClose();
-          client.refetchQueries({ include: "all" });
         }}
       >
         {({ isSubmitting, values, validateOnChange, setValues }) => {
@@ -93,25 +95,40 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
                 flexDirection: "column",
                 flexWrap: "nowrap",
                 marginTop: "20px",
-                alignContent: "center",
+                alignItems: "center",
                 height: "auto",
               }}
             >
               <VStack
                 justifyContent="space-between"
                 w="100%"
+                alignItems="center"
+                paddingX="2%"
+                maxW="800px"
                 minH="500px"
                 spacing={30}
               >
-                <VStack spacing={4} h="auto">
+                <VStack spacing={4} h="auto" w="full">
                   <Select
+                    maxW="700px"
                     h="55px"
                     onChange={({ target }) => {
-                      if (target.selectedOptions[0].value === "TFANSWER")
-                        setQuestionType("ANSWER");
-                      else {
-                        setQuestionType(target.selectedOptions[0].value);
-                      }
+                      setQuestionType(
+                        target.selectedOptions[
+                          target.selectedIndex === undefined
+                            ? target.selectedIndex
+                            : 0
+                        ].value
+                      );
+                      console.log(target.selectedIndex);
+                      console.log("questionType", questionViewType);
+                      setValues({
+                        ...values,
+                        questionType:
+                          questionViewType === "TFANSWER"
+                            ? "ANSWER"
+                            : questionViewType,
+                      });
                     }}
                     color="white"
                     bgColor="black"
@@ -152,7 +169,7 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
                     bgColor="transparent"
                   />
 
-                  <FormControl>
+                  <FormControl w="100%" maxW="700px">
                     <FormLabel
                       htmlFor="questionPoints"
                       fontSize="xl"
@@ -163,6 +180,7 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
                       Points
                     </FormLabel>
                     <NumberInput
+                      maxW="700px"
                       onChange={async (value) => {
                         setValues({ ...values, points: parseInt(value) });
                       }}

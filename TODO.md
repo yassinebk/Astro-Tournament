@@ -1,7 +1,6 @@
 # Tasks
 
-- Implements the Level View
-- Implements the Questions View
+- Test the question View functionality
 - Implements the default Editor Display (horizontal Cards)
 
 ## Features

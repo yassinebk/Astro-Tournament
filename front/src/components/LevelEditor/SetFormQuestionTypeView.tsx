@@ -106,75 +106,113 @@ export const SetFormQuestionTypeView: React.FC<SetFormQuestionTypeViewProps> =
 
       case "MULTIA":
         return (
-          <Box w="100%">
-            <FormLabel
-              htmlFor={"multipleChoices"}
-              fontSize="xl"
-              fontWeight="normal"
-              textTransform="capitalize"
-              letterSpacing="wide"
-            >
-              Multiple Choices
-            </FormLabel>
-            <HStack border="white 1px solid" borderRadius={5} h="60px" w="full">
-              <Input
-                id="multipleChoices"
-                borderSize={0}
-                borderColor="transparent"
-                onChange={({ target }) => setCurrentNewMCValue(target.value)}
-                value={currentNewMCValue}
-              />
-              <IconButton
-                onClick={() => {
-                  setChoicesList(choices.concat(currentNewMCValue));
-                  setCurrentNewMCValue("");
-                }}
-                icon={<PlusSquareIcon />}
-                aria-label="Add choice"
-                colorScheme="teal"
-                bgColor="transparent"
-              />
-            </HStack>
-            <Wrap w="full" marginTop="12px" maxW="100%">
-              {choices.map((c) => {
-                return (
-                  <Tag
-                    colorScheme="teal"
-                    display="flex"
-                    flexDir="row"
-                    justifyContent="space-between"
-                  >
-                    {c}
-                    <IconButton
-                      _focus={{
-                        bgColor: "transparent",
-                        color: "purple.400",
-                      }}
-                      _active={{
-                        bgColor: "transparent",
-                      }}
-                      _hover={{
-                        bgColor: "transparent",
-                      }}
-                      bgColor="transparent"
-                      aria-label="delete choice"
-                      icon={<CloseIcon />}
-                      onClick={() => {
-                        if (currentNewMCValue.length === 0) {
-                          /*
+          <>
+            <Box w="100%" maxW="700px" paddingBottom="40px">
+              <FormLabel
+                htmlFor={"multipleChoices"}
+                fontSize="xl"
+                fontWeight="normal"
+                textTransform="capitalize"
+                letterSpacing="wide"
+              >
+                Multiple Choices
+              </FormLabel>
+              <HStack
+                border="white 1px solid"
+                borderRadius={5}
+                h="60px"
+                w="full"
+              >
+                <Input
+                  _focus={{
+                    outline: "none",
+                    borderSize: "0px",
+                  }}
+                  _selected={{
+                    outline: "none",
+                    borderSize: "0px",
+                  }}
+                  _active={{
+                    outline: "none",
+                    borderSize: "0px",
+                  }}
+                  id="multipleChoices"
+                  borderColor="transparent"
+                  onChange={({ target }) => setCurrentNewMCValue(target.value)}
+                  value={currentNewMCValue}
+                />
+                <IconButton
+                  onClick={() => {
+                    if (currentNewMCValue.length === 0) {
+                      /* set Error or shake input*/
+                    } else {
+                      setChoicesList(choices.concat(currentNewMCValue));
+                      console.log("choices", choices);
+                      setValues({ ...values, choices: choices });
+                      setCurrentNewMCValue("");
+                    }
+                  }}
+                  icon={<PlusSquareIcon />}
+                  aria-label="Add choice"
+                  colorScheme="teal"
+                  bgColor="transparent"
+                />
+              </HStack>
+
+              <Wrap w="full" marginTop="24px" maxW="80vw">
+                {choices.map((c,index) => {
+                  return (
+                    <Tag
+                      key={index}
+                      colorScheme="teal"
+                      display="flex"
+                      flexDir="row"
+                      justifyContent="space-between"
+                    >
+                      {c}
+                      <IconButton
+                        _focus={{
+                          bgColor: "transparent",
+                          color: "purple.400",
+                        }}
+                        _active={{
+                          bgColor: "transparent",
+                        }}
+                        _hover={{
+                          bgColor: "transparent",
+                        }}
+                        bgColor="transparent"
+                        aria-label="delete choice"
+                        icon={<CloseIcon />}
+                        onClick={() => {
+                          if (currentNewMCValue.length === 0) {
+                            /*
                     SetError
                     */
-                        }
-                        setChoicesList(
-                          choices.filter((choice) => c !== choice)
-                        );
-                      }}
-                    />
-                  </Tag>
-                );
-              })}
-            </Wrap>
-          </Box>
+                          }
+                          setChoicesList(
+                            choices.filter((choice) => c !== choice)
+                          );
+                          setValues({ ...values, choices: choices });
+                        }}
+                      />
+                    </Tag>
+                  );
+                })}
+              </Wrap>
+            </Box>
+            <InputField
+              h={inputHeight}
+              marginTop="40px"
+              name="answer"
+              placeholder="Answer"
+              label="Answer"
+              type="text"
+              color="white"
+              w="100%"
+              bgColor="transparent"
+            />
+          </>
         );
       case "ANSWER":
         return (

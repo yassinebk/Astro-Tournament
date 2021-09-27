@@ -6,4 +6,6 @@ fragment QuestionInfo on Questions {
   questionType
   choices
   orderNumber
+  createdAt
+  updatedAt
 }

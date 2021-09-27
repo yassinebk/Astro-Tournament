@@ -1,0 +1,9 @@
+mutation deleteQuestion($questionId: ID!) {
+  deleteQuestion(questionId: $questionId) {
+    error {
+      type
+      message
+    }
+    value
+  }
+}

@@ -4,8 +4,7 @@ import { ChevronLeftIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import React from "react";
 import { Level } from "../../generated/graphql";
-import FullPageModal from "../FullPageModal";
-import QuestionHorizCard from "./QuestionHorizCard";
+import LevelQuestionHorizontalCard from "./LevelQuestionHorizontalCard";
 
 interface LevelInfoViewProps {
   level: Level;
@@ -74,7 +73,7 @@ export const LevelInfoView: React.FC<LevelInfoViewProps> = ({
           Level Questions
         </Heading>
         {level.Questions.map((q) => (
-          <QuestionHorizCard question={q} />
+          <LevelQuestionHorizontalCard question={q} />
         ))}
       </VStack>
     </VStack>

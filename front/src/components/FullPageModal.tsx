@@ -45,7 +45,7 @@ export const FullPageModal: React.FC<FullPageModalProps> = ({
             {modalTitle}
           </ModalHeader>
         )}
-        <ModalBody marginTop="15%" maxH="800px" backdropBlur="lg">
+        <ModalBody marginTop="8%" maxH="800px" backdropBlur="lg">
           <Flex flexDir="row" justifyContent="flex-start" w="100%">
             {!ownBackButton && (
               <IconButton

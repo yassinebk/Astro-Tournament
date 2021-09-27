@@ -16,6 +16,7 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
   // }
   return (
     <Flex
+
       alignItems="center"
       flexDir="column"
       position="relative"

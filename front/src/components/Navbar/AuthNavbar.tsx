@@ -85,7 +85,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       width="100vw"
       fontSize={["xs", "small", "md", "lg", "xl"]}
       color="white"
-      display={["flex", "flex", "flex", "flex", "none"]}
+      display={["flex", "flex", "flex", "none"]}
     >
       <NextLink href="/">
         <Button

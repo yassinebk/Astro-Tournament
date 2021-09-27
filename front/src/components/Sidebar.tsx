@@ -12,19 +12,38 @@ interface SidebarProps {}
 export const Sidebar: React.FC<SidebarProps> = ({}) => {
   return (
     <Flex
-      alignContent="center"
-      justifyItems="flex-start"
+      alignItems="center"
+      justifyContent="flex-start"
       h="100vh"
       maxW="150px"
       minW="131px"
-      display={["none", "none", "none", "block"]}
+      display={["none", "none", "none", "flex"]}
+      flexDir="column"
       bgColor="#0E0D0D"
     >
       <Logo />
-      <VStack borderBottom="1px solid #FFFF">
-        <IconButton aria-label="Options" icon={<BsThreeDotsVertical />} />
-        <IconButton aria-label="Leaderboards" icon={<AiOutlineTrophy />} />
-        <IconButton aria-label="Dashboard" icon={<IoGridOutline />} />
+      <VStack
+        borderBottom="1px solid #FFFF"
+        color="white"
+        h="40%"
+        justifyContent="space-around"
+        fontSize="5xl"
+      >
+        <IconButton
+          aria-label="Options"
+          icon={<BsThreeDotsVertical size="70px" />}
+          backgroundColor="transparent"
+        />
+        <IconButton
+          aria-label="Leaderboards"
+          bgColor="transparent"
+          icon={<AiOutlineTrophy size="70px" />}
+        />
+        <IconButton
+          aria-label="Dashboard"
+          bgColor="transparent"
+          icon={<IoGridOutline size="70px" />}
+        />
       </VStack>
       <VStack alignItems="center" justifyContent="center">
         <FontAwesomeIcon

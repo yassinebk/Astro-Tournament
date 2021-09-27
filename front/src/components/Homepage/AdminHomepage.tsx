@@ -1,4 +1,13 @@
-import { Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { IconType } from "@react-icons/all-files";
 import { AiOutlineMessage } from "@react-icons/all-files/ai/AiOutlineMessage";
 import { AiOutlineQuestion } from "@react-icons/all-files/ai/AiOutlineQuestion";
@@ -8,6 +17,7 @@ import { RiUser3Line } from "@react-icons/all-files/ri/RiUser3Line";
 import NextLink from "next/link";
 import React from "react";
 import { replaceRouterLastPath } from "../../utils/routerNav";
+import { Sidebar } from "../Sidebar";
 
 interface AdminHomepageCardProps {
   IconSrc: IconType;
@@ -52,49 +62,62 @@ const AdminHomePageCardsDashboard: React.FC<AdminHomepageCardProps> = ({
 };
 export const AdminHomepage: React.FC<AdminHomepageProps> = ({}) => {
   return (
-    <Flex w="100vw" flexDir="column" paddingX="8%" paddingY="10%">
-      <HStack>
-        <IoGridOutline
-          size="xl"
-          fontSize={2}
-          style={{ color: "white", width: "30px", height: "30px" }}
-        />
-        <Heading fontSize="3xl" color="#83CCD3">
-          Dashboard{" "}
-        </Heading>
-      </HStack>
+    <>
+      <Grid templateColumns="repeat(12,1fr)">
+        <GridItem colSpan={1}>
+          <Sidebar />
+        </GridItem>
+      </Grid>
+      <Flex
+        w="100vw"
+        flexDir="column"
+        paddingX="8%"
+        paddingY="10%"
+        display={["block", "block", "block", "none"]}
+      >
+        <HStack>
+          <IoGridOutline
+            size="xl"
+            fontSize={2}
+            style={{ color: "white", width: "30px", height: "30px" }}
+          />
+          <Heading fontSize="3xl" color="#83CCD3">
+            Dashboard{" "}
+          </Heading>
+        </HStack>
 
-      <VStack spacing={8} marginTop={12}>
-        <AdminHomePageCardsDashboard
-          link={replaceRouterLastPath("dashboard", "admin/levelEditor")}
-          text="Edit Levels"
-          IconSrc={AiOutlineStar}
-          label="edit levels"
-          variant="outline"
-        />
-        <AdminHomePageCardsDashboard
-          link={replaceRouterLastPath("dashboard", "admin/questionsEditor")}
-          text="Edit Queestions"
-          IconSrc={AiOutlineQuestion}
-          label="edit questions"
-          variant="outline"
-        />
-        <AdminHomePageCardsDashboard
-          link={replaceRouterLastPath("dashboard", "admin/usersList")}
-          text="List of Users"
-          IconSrc={RiUser3Line}
-          label="list of Users"
-          variant="outline"
-        />
-        <AdminHomePageCardsDashboard
-          link="/"
-          text="List of Users"
-          IconSrc={AiOutlineMessage}
-          label="Send a "
-          variant="solid"
-        />
-      </VStack>
-    </Flex>
+        <VStack spacing={8} marginTop={12}>
+          <AdminHomePageCardsDashboard
+            link={replaceRouterLastPath("dashboard", "admin/levelEditor")}
+            text="Edit Levels"
+            IconSrc={AiOutlineStar}
+            label="edit levels"
+            variant="outline"
+          />
+          <AdminHomePageCardsDashboard
+            link={replaceRouterLastPath("dashboard", "admin/questionsEditor")}
+            text="Edit Queestions"
+            IconSrc={AiOutlineQuestion}
+            label="edit questions"
+            variant="outline"
+          />
+          <AdminHomePageCardsDashboard
+            link={replaceRouterLastPath("dashboard", "admin/usersList")}
+            text="List of Users"
+            IconSrc={RiUser3Line}
+            label="list of Users"
+            variant="outline"
+          />
+          <AdminHomePageCardsDashboard
+            link="/"
+            text="List of Users"
+            IconSrc={AiOutlineMessage}
+            label="Send a "
+            variant="solid"
+          />
+        </VStack>
+      </Flex>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import {
   Arg,
   Ctx,
   Field,
+  ID,
   InputType,
   Int,
   Mutation,
@@ -112,7 +113,7 @@ class QuestionsResolver {
   @UseMiddleware(isAuth)
   @UseMiddleware(isAdmin)
   async deleteQuestion(
-    @Arg("questionId") questionId: string
+    @Arg("questionId", () => ID) questionId: string
   ): Promise<BooleanResponse> {
     const question = await QuestionModel.findById(questionId);
     if (!question) {
