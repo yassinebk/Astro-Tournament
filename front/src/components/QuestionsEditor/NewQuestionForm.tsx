@@ -18,7 +18,7 @@ import { Question_Type, useAddQuestionMutation } from "../../generated/graphql";
 import Toast from "../ErrorPopup";
 import FullPageModal from "../FullPageModal";
 import InputField from "../InputField";
-import { SetFormQuestionTypeView } from "../LevelEditor/SetFormQuestionTypeView";
+import { SetFormQuestionTypeView } from "./SetFormQuestionTypeView";
 interface NewQueestionFormProps {
   onClose: () => void;
   isOpen: boolean;
@@ -65,11 +65,12 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
           answer: "",
           question: "",
           points: 100,
-          questionType: "ANSWER",
+          questionType: questionViewType,
           choices: [],
         }}
         validateOnChange={true}
         onSubmit={async (values, { setErrors }) => {
+          console.log("values", values);
           await addQuestion({
             variables: {
               options: {
@@ -122,6 +123,7 @@ const NewQuestionForm: React.FC<NewQueestionFormProps> = ({
                       );
                       console.log(target.selectedIndex);
                       console.log("questionType", questionViewType);
+
                       setValues({
                         ...values,
                         questionType:

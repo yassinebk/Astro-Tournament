@@ -24,12 +24,12 @@ export const LevelInfoView: React.FC<LevelInfoViewProps> = ({
     <VStack
       spacing={4}
       minH="500px"
-      border="1px solid #9F9696"
       alignItems="center"
-      backdropFilter="blur(18px)"
       justifyContent="flex-start"
       paddingBottom="50px"
       borderRadius="15px"
+      backdropFilter="blur(18px)"
+      border="1px solid #9F9696"
     >
       <IconButton
         bgColor="transparent"

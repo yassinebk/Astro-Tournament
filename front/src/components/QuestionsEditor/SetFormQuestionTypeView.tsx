@@ -8,8 +8,9 @@ import {
   useRadio,
   useRadioGroup,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../InputField";
+import RadioCard from "./QuestionTrueAndFalseRadioCard";
 
 type ViewType = "TFANSWER" | "MULTIA" | "ANSWER";
 interface SetFormQuestionTypeViewProps {
@@ -33,36 +34,6 @@ interface SetFormQuestionTypeViewProps {
   inputHeight: string | string[];
 }
 
-function RadioCard(props) {
-  const { getInputProps, getCheckboxProps } = useRadio(props);
-
-  const input = getInputProps();
-  const checkbox = getCheckboxProps();
-  return (
-    <Box as="label">
-      <input {...input} />
-      <Box
-        {...checkbox}
-        cursor="pointer"
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="md"
-        _checked={{
-          bg: props.true ? "green.600" : "red.600",
-          color: "white",
-          borderColor: "gray.600",
-        }}
-        _focus={{
-          boxShadow: "outline",
-        }}
-        px={5}
-        py={3}
-      >
-        {props.children}
-      </Box>
-    </Box>
-  );
-}
 const isViewType = (arg: string): arg is ViewType => {
   if (typeof arg !== "string") return false;
   if (arg === "TFANSWER" || arg === "MULTIA" || arg === "ANSWER") return true;
@@ -72,16 +43,20 @@ export const SetFormQuestionTypeView: React.FC<SetFormQuestionTypeViewProps> =
     const onChangeTrueAndFalse = (value) => {
       setValues({ ...values, answer: value });
     };
-
+    console.log(viewType);
     const { getRootProps, getRadioProps } = useRadioGroup({
       name: "True-False",
       defaultValue: "True",
       onChange: onChangeTrueAndFalse,
     });
-    const [choices, setChoicesList] = useState([]);
+    const [choices, setChoicesList] = useState<String[]>([]);
     const [currentNewMCValue, setCurrentNewMCValue] = useState(""); //MC = multiple Choices
     const True = getRadioProps({ value: "true" });
     const False = getRadioProps({ value: "false" });
+
+    useEffect(() => {
+      setValues({ ...values, choices: choices });
+    }, [choices]);
     if (!isViewType(viewType)) {
       return null;
     }
@@ -142,13 +117,13 @@ export const SetFormQuestionTypeView: React.FC<SetFormQuestionTypeViewProps> =
                   value={currentNewMCValue}
                 />
                 <IconButton
-                  onClick={() => {
+                  onClick={async () => {
                     if (currentNewMCValue.length === 0) {
+                      console.log("here");
                       /* set Error or shake input*/
                     } else {
+                      console.log(currentNewMCValue);
                       setChoicesList(choices.concat(currentNewMCValue));
-                      console.log("choices", choices);
-                      setValues({ ...values, choices: choices });
                       setCurrentNewMCValue("");
                     }
                   }}
@@ -160,7 +135,7 @@ export const SetFormQuestionTypeView: React.FC<SetFormQuestionTypeViewProps> =
               </HStack>
 
               <Wrap w="full" marginTop="24px" maxW="80vw">
-                {choices.map((c,index) => {
+                {choices.map((c, index) => {
                   return (
                     <Tag
                       key={index}
