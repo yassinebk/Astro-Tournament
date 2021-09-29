@@ -68,7 +68,7 @@ const QuestionInfoView: React.FC<QuestionInfoViewProps> = ({
       variables: {
         newInfos: {
           answer: answerInput,
-          choices: choices,
+          choices,
           points: questionNewPoints,
         },
         questionId: question._id,
@@ -120,12 +120,10 @@ const QuestionInfoView: React.FC<QuestionInfoViewProps> = ({
   return (
     <VStack
       spacing={12}
-      borderRadius="15px"
-      backdropFilter="blur(18px)"
-      border="1px solid #9F9696"
       minW="328px"
       paddingY="24px"
       paddingX="16px"
+      fontSize="16px"
     >
       <IconButton
         bgColor="transparent"
@@ -138,7 +136,7 @@ const QuestionInfoView: React.FC<QuestionInfoViewProps> = ({
         fontSize="45px"
       />
       <VStack marginRight="auto" alignItems="flex-start">
-        <Heading fontSize="3xl" fontWeight="bold">
+        <Heading fontSize="2xl" fontWeight="bold">
           {" "}
           {question.question}
         </Heading>

@@ -4,7 +4,7 @@ import AuthLayout from "./Auth/AuthLayout";
 
 interface AuthLoadingScreenProps {}
 
-export const AuthLoadingScreen: React.FC<AuthLoadingScreenProps> = ({}) => {
+const AuthLoadingScreen: React.FC<AuthLoadingScreenProps> = ({}) => {
   return (
     <AuthLayout>
       <Flex justifyContent="center" alignItems="center">

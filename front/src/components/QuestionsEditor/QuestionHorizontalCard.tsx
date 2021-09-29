@@ -49,6 +49,7 @@ export const QuestionHorizontalCard: React.FC<QuestionHorizontalCardProps> = ({
         ownBackButton={true}
         isOpen={isOpenEditModal}
         onClose={onCloseEditModal}
+        blurred="true"
       >
         <QuestionInfoView question={question} onClose={onCloseEditModal} />
       </FullPageModal>

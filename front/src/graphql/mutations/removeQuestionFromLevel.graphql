@@ -1,4 +1,4 @@
-mutation Mutation($questionId: ID!, $levelId: ID!) {
+mutation removeQuestionFromLevel($questionId: ID!, $levelId: ID!) {
   removeQuestionFromLevel(questionId: $questionId, levelId: $levelId) {
     level {
       ...LevelInfo

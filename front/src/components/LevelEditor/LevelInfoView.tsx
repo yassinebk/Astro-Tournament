@@ -1,9 +1,18 @@
 import { IconButton } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { ChevronLeftIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
-import React from "react";
-import { Level } from "../../generated/graphql";
+import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
+import { BsPlus } from "@react-icons/all-files/bs/BsPlus";
+import React, { useState } from "react";
+import {
+  Level,
+  useAddQuestionToLevelMutation,
+  useAllQuestionsQuery,
+  useRemoveQuestionFromLevelMutation,
+} from "../../generated/graphql";
+import { handleGraphlQLErrors } from "../../utils/handleGraphlQLErrors";
+import AuthLoadingScreen from "../AuthLoadingScreen";
 import LevelQuestionHorizontalCard from "./LevelQuestionHorizontalCard";
 
 interface LevelInfoViewProps {
@@ -15,11 +24,60 @@ export const LevelInfoView: React.FC<LevelInfoViewProps> = ({
   level,
   onClose,
 }) => {
+  const [removeQuestionFromLevel, { loading: removeQuestionFromLevelLoading }] =
+    useRemoveQuestionFromLevelMutation({
+      onError: handleGraphlQLErrors,
+      refetchQueries: ["allLevel"],
+    });
   const {
     onOpen: onOpenDeletePopup,
     onClose: onCloseDeletePopup,
     isOpen: isOpenDeletePopup,
   } = useDisclosure();
+
+  const [questionsSectionView, setQuestionsSectionViewType] = useState(true);
+  const switchBack = () => {
+    setQuestionsSectionViewType(!questionsSectionView);
+  };
+
+  const { data, loading } = useAllQuestionsQuery();
+  const AddQuestionToLevel = () => {
+    const [addQuestionToLevel, { loading: addQuestionToLevelLoading }] =
+      useAddQuestionToLevelMutation({
+        onError: handleGraphlQLErrors,
+        refetchQueries: ["allLevel"],
+      });
+
+    if (loading) {
+      return <AuthLoadingScreen />;
+    }
+    const questionsToAdd = data.allQuestions.filter(
+      (q) => !level.Questions.includes(q)
+    );
+    return (
+      <VStack marginTop="22px">
+        <Button
+          color="black"
+          fontSize="20px"
+          onClick={switchBack}
+          bgColor="teal.300"
+          marginRight="auto"
+        >
+          Go back
+        </Button>
+        {/*questions that aren't in the level*/}
+        {questionsToAdd.map((q) => (
+          <LevelQuestionHorizontalCard
+            switchBack={switchBack}
+            question={q}
+            level={level}
+            addQuestionToLevel={addQuestionToLevel}
+          />
+        ))}
+      </VStack>
+    );
+  };
+
   return (
     <VStack
       spacing={4}
@@ -28,8 +86,6 @@ export const LevelInfoView: React.FC<LevelInfoViewProps> = ({
       justifyContent="flex-start"
       paddingBottom="50px"
       borderRadius="15px"
-      backdropFilter="blur(18px)"
-      border="1px solid #9F9696"
     >
       <IconButton
         bgColor="transparent"
@@ -68,13 +124,38 @@ export const LevelInfoView: React.FC<LevelInfoViewProps> = ({
           size="lg"
         />
       </HStack>
-      <VStack>
-        <Heading fontSize="xs" fontWeight="hairline" color="white">
-          Level Questions
-        </Heading>
-        {level.Questions.map((q) => (
-          <LevelQuestionHorizontalCard question={q} />
-        ))}
+      <VStack w="80%" h="full" spacing={6}>
+        {questionsSectionView ? (
+          <>
+            <Heading fontSize="xs" fontWeight="hairline" color="white">
+              Level Questions
+            </Heading>
+            <VStack marginBottom={4} spacing={4} minH="370px">
+              {level.Questions.map((q) => (
+                <LevelQuestionHorizontalCard
+                  question={q}
+                  level={level}
+                  removeQuestionFromLevel={removeQuestionFromLevel}
+                />
+              ))}
+            </VStack>
+
+            <IconButton
+              onClick={switchBack}
+              colorScheme="teal"
+              width="full"
+              aria-label="add a question to the level"
+              icon={
+                <BsPlus
+                  size="30px"
+                  style={{ backgroundColor: "transparent" }}
+                />
+              }
+            />
+          </>
+        ) : (
+          <AddQuestionToLevel />
+        )}
       </VStack>
     </VStack>
   );

@@ -25,14 +25,11 @@ const Countdown: React.FC<CountdownProps> = ({}) => {
   const [timeLeftForEvent, setTimeLeft] = useState<any>(0);
 
   const timePassing = async () => {
-    setTimeout(() => {
+    await setTimeout(() => {
       setTimeLeft(calculateTimeLeft({ day: 13, month: 11 }));
     }, 1000);
   };
 
-  useEffect(() => {
-    timePassing();
-  });
 
   return (
     <VStack

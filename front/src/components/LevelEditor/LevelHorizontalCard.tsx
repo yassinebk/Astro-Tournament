@@ -31,6 +31,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
   return (
     <>
       <FullPageModal
+        blurred={true}
         ownBackButton={true}
         isOpen={isOpenEditModal}
         onClose={onCloseEditModal}
@@ -81,7 +82,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
             {level.number + "  "}
           </span>
         </VStack>
-        <HStack justifyContent="space-evenly" w="40%">
+        <HStack justifyContent="space-evenly" w="40%" spacing={4}>
           <IconButton
             bgColor="#7FD8D8"
             aria-label="edit level"
@@ -92,13 +93,12 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
             fontSize="25px"
           />
           <IconButton
-            boxShadow=" 4px 4px 8px rgba(81, 78, 128, 0.67)"
-            bgColor="#F07B7B"
+            bgColor="transparent"
             aria-label="delete level"
             color="white"
             fontSize="20px"
             fontWeight="light"
-            icon={<DeleteIcon />}
+            icon={<DeleteIcon color="#F07B7B" />}
             onClick={() => onOpenDeletePopup()}
             size="lg"
           />

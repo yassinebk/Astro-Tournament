@@ -190,11 +190,12 @@ class LevelResolver {
       return setError("404NOTFOUND", "Level Not found");
     }
 
-    const questionsId = level.Questions!.map((q) => (q as Questions)._id);
+    const questionsId = level.Questions.map((q: any) => q.toJSON());
     const question = await QuestionModel.findById(questionId);
     if (!question) {
       return setError("404NOTFOUND", "Question Not found");
     }
+    console.log("questionsId", questionId);
     if (!questionsId.includes(questionId)) {
       return setError(
         "IllegalActionError",
@@ -202,7 +203,12 @@ class LevelResolver {
       );
     }
 
-    level.Questions = level.Questions.filter((q) => q !== questionId);
+    level.Questions = questionsId.filter((q: any) => {
+      console.log("this q", q);
+      console.log("qId", questionId);
+      return q !== questionId;
+    });
+    console.log(level.Questions);
     await level.save();
     await level.populate("Questions");
     return { level };

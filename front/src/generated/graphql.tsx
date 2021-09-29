@@ -405,13 +405,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: Maybe<{ __typename?: 'User', username: string }>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
-export type MutationMutationVariables = Exact<{
+export type RemoveQuestionFromLevelMutationVariables = Exact<{
   questionId: Scalars['ID'];
   levelId: Scalars['ID'];
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', removeQuestionFromLevel: { __typename?: 'CrudLevelResponse', level?: Maybe<{ __typename?: 'Level', _id: string, name: string, number?: Maybe<number>, createdAt?: Maybe<any>, updatedAt?: Maybe<any>, Questions: Array<{ __typename?: 'Questions', question: string, _id: string, questionType: Question_Type, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number>, createdAt: any, updatedAt: any }> }>, error?: Maybe<{ __typename?: 'OperationError', type: string, message: string }> } };
+export type RemoveQuestionFromLevelMutation = { __typename?: 'Mutation', removeQuestionFromLevel: { __typename?: 'CrudLevelResponse', level?: Maybe<{ __typename?: 'Level', _id: string, name: string, number?: Maybe<number>, createdAt?: Maybe<any>, updatedAt?: Maybe<any>, Questions: Array<{ __typename?: 'Questions', question: string, _id: string, questionType: Question_Type, answer: string, choices?: Maybe<Array<string>>, points?: Maybe<number>, orderNumber?: Maybe<number>, createdAt: any, updatedAt: any }> }>, error?: Maybe<{ __typename?: 'OperationError', type: string, message: string }> } };
 
 export type SetLevelMutationVariables = Exact<{
   levelId: Scalars['String'];
@@ -950,8 +950,8 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const MutationDocument = gql`
-    mutation Mutation($questionId: ID!, $levelId: ID!) {
+export const RemoveQuestionFromLevelDocument = gql`
+    mutation removeQuestionFromLevel($questionId: ID!, $levelId: ID!) {
   removeQuestionFromLevel(questionId: $questionId, levelId: $levelId) {
     level {
       ...LevelInfo
@@ -963,33 +963,33 @@ export const MutationDocument = gql`
 }
     ${LevelInfoFragmentDoc}
 ${OperationErrorFragmentDoc}`;
-export type MutationMutationFn = Apollo.MutationFunction<MutationMutation, MutationMutationVariables>;
+export type RemoveQuestionFromLevelMutationFn = Apollo.MutationFunction<RemoveQuestionFromLevelMutation, RemoveQuestionFromLevelMutationVariables>;
 
 /**
- * __useMutationMutation__
+ * __useRemoveQuestionFromLevelMutation__
  *
- * To run a mutation, you first call `useMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useRemoveQuestionFromLevelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveQuestionFromLevelMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [mutationMutation, { data, loading, error }] = useMutationMutation({
+ * const [removeQuestionFromLevelMutation, { data, loading, error }] = useRemoveQuestionFromLevelMutation({
  *   variables: {
  *      questionId: // value for 'questionId'
  *      levelId: // value for 'levelId'
  *   },
  * });
  */
-export function useMutationMutation(baseOptions?: Apollo.MutationHookOptions<MutationMutation, MutationMutationVariables>) {
+export function useRemoveQuestionFromLevelMutation(baseOptions?: Apollo.MutationHookOptions<RemoveQuestionFromLevelMutation, RemoveQuestionFromLevelMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MutationMutation, MutationMutationVariables>(MutationDocument, options);
+        return Apollo.useMutation<RemoveQuestionFromLevelMutation, RemoveQuestionFromLevelMutationVariables>(RemoveQuestionFromLevelDocument, options);
       }
-export type MutationMutationHookResult = ReturnType<typeof useMutationMutation>;
-export type MutationMutationResult = Apollo.MutationResult<MutationMutation>;
-export type MutationMutationOptions = Apollo.BaseMutationOptions<MutationMutation, MutationMutationVariables>;
+export type RemoveQuestionFromLevelMutationHookResult = ReturnType<typeof useRemoveQuestionFromLevelMutation>;
+export type RemoveQuestionFromLevelMutationResult = Apollo.MutationResult<RemoveQuestionFromLevelMutation>;
+export type RemoveQuestionFromLevelMutationOptions = Apollo.BaseMutationOptions<RemoveQuestionFromLevelMutation, RemoveQuestionFromLevelMutationVariables>;
 export const SetLevelDocument = gql`
     mutation setLevel($levelId: String!, $userId: String!) {
   setLevel(levelId: $levelId, userId: $userId) {
