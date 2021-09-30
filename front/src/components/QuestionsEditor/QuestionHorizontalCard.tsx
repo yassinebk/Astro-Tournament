@@ -1,20 +1,13 @@
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { useApolloClient } from "@apollo/client";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
-  Text,
-  useDisclosure,
-  HStack,
-  VStack,
-  Heading,
-  useToken,
-  IconButton,
+  Heading, HStack, IconButton, Text,
+  useDisclosure, useToken, VStack
 } from "@chakra-ui/react";
-import Toast from "../ErrorPopup";
 import React from "react";
 import { Questions } from "../../generated/graphql";
 import FullPageModal from "../FullPageModal";
 import ConfirmDialog from "../LevelEditor/ConfirmDialog";
-import { storeValueIsStoreObject } from "@apollo/client/cache/inmemory/helpers";
-import { useApolloClient } from "@apollo/client";
 import QuestionInfoView from "./QuestionInfoView";
 
 interface QuestionHorizontalCardProps {}
@@ -49,7 +42,6 @@ export const QuestionHorizontalCard: React.FC<QuestionHorizontalCardProps> = ({
         ownBackButton={true}
         isOpen={isOpenEditModal}
         onClose={onCloseEditModal}
-        blurred="true"
       >
         <QuestionInfoView question={question} onClose={onCloseEditModal} />
       </FullPageModal>

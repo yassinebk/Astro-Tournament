@@ -62,14 +62,20 @@ class UserBasicInfo {
   @Field()
   score: number;
 
+  @Field(() => ID)
+  _id: string;
+
   @Field()
   username: string;
 
   @Field(() => String, { nullable: true })
   levelNumber?: string | null;
 
-  @Field()
-  createdAt: Date;
+  @Field({ nullable: true })
+  createdAt?: Date;
+
+  @Field({ nullable: true })
+  role: Role;
 }
 
 @Resolver(User)
@@ -89,20 +95,23 @@ export class UserResolver {
   @Query(() => [UserBasicInfo], { defaultValue: [] })
   async allUsers(): Promise<UserBasicInfo[]> {
     const allUsers = await UserModel.find({}, { password: 0 });
-    // console.log("allUsers", allUsers);
+    console.log("allUsers", allUsers);
 
     if (!allUsers) return [];
-    const returnedUserList = allUsers.map((u) => {
+    const returnedUserList = allUsers.map((currentUser) => {
       const user = {
-        username: u.username,
-        score: u.score,
-        createdAt: u.createdAt,
-        levelNumber: u.level as string,
+        username: currentUser.username,
+        score: currentUser.score,
+        createdAt: currentUser.createdAt,
+        levelNumber: currentUser.level as string,
+        _id: currentUser._id,
+        role: currentUser.role,
       };
 
       return user;
     });
-    // console.log("returnedUserList", returnedUserList);
+
+    console.log("returnedUserList", returnedUserList);
     return returnedUserList;
   }
 
@@ -122,6 +131,7 @@ export class UserResolver {
         ...options,
         password: hashedPassword,
         role: "PLAYER",
+        createdAt: Date.now(),
       });
     } catch (error) {
       if (error.code === 11000) {

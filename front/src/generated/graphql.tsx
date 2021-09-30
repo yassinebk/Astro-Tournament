@@ -267,8 +267,10 @@ export type User = {
 
 export type UserBasicInfo = {
   __typename?: 'UserBasicInfo';
-  createdAt: Scalars['DateTime'];
+  _id: Scalars['ID'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   levelNumber?: Maybe<Scalars['String']>;
+  role?: Maybe<Scalars['String']>;
   score: Scalars['Float'];
   username: Scalars['String'];
 };
@@ -458,7 +460,7 @@ export type AllQuestionsQuery = { __typename?: 'Query', allQuestions: Array<{ __
 export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllUsersQuery = { __typename?: 'Query', allUsers?: Maybe<Array<{ __typename?: 'UserBasicInfo', createdAt: any, score: number, username: string, levelNumber?: Maybe<string> }>> };
+export type AllUsersQuery = { __typename?: 'Query', allUsers?: Maybe<Array<{ __typename?: 'UserBasicInfo', createdAt?: Maybe<any>, score: number, username: string, _id: string, role?: Maybe<string>, levelNumber?: Maybe<string> }>> };
 
 export type FindQuestionQueryVariables = Exact<{
   questionId: Scalars['String'];
@@ -1219,6 +1221,8 @@ export const AllUsersDocument = gql`
     createdAt
     score
     username
+    _id
+    role
     levelNumber
   }
 }

@@ -17,7 +17,6 @@ import { RiUser3Line } from "@react-icons/all-files/ri/RiUser3Line";
 import NextLink from "next/link";
 import React from "react";
 import { replaceRouterLastPath } from "../../utils/routerNav";
-import { Sidebar } from "../Sidebar";
 
 interface AdminHomepageCardProps {
   IconSrc: IconType;
@@ -63,11 +62,6 @@ const AdminHomePageCardsDashboard: React.FC<AdminHomepageCardProps> = ({
 export const AdminHomepage: React.FC<AdminHomepageProps> = ({}) => {
   return (
     <>
-      <Grid templateColumns="repeat(12,1fr)">
-        <GridItem colSpan={1}>
-          <Sidebar />
-        </GridItem>
-      </Grid>
       <Flex
         w="100vw"
         flexDir="column"

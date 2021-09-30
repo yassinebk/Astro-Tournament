@@ -6,6 +6,7 @@ import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
 import { AiOutlineTrophy } from "@react-icons/all-files/ai/AiOutlineTrophy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BsThreeDotsVertical } from "@react-icons/all-files/bs/BsThreeDotsVertical";
+import { FaUserAstronaut } from "@react-icons/all-files/fa/FaUserAstronaut";
 
 interface SidebarProps {}
 
@@ -46,11 +47,8 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
         />
       </VStack>
       <VStack alignItems="center" justifyContent="center">
-        <FontAwesomeIcon
-          icon={["fal", "user-astronaut"]}
-          color="#b2f8ff"
-          size="xs"
-        />
+        <FaUserAstronaut />
+
         <Box>
           <Heading>_Username_</Heading>
           <Heading>Admin</Heading>

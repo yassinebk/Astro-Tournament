@@ -3,6 +3,8 @@ query allUsers {
     createdAt
     score
     username
+    _id
+    role
     levelNumber
   }
 }

@@ -7,6 +7,8 @@ const allUsersQuery = gql`
       score
       username
       levelNumber
+      _id
+      role
     }
   }
 `;
