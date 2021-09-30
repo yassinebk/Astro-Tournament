@@ -1,17 +1,17 @@
-import { Button, IconButton } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
-import { Box, Flex, VStack } from "@chakra-ui/layout";
+import { Box, Button, Flex, IconButton, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import AuthLayout from "../../../components/Auth/AuthLayout";
-import AuthLoadingScreen from "../../../components/AuthLoadingScreen";
-import { LevelHorizontalCard } from "../../../components/LevelEditor/LevelHorizontalCard";
-import NewLevelForm from "../../../components/LevelEditor/NewLevelForm";
+import { AuthLayout, AuthLoadingScreen } from "../../../components/Auth";
+import {
+  LevelHorizontalCard,
+  NewLevelForm
+} from "../../../components/LevelEditor";
 import {
   Level,
   useAllLevelQuery,
-  useDeleteLevelMutation,
+  useDeleteLevelMutation
 } from "../../../generated/graphql";
 
 interface levelEditorProps {}

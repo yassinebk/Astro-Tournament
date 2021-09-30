@@ -1,7 +1,6 @@
 import { VStack } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
-import AuthLayout from "../../../components/Auth/AuthLayout";
-import AuthLoadingScreen from "../../../components/AuthLoadingScreen";
+import { AuthLayout,AuthLoadingScreen } from "../../../components/Auth";
 import SwitchUsersTypeButton from "../../../components/UserList/SwitchUsersTypeButton";
 import UserCard from "../../../components/UserList/UserCard";
 import {

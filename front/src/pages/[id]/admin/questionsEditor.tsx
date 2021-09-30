@@ -8,11 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import AuthLayout from "../../../components/Auth/AuthLayout";
-import AuthLoadingScreen from "../../../components/AuthLoadingScreen";
+import { AuthLayout, AuthLoadingScreen } from "../../../components/Auth";
 import Toast from "../../../components/ErrorPopup";
-import NewQuestionForm from "../../../components/QuestionsEditor/NewQuestionForm";
-import QuestionHorizontalCard from "../../../components/QuestionsEditor/QuestionHorizontalCard";
+import {
+  NewQuestionForm,
+  QuestionHorizontalCard,
+} from "../../../components/QuestionsEditor";
 import {
   useAllQuestionsQuery,
   useDeleteQuestionMutation,

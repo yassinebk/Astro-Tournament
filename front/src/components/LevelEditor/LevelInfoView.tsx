@@ -12,7 +12,7 @@ import {
   useRemoveQuestionFromLevelMutation,
 } from "../../generated/graphql";
 import { handleGraphlQLErrors } from "../../utils/handleGraphlQLErrors";
-import AuthLoadingScreen from "../AuthLoadingScreen";
+import { AuthLoadingScreen } from "../Auth";
 import LevelQuestionHorizontalCard from "./LevelQuestionHorizontalCard";
 
 interface LevelInfoViewProps {

@@ -1,8 +1,8 @@
-import { HStack, VStack } from "@chakra-ui/layout";
-import { Heading, Button, Text, Img } from "@chakra-ui/react";
-import React from "react";
-import NextLink from "next/link";
+import { VStack } from "@chakra-ui/layout";
+import { Button, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import NextLink from "next/link";
+import React from "react";
 
 interface PlayerLastQuestionCardProps {
   question: string;

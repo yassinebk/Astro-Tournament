@@ -1,10 +1,8 @@
-import { Button } from "@chakra-ui/button";
-import { Box, Circle, Heading, HStack } from "@chakra-ui/layout";
-import React from "react";
+import { Box, Circle, Heading, HStack, Button } from "@chakra-ui/react";
 import { IoTelescopeSharp } from "@react-icons/all-files/io5/IoTelescopeSharp";
-import Icon from "@chakra-ui/icon";
-import NextLink from "next/link";
 import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
+import React from "react";
 
 interface CallForPlayProps {}
 

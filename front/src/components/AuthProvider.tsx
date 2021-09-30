@@ -4,7 +4,7 @@ import { useMeQuery, UserNoPassword } from "../generated/graphql";
 import AuthContext from "../utils/authContext";
 import withApollo from "../utils/createApolloClient";
 
-export function AuthProvider({ children }) {
+function AuthProvider({ children }) {
   const { data, loading } = useMeQuery();
   const [auth, setAuth] = useState<null | UserNoPassword>(null);
   const router = useRouter();
@@ -35,4 +35,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-export default withApollo({ ssr: false })(AuthProvider);
+export default (AuthProvider);

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import { IconButton } from "@chakra-ui/button";
 import { BsChevronBarUp } from "@react-icons/all-files/bs/BsChevronBarUp";
+import React, { useEffect, useState } from "react";
 
 interface ScrollToTopBtnProps {}
 
