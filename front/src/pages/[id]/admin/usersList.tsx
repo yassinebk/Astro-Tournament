@@ -1,6 +1,8 @@
 import { VStack } from "@chakra-ui/layout";
+import withApollo from "../../../utils/createApolloClient";
 import React, { useEffect, useState } from "react";
-import { AuthLayout,AuthLoadingScreen } from "../../../components/Auth";
+import AuthLayout from "../../../components/Auth/AuthLayout";
+import AuthLoadingScreen from "../../../components/Auth/AuthLoadingScreen";
 import SwitchUsersTypeButton from "../../../components/UserList/SwitchUsersTypeButton";
 import UserCard from "../../../components/UserList/UserCard";
 import {
@@ -20,12 +22,13 @@ export const UsersList: React.FC<usersListProps> = ({}) => {
     else if (currentType === "admin") setCurrentType("player");
     else {
       console.error("unknown type");
+      
     }
   };
   const [setUserRole, { error }] = useSetRoleMutation({
     notifyOnNetworkStatusChange: true,
     refetchQueries: ["allUsers"],
-    onError:handleGraphlQLErrors
+    onError: handleGraphlQLErrors,
   });
 
   useEffect(() => {
@@ -59,4 +62,4 @@ export const UsersList: React.FC<usersListProps> = ({}) => {
   );
 };
 
-export default UsersList;
+export default withApollo({ ssr: true })(UsersList);

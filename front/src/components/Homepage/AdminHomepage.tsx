@@ -1,4 +1,13 @@
-import { Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { IconType } from "@react-icons/all-files";
 import { AiOutlineMessage } from "@react-icons/all-files/ai/AiOutlineMessage";
 import { AiOutlineQuestion } from "@react-icons/all-files/ai/AiOutlineQuestion";
@@ -81,7 +90,7 @@ export const AdminHomepage: React.FC<AdminHomepageProps> = ({}) => {
           />
           <AdminHomePageCardsDashboard
             link={replaceRouterLastPath("dashboard", "admin/questionsEditor")}
-            text="Edit Questions"
+            text="Edit Queestions"
             IconSrc={AiOutlineQuestion}
             label="edit questions"
             variant="outline"

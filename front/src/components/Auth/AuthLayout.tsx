@@ -1,6 +1,8 @@
-import { Box, GridItem } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { useRouter } from "next/dist/client/router";
 import React, { useContext } from "react";
 import AuthContext from "../../utils/authContext";
+import withApollo from "../../utils/createApolloClient";
 import { AuthNavbar } from "../Navbar";
 import ScrollToTopBtn from "../ScrollToTopBtn";
 import { Sidebar } from "../Sidebar";

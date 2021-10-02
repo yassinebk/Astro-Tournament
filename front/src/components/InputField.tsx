@@ -2,10 +2,9 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  ComponentWithAs,
-  Textarea,
-  Input,
-} from "@chakra-ui/react";
+} from "@chakra-ui/form-control";
+import { Input } from "@chakra-ui/input";
+import { ComponentWithAs, Textarea } from "@chakra-ui/react";
 import { useField } from "formik";
 import React, { InputHTMLAttributes } from "react";
 
@@ -60,8 +59,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
         id={field.name}
         placeholder={props.placeholder}
         type={props.type}
-      />{" "}
-      {error ? (
+      /> {error ? (
         <FormErrorMessage
           color="red.200"
           h="30px"

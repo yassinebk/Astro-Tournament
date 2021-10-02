@@ -1,7 +1,8 @@
-import { Img } from "@chakra-ui/image";
+import Image from "next/image";
 import { Box } from "@chakra-ui/layout";
 import React from "react";
 import "../styles/Logo.module.css";
+import { Img } from "@chakra-ui/image";
 
 interface LogoProps {
   width?: number[] | string[];

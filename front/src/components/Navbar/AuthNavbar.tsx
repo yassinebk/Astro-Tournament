@@ -24,7 +24,6 @@ import { Role } from "../../generated/graphql";
 import Logo from "../Logo";
 import { NavbarIcon } from "./Icon";
 import NextLink from "next/link";
-import { replaceRouterLastPath } from "../../utils/routerNav";
 interface AuthNavbarProps {
   role: Role;
 }
@@ -43,23 +42,10 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
     if (role === "ADMIN")
       return (
         <>
+          <NavbarIcon label="Dashboard" Icon={IoGridOutline} />
+          <NavbarIcon label="Trophy" Icon={AiOutlineTrophy} />
+          <NavbarIcon label="Settings" Icon={VscSettingsGear} />
           <NavbarIcon
-            label="Dashboard"
-            link={"/"}
-            Icon={IoGridOutline}
-          />
-          <NavbarIcon
-            label="Trophy"
-            Icon={AiOutlineTrophy}
-            link={replaceRouterLastPath("dashboard", "leaderboards")}
-          />
-          <NavbarIcon
-            label="Settings"
-            Icon={VscSettingsGear}
-            link={replaceRouterLastPath("dashboard", "settings/")}
-          />
-          <NavbarIcon
-            functional
             label="Logout"
             color="#E07676"
             Icon={IoExitOutline}
@@ -69,29 +55,15 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       );
     return (
       <>
-        <NavbarIcon
-          link={replaceRouterLastPath("dashboard", "leaderboards")}
-          label="Trophy"
-          Icon={AiOutlineTrophy}
-        />
-        <NavbarIcon
-          label="Messages"
-          Icon={AiOutlineMessage}
-          link={replaceRouterLastPath("dashboard", "messages")}
-        />
+        <NavbarIcon label="Trophy" Icon={AiOutlineTrophy} />
+        <NavbarIcon label="Messages" Icon={AiOutlineMessage} />
         <NavbarIcon
           label="Social Media Facebook"
           color="facebook.900"
           Icon={FiFacebook}
-          link={replaceRouterLastPath("dashboard", "contact")}
         />
+        <NavbarIcon label="Settings" Icon={VscSettingsGear} />
         <NavbarIcon
-          label="Settings"
-          Icon={VscSettingsGear}
-          link={replaceRouterLastPath("dashboard", "settings")}
-        />
-        <NavbarIcon
-          functional={true}
           color="#D03636"
           label="Logout"
           Icon={IoExitOutline}

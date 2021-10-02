@@ -1,11 +1,12 @@
 import { IconButton } from "@chakra-ui/button";
 import { Box, Flex, Heading, VStack } from "@chakra-ui/layout";
-import { AiOutlineTrophy } from "@react-icons/all-files/ai/AiOutlineTrophy";
-import { BsThreeDotsVertical } from "@react-icons/all-files/bs/BsThreeDotsVertical";
-import { FaUserAstronaut } from "@react-icons/all-files/fa/FaUserAstronaut";
-import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
 import React from "react";
 import Logo from "./Logo";
+import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
+import { AiOutlineTrophy } from "@react-icons/all-files/ai/AiOutlineTrophy";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BsThreeDotsVertical } from "@react-icons/all-files/bs/BsThreeDotsVertical";
+import { FaUserAstronaut } from "@react-icons/all-files/fa/FaUserAstronaut";
 
 interface SidebarProps {}
 

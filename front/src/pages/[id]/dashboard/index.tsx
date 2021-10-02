@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { AuthLayout,AuthLoadingScreen } from "../../../components/Auth";
+import AuthLayout from "../../../components/Auth/AuthLayout";
+import AuthLoadingScreen from "../../../components/Auth/AuthLoadingScreen";
 import { AdminHomepage, PlayerHomepage } from "../../../components/Homepage";
 import AuthContext from "../../../utils/authContext";
 

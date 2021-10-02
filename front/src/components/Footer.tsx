@@ -3,7 +3,7 @@ import React from "react";
 
 interface FooterProps {}
 
-const Footer: React.FC<FooterProps> = ({}) => {
+export const Footer: React.FC<FooterProps> = ({}) => {
   return (
     <Flex
       flexDir={["column", "row", "row"]}
@@ -24,5 +24,3 @@ const Footer: React.FC<FooterProps> = ({}) => {
     </Flex>
   );
 };
-
-export default Footer;

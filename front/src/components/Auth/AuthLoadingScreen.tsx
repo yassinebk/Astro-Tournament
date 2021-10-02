@@ -1,6 +1,6 @@
 import { Spinner, Flex } from "@chakra-ui/react";
 import React from "react";
-import { AuthLayout } from "./AuthLayout";
+import AuthLayout from "./AuthLayout";
 
 interface AuthLoadingScreenProps {}
 
