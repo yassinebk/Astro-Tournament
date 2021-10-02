@@ -12,6 +12,7 @@ const breakpoints = createBreakpoints({
   md: "52em",
   lg: "64em",
   xl: "80em",
+  xxl: "92em",
 });
 
 const theme = extendTheme({

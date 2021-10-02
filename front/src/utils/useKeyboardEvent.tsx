@@ -19,6 +19,7 @@ export const useKeyPress = function (targetKey, callback) {
   React.useEffect(() => {
     window.addEventListener("keydown", downHandler);
     window.addEventListener("keyup", upHandler);
+    
 
     return () => {
       window.removeEventListener("keydown", downHandler);

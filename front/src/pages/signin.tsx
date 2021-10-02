@@ -14,7 +14,7 @@ import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React from "react";
 import * as Yup from "yup";
-import { Footer } from "../components/Footer";
+import Footer from "../components/Footer";
 import InputField from "../components/InputField";
 import { Container } from "../components/NoAuth/Container";
 import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
