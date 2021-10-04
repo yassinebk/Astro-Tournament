@@ -13,6 +13,7 @@ import {
   useAllLevelQuery,
   useDeleteLevelMutation,
 } from "../../../generated/graphql";
+import withApollo from "../../../utils/createApolloClient";
 
 interface levelEditorProps {}
 
@@ -87,4 +88,4 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
   );
 };
 
-export default levelEditor;
+export default withApollo({ ssr: false })(levelEditor);

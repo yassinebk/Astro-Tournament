@@ -32,12 +32,12 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const apolloClient = useApolloClient();
+  const router = useRouter();
   const logout = async () => {
     localStorage.removeItem("authUser");
     await apolloClient.resetStore();
     router.push("/");
   };
-  const router = useRouter();
   const DropDownContent = () => {
     if (role === "ADMIN")
       return (
@@ -87,7 +87,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       color="white"
       display={["flex", "flex", "flex", "none"]}
     >
-      <NextLink href="/">
+      <NextLink href={"/[id]"}>
         <Button
           bgColor="transparent"
           w="auto"

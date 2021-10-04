@@ -17,6 +17,7 @@ import {
   useAllQuestionsQuery,
   useDeleteQuestionMutation,
 } from "../../../generated/graphql";
+import withApollo from "../../../utils/createApolloClient";
 
 interface questionsEditorProps {}
 
@@ -99,4 +100,4 @@ export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
   );
 };
 
-export default questionsEditor;
+export default withApollo({ ssr: true })(questionsEditor);

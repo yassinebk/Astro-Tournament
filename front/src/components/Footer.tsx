@@ -24,3 +24,5 @@ export const Footer: React.FC<FooterProps> = ({}) => {
     </Flex>
   );
 };
+
+export default Footer;

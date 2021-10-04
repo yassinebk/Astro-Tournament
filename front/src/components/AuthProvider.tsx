@@ -2,7 +2,6 @@ import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import { useMeQuery, UserNoPassword } from "../generated/graphql";
 import AuthContext from "../utils/authContext";
-import withApollo from "../utils/createApolloClient";
 
 export function AuthProvider({ children }) {
   const { data, loading } = useMeQuery();
@@ -15,16 +14,14 @@ export function AuthProvider({ children }) {
         setAuth(data.me.user as UserNoPassword);
 
         if (router.asPath === "/" || router.asPath === "/signin")
-          router.push(`/${data.me.user._id}/dashboard`);
-        console.log(data);
+          router.push(`/${data.me.user._id}`);
       }
       // } else {
       //   setAuth(null);
       // }
     } else if (!data && loading) {
+      console.log("here", loading);
       setAuth(null);
-      console.log("here");
-      router.push("/");
     }
   }, [data, loading, router.asPath]);
 
@@ -34,5 +31,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-export default withApollo({ ssr: false })(AuthProvider);

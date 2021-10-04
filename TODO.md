@@ -1,13 +1,13 @@
 # Tasks
 
-- Test the question View functionality
-- Implements the default Editor Display (horizontal Cards)
+- Changes the min-height min-W in the infoDiv to be changeable with a default value
 
 ## Features
 
-- LevelForm : With all the features
 - Level Display : With all the features
 - Live Notification : Independent Notification Stream
+- Player Game View
+- Responsive Display for desktop
 
 ## Tests
 

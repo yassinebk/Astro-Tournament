@@ -1,21 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import AuthLayout from "../../../components/Auth/AuthLayout";
-import AuthLoadingScreen from "../../../components/Auth/AuthLoadingScreen";
-import { AdminHomepage, PlayerHomepage } from "../../../components/Homepage";
-import AuthContext from "../../../utils/authContext";
+import { AuthProvider } from "../../../components/AuthProvider";
+import DashboardBody from "../../../components/Homepage";
+import withApollo from "../../../utils/createApolloClient";
 
 interface indexProps {}
 
-export const index: React.FC<indexProps> = ({}) => {
-  const auth = useContext(AuthContext);
-  if (!auth) {
-    return <AuthLoadingScreen />;
-  }
+const index: React.FC<indexProps> = ({}) => {
   return (
-    <AuthLayout>
-      {auth.role === "ADMIN" ? <AdminHomepage /> : <PlayerHomepage />}
-    </AuthLayout>
+    <AuthProvider>
+      <AuthLayout>
+        <DashboardBody />
+      </AuthLayout>
+    </AuthProvider>
   );
 };
 
-export default index;
+export default withApollo({ ssr: true })(index);

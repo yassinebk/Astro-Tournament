@@ -1,4 +1,6 @@
 import { Flex, useColorMode, FlexProps } from "@chakra-ui/react";
+import React from "react";
+import { AuthProvider } from "../AuthProvider";
 import { NoAuthNavbar } from "../Navbar";
 
 export const Container = (props: FlexProps) => {
@@ -12,17 +14,19 @@ export const Container = (props: FlexProps) => {
 
   const color = { light: "black", dark: "white" };
   return (
-    <Flex
-      direction="column"
-      minH="100vh"
-      alignItems="center"
-      justifyContent="flex-start"
-      bg={bgColor[colorMode]}
-      color={color[colorMode]}
-      {...props}
-    >
-      <NoAuthNavbar />
-      {props.children}
-    </Flex>
+    <AuthProvider>
+      <Flex
+        direction="column"
+        minH="100vh"
+        alignItems="center"
+        justifyContent="flex-start"
+        bg={bgColor[colorMode]}
+        color={color[colorMode]}
+        {...props}
+      >
+        <NoAuthNavbar />
+        {props.children}
+      </Flex>
+    </AuthProvider>
   );
 };
