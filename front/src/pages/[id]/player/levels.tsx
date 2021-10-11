@@ -1,9 +1,11 @@
 import { Flex, Heading, VStack } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import React, { useEffect } from "react";
+import { AuthLoadingScreen } from "../../../components/Auth";
 import AuthLayout from "../../../components/Auth/AuthLayout";
 import { LevelsDisplay } from "../../../components/LevelsView";
-import { useAllLevelQuery } from "../../../generated/graphql";
+import ScrollToTopBtn from "../../../components/ScrollToTopBtn";
+import { Level, useAllLevelQuery } from "../../../generated/graphql";
 import withApollo from "../../../utils/createApolloClient";
 
 interface levelsProps {}
@@ -14,25 +16,11 @@ export const Levels: React.FC<levelsProps> = ({}) => {
     console.log(data);
   }, [data]);
   if (!data) {
-    return (
-      <AuthLayout>
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          minW="100%"
-          minH="500px"
-          h="100%"
-          marginTop="20px"
-        >
-          {" "}
-          <Spinner margin="auto" color="white" size="xl" />
-        </Flex>
-      </AuthLayout>
-    );
+    return <AuthLoadingScreen />;
   }
   return (
     <AuthLayout>
-      <VStack marginTop="30px">
+      <VStack marginTop="30px" spacing={8} paddingY={16} position="relative">
         <Heading color="white">
           Current Points{" "}
           <span style={{ color: "#0BD3FF" }}>{50000 /*playerpoints*/}</span>
@@ -43,4 +31,4 @@ export const Levels: React.FC<levelsProps> = ({}) => {
   );
 };
 
-export default withApollo({ ssr: true })(Levels);
+export default withApollo({ ssr: false })(Levels);

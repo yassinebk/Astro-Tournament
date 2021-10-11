@@ -8,6 +8,8 @@
 - Live Notification : Independent Notification Stream
 - Player Game View
 - Responsive Display for desktop
+- Guards for navigation
+- Reorganize routes architecture
 
 ## Tests
 

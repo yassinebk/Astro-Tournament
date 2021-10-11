@@ -1,4 +1,4 @@
-import { Flex, useColorMode, FlexProps } from "@chakra-ui/react";
+import { Flex, useColorMode, FlexProps, Box } from "@chakra-ui/react";
 import React from "react";
 import { AuthProvider } from "../AuthProvider";
 import { NoAuthNavbar } from "../Navbar";
@@ -16,16 +16,22 @@ export const Container = (props: FlexProps) => {
   return (
     <AuthProvider>
       <Flex
-        direction="column"
-        minH="100vh"
+        flexDir="column"
         alignItems="center"
-        justifyContent="flex-start"
+        w="100vw"
         bg={bgColor[colorMode]}
         color={color[colorMode]}
-        {...props}
       >
-        <NoAuthNavbar />
-        {props.children}
+        <Flex
+          direction="column"
+          minH="100vh"
+          alignItems="center"
+          maxW="1200px"
+          {...props}
+        >
+          <NoAuthNavbar />
+          {props.children}
+        </Flex>
       </Flex>
     </AuthProvider>
   );

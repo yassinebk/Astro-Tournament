@@ -48,7 +48,7 @@ const Signup: React.FC<signupProps> = ({}) => {
         h="auto"
         bgColor="blackAlpha.900"
         borderRadius="24px"
-        w="90vw"
+        w="100%"
         maxH="1000px"
       >
         <Flex

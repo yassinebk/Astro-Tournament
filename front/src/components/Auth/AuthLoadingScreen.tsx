@@ -9,10 +9,14 @@ interface AuthLoadingScreenProps {
 const AuthLoadingScreen: React.FC<AuthLoadingScreenProps> = ({
   isNavbar = true,
 }) => {
-  if (isNavbar) return <AuthLayout></AuthLayout>;
-  else
+  const SpinnerView = () => {
     return (
-      <Flex justifyContent="center" alignItems="center" paddingTop="40%">
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        gridColumnStart={2}
+        gridColumnEnd={12}
+      >
         <Spinner
           thickness="4px"
           speed="0.65s"
@@ -22,6 +26,14 @@ const AuthLoadingScreen: React.FC<AuthLoadingScreenProps> = ({
         />
       </Flex>
     );
+  };
+  if (isNavbar)
+    return (
+      <AuthLayout>
+        <SpinnerView />
+      </AuthLayout>
+    );
+  else return <SpinnerView />;
 };
 
 export default AuthLoadingScreen;

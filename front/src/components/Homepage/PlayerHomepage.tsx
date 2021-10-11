@@ -9,7 +9,7 @@ interface PlayerHomepageProps {}
 
 const PlayerHomepage: React.FC<PlayerHomepageProps> = ({}) => {
   return (
-    <VStack spacing={4}>
+    <VStack spacing={4} padding="22px">
       <PlayerInfoCard
         rank={0}
         username={"The great player"}

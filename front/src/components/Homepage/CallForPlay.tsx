@@ -1,10 +1,9 @@
 import { Button } from "@chakra-ui/button";
 import { Box, Circle, Heading, HStack } from "@chakra-ui/layout";
-import React from "react";
 import { IoTelescopeSharp } from "@react-icons/all-files/io5/IoTelescopeSharp";
-import Icon from "@chakra-ui/icon";
-import NextLink from "next/link";
 import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
+import React from "react";
 
 interface CallForPlayProps {}
 
@@ -17,6 +16,9 @@ export const CallForPlay: React.FC<CallForPlayProps> = ({}) => {
       justifyContent="space-evenly"
       alignContent="flex-end"
       paddingRight="20px"
+      h="300px"
+      minH="110px"
+      paddingY="14px"
     >
       <Box position="relative" maxW="275px">
         <Box
@@ -27,12 +29,12 @@ export const CallForPlay: React.FC<CallForPlayProps> = ({}) => {
           fontSize="18px"
           minW="187px"
         >
-          <Heading>
+          <Heading h="fit-content">
             What are you waiting for press Tap{" "}
             <span style={{ color: "#3CD1DF" }}>Explore !</span>
           </Heading>
         </Box>
-        <Box position="absolute" right={0} bottom={8}>
+        <Box position="absolute" right={0} bottom={8} w="auto" h="auto">
           <svg
             width="118"
             height="16"

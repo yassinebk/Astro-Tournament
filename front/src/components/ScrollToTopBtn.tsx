@@ -5,23 +5,33 @@ import { BsChevronBarUp } from "@react-icons/all-files/bs/BsChevronBarUp";
 interface ScrollToTopBtnProps {}
 
 export const ScrollToTopBtn: React.FC<ScrollToTopBtnProps> = ({}) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [currentY, setCurrentY] = useState(0);
   useEffect(() => {
     setCurrentY(0);
   }, []);
 
+  useEffect(() => {
+    setVisible(window?.scrollY > 450);
+  }, []);
+
   return (
     <IconButton
-      onScroll={() => {
-        console.log(window ? window.scrollY : "hi");
-        setCurrentY(window.scrollY);
+      animation="ease-out"
+      transition="all"
+      transitionDuration="400ms"
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }}
       position="absolute"
       right={5}
+      variant="unstyled"
+      border="0.2px solid white "
+      borderRadius="20px"
+      bgColor="purple.900"
       color="white"
       bottom={5}
-      display={visible ? "block" : "none"}
+      display={visible ? "flex" : "none"}
       icon={<BsChevronBarUp />}
       aria-label="Scroll to top"
     />

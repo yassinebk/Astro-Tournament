@@ -29,7 +29,9 @@ const Countdown: React.FC<CountdownProps> = ({}) => {
       setTimeLeft(calculateTimeLeft({ day: 13, month: 11 }));
     }, 1000);
   };
-
+  useEffect(() => {
+    timePassing();
+  }, [timeLeftForEvent]);
 
   return (
     <VStack
@@ -40,7 +42,7 @@ const Countdown: React.FC<CountdownProps> = ({}) => {
       color="white"
       maxH="480px"
     >
-      <Heading fontSize={["xl", "2xl", "3xl", "6xl"]}>
+      <Heading fontSize={["xl", "2xl", "3xl", "4xl"]}>
         Countdown for the Rocket 🚀🚀 Launch
       </Heading>
       <Box

@@ -45,7 +45,7 @@ export const Cards: React.FC<CardsProps> = ({}) => {
       <Heading
         color="white"
         marginX="auto"
-        fontSize={["2xl", "3xl", "4xl", "6xl"]}
+        fontSize={["2xl", "3xl", "3xl", "4xl"]}
         marginBottom="20px"
       >
         Come Join Us in This Journey
