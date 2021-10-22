@@ -1,5 +1,5 @@
 import { VStack } from "@chakra-ui/layout";
-import React from "react";
+import React, { CSSProperties } from "react";
 import CallForPlay from "./CallForPlay";
 import CurrentPlayerInGameInfo from "./CurrentPlayerInGameInfo";
 import PlayerInfoCard from "./PlayerInfoCard";
@@ -8,6 +8,12 @@ import PlayerLastQuestionCard from "./PlayerLastQuestionCard";
 interface PlayerHomepageProps {}
 
 const PlayerHomepage: React.FC<PlayerHomepageProps> = ({}) => {
+  const spanStyle: CSSProperties = {
+    color: "#0BD3FF",
+    fontSize: "24px",
+    fontWeight: "bold",
+  };
+
   return (
     <VStack spacing={4} padding="22px">
       <PlayerInfoCard
@@ -18,6 +24,7 @@ const PlayerHomepage: React.FC<PlayerHomepageProps> = ({}) => {
       />
       <PlayerLastQuestionCard question={"welcome"} questionId="3232423C" />
       <CurrentPlayerInGameInfo
+        spanStyle={spanStyle}
         level={0}
         questionsLeft={4}
         pointsToCollect={400000}

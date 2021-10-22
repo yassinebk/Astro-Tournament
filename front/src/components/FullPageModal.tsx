@@ -1,16 +1,7 @@
-import { Button, IconButton } from "@chakra-ui/button";
+import { IconButton } from "@chakra-ui/button";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { Flex } from "@chakra-ui/layout";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-} from "@chakra-ui/modal";
-import { Form } from "formik";
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@chakra-ui/modal";
 import React from "react";
 
 interface FullPageModalProps {

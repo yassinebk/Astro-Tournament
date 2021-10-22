@@ -1,6 +1,4 @@
 import { useToast } from "@chakra-ui/toast";
-import { IconType } from "@react-icons/all-files/lib";
-import React from "react";
 
 interface ErrorPopupProps {
   popupType: "info" | "warning" | "success" | "error";

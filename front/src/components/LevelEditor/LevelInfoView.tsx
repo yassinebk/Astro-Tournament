@@ -1,8 +1,7 @@
-import { IconButton } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { ChevronLeftIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/button";
+import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { BsPlus } from "@react-icons/all-files/bs/BsPlus";
 import React, { useState } from "react";
 import {

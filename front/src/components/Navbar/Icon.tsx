@@ -1,8 +1,8 @@
 import { IconButton } from "@chakra-ui/button";
 import { IconType } from "@react-icons/all-files";
-import React from "react";
-import NextLink from "next/link";
 import { Props } from "framer-motion/types/types";
+import NextLink from "next/link";
+import React from "react";
 
 interface IconProps {
   label: string;

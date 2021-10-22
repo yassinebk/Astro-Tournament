@@ -1,6 +1,6 @@
 import { Img } from "@chakra-ui/image";
 import { GridItem } from "@chakra-ui/layout";
-import React, { ComponentProps, MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 
 interface GridImageProps {
   src: string;

@@ -1,13 +1,12 @@
 import {
   AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
-  Flex,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Button,
-  useDisclosure,
+  Flex,
 } from "@chakra-ui/react";
 import React from "react";
 

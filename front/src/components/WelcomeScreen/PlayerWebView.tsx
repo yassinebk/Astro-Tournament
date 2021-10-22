@@ -1,8 +1,7 @@
-import { VStack, Heading, HStack } from "@chakra-ui/layout";
+import { Heading, HStack, VStack } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
-import { User, UserNoPassword } from "../../generated/graphql";
+import { UserNoPassword } from "../../generated/graphql";
 import { AuthLoadingScreen } from "../Auth";
-import PlayerInfoCard from "../Homepage/PlayerInfoCard";
 import { InfoDiv } from "./InfoDiv";
 
 interface PlayerWebViewProps {
@@ -19,6 +18,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
   if (!currentUser) return <AuthLoadingScreen isNavbar={false} />;
   return (
     <VStack
+      display={["none", "none","none", "flex"]}
       gridColumnStart={2}
       gridColumnEnd={12}
       spacing={24}

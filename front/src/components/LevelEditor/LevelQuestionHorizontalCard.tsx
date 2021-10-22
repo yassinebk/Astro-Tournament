@@ -1,4 +1,4 @@
-import { AddIcon, CloseIcon, DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Heading,
   HStack,

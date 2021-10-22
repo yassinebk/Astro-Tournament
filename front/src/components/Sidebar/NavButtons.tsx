@@ -1,7 +1,7 @@
-import { IconType } from "@react-icons/all-files/lib";
 import { IconButton } from "@chakra-ui/button";
-import React from "react";
+import { IconType } from "@react-icons/all-files/lib";
 import { useRouter } from "next/dist/client/router";
+import React from "react";
 
 interface NavButtonsProps {
   label: string;
@@ -30,3 +30,5 @@ export const NavButtons: React.FC<NavButtonsProps> = ({
     />
   );
 };
+
+export default NavButtons;

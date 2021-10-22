@@ -208,3 +208,5 @@ export const SetFormQuestionTypeView: React.FC<SetFormQuestionTypeViewProps> =
         return <Box></Box>;
     }
   };
+
+export default SetFormQuestionTypeView;

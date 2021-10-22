@@ -107,3 +107,5 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
     </>
   );
 };
+
+export default LevelHorizontalCard;

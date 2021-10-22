@@ -1,7 +1,6 @@
 import { IconButton } from "@chakra-ui/button";
 import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
 import React from "react";
-import { RESPONSIVE_DISPLAY_MB } from "../constant";
 
 interface ThumButtonProps {
   dashboard: boolean;

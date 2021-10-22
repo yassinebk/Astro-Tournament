@@ -1,9 +1,12 @@
-import { Text, VStack } from "@chakra-ui/layout";
-import React from "react";
+import { Text } from "@chakra-ui/layout";
+import React, { CSSProperties } from "react";
+import { InfoDiv } from "../WelcomeScreen/InfoDiv";
 
 interface CallForPlayProps {
   level: number;
   questionsLeft: number;
+
+  spanStyle: CSSProperties;
   pointsToCollect: number;
 }
 
@@ -16,26 +19,30 @@ const Info = ({ text, number }) => {
 };
 export const CurrentPlayerInGameInfo: React.FC<CallForPlayProps> = ({
   pointsToCollect,
+  spanStyle,
   level,
   questionsLeft,
 }) => {
   return (
-    <VStack
-      minH="204px"
-      minW="300px"
-      borderRadius="11px"
-      marginX="auto"
-      paddingX="4%"
-      bg="linear-gradient(145.22deg, rgba(194, 194, 194, 0.21) 0%, rgba(245, 245, 245, 0.06) 36.46%, rgba(255, 255, 255, 0.1747) 97.4%), linear-gradient(145.22deg, rgba(104, 99, 99, 0.21) 0%, rgba(0, 0, 0, 0.0646875) 97.4%, rgba(245, 245, 245, 0.06) 100%)"
+    <InfoDiv
+      w="full"
+      display="flex"
+      flexDir="column"
       color="white"
-      justifyContent="center"
       alignItems="flex-start"
-      spacing={8}
+      justifyContent="center"
+      paddingX="16px"
     >
-      <Info number={questionsLeft} text="Questions Left" />
-      <Info number={level} text="Planets Not Visited" />
-      <Info number={pointsToCollect} text="Planet To visit" />
-    </VStack>
+      <Text>
+        <span style={spanStyle}>48</span> Questions left
+      </Text>
+      <Text>
+        <span style={spanStyle}>12</span> Planets not visited
+      </Text>
+      <Text>
+        <span style={spanStyle}>40000</span> Points to collect
+      </Text>
+    </InfoDiv>
   );
 };
 

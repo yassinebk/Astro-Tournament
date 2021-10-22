@@ -1,11 +1,9 @@
-import { Flex, Heading, VStack } from "@chakra-ui/layout";
-import { Spinner } from "@chakra-ui/spinner";
+import { Heading, VStack } from "@chakra-ui/layout";
 import React, { useEffect } from "react";
 import { AuthLoadingScreen } from "../../../components/Auth";
 import AuthLayout from "../../../components/Auth/AuthLayout";
 import { LevelsDisplay } from "../../../components/LevelsView";
-import ScrollToTopBtn from "../../../components/ScrollToTopBtn";
-import { Level, useAllLevelQuery } from "../../../generated/graphql";
+import { useAllLevelQuery } from "../../../generated/graphql";
 import withApollo from "../../../utils/createApolloClient";
 
 interface levelsProps {}

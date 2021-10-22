@@ -1,4 +1,4 @@
-import { Flex, useColorMode, FlexProps, Box } from "@chakra-ui/react";
+import { Flex, FlexProps, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { AuthProvider } from "../AuthProvider";
 import { NoAuthNavbar } from "../Navbar";
@@ -36,3 +36,5 @@ export const Container = (props: FlexProps) => {
     </AuthProvider>
   );
 };
+
+export default Container;

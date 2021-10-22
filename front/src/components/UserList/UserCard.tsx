@@ -37,11 +37,10 @@ const UserCard: React.FC<UserCardProps> = ({
       justifyContent="space-around"
       minH="70px"
       minW="360px"
-          color={isAdmin?"#43EEFF":"white"}
+      color={isAdmin ? "#43EEFF" : "white"}
       padding="16px, 26px, 16px, 20px"
       borderRadius="8.53211px"
       bgColor={isAdmin ? "#2D5254" : "#000000EB"}
-      
     >
       <ConfirmDialog
         onClose={onClose}

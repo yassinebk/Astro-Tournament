@@ -19,11 +19,11 @@ import { IoExitOutline } from "@react-icons/all-files/io5/IoExitOutline";
 import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
 import { VscSettingsGear } from "@react-icons/all-files/vsc/VscSettingsGear";
 import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
 import React from "react";
 import { Role } from "../../generated/graphql";
 import Logo from "../Logo";
 import { NavbarIcon } from "./Icon";
-import NextLink from "next/link";
 interface AuthNavbarProps {
   role: Role;
 }

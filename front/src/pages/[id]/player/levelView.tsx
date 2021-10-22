@@ -1,16 +1,9 @@
-import React from 'react';
+import React from "react";
 
+interface levelViewProps {}
 
-interface levelViewProps {
+export const LevelView: React.FC<levelViewProps> = ({}) => {
+  return <div></div>;
+};
 
-}
-
-export const LevelView: React.FC<levelViewProps> = ({})=> {
-return (
-    <div>
-    </div>
-       
-);
-}
-
-export default LevelView; 
+export default LevelView;

@@ -32,7 +32,6 @@ export const SwitchUsersTypeButton: React.FC<SwitchUsersTypeButtonProps> = ({
       position="fixed"
       bottom="6%"
       right="10%"
-      
     >
       {" "}
       <FaUserAstronaut fontSize="30px" color="white" />

@@ -14,7 +14,6 @@ import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React from "react";
 import * as Yup from "yup";
-import { AuthProvider } from "../components/AuthProvider";
 import Footer from "../components/Footer";
 import InputField from "../components/InputField";
 import { Container } from "../components/NoAuth/Container";

@@ -1,7 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import React from "react";
 import { Level } from "../../generated/graphql";
-import ScrollToTopBtn from "../ScrollToTopBtn";
 import LevelCard from "./LevelCard";
 
 interface LevelsDisplayProps {

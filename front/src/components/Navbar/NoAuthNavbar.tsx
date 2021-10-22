@@ -1,21 +1,21 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
-  HStack,
-  Link,
-  Button,
-  IconButton,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerBody,
-  VStack,
   Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  HStack,
+  IconButton,
+  Link,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 import Logo from "../Logo";
-import NextLink from "next/link";
 
 interface NoAuthNavbarProps {}
 

@@ -1,7 +1,8 @@
-import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Text, VStack } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/react";
+import { FaUserAstronaut } from "@react-icons/all-files/fa/FaUserAstronaut";
 import React from "react";
+import { InfoDiv } from "../WelcomeScreen/InfoDiv";
 
 interface PlayerInfoCardProps {
   rank: number;
@@ -16,41 +17,41 @@ export const PlayerInfoCard: React.FC<PlayerInfoCardProps> = ({
   username,
   points,
 }) => {
+  const fontSizeHeading1 = ["18px", "18px", "24px", "30px"];
   return (
-    <HStack
-      w="100vw"
-      bg="linear-gradient(145.22deg, rgba(194, 194, 194, 0.21) 0%, rgba(245, 245, 245, 0.06) 36.46%, rgba(255, 255, 255, 0.1747) 97.4%), linear-gradient(145.22deg, rgba(104, 99, 99, 0.21) 0%, rgba(0, 0, 0, 0.0646875) 97.4%, rgba(245, 245, 245, 0.06) 100%)"
-      marginTop="37px"
-      fontSize="26px" //fontSize="2xl"
+    <InfoDiv
+      display="flex"
+      flexDir="row"
       justifyContent="space-evenly"
-      alignItems="flex-start"
+      width="full"
+      paddingY="16px"
+      color="white"
     >
-      <VStack alignItems="center" paddingX="4%" paddingY="12px" w="100%">
-        <FontAwesomeIcon icon={faUserAstronaut} color="#b2f8ff" size="2x" />
-        <Flex flexDir="column" marginTop={1} fontSize="22px">
-          <Heading color="#1EFFFF" fontWeight={700} textAlign="center">
-            {rank}
-            <span style={{ fontSize: 19 }}> TH</span>
-          </Heading>
-          <Heading textAlign="center" color="#5EE2FF" fontSize="19px">
-            {username}
-          </Heading>
-        </Flex>
+      <VStack fontSize={fontSizeHeading1} fontWeight="800">
+        <FaUserAstronaut fontSize="45px" color="#ABEEF5" />
+        <Text>{10} Th</Text>
+        <Text color="#5EE2FF">The Great Player</Text>
       </VStack>
-      <VStack alignItems="flex-start" w="100%" color="white" paddingY="22px">
-        <Text>
-          Points: <span style={{ color: "#0BD3FF" }}>{points}</span>
-        </Text>
-        <Text>
-          Level:{" "}
-          <span
-            style={{ color: "#67EFF8", fontWeight: "bold", fontSize: "26px" }}
-          >
-            {level}{" "}
-          </span>
-        </Text>
+      <VStack justifyContent="space-evenly" alignItems="flex-start">
+        <Box
+          display="flex"
+          alignItems="flex-start"
+          flexDir="column"
+          fontSize={["16px", "16px", "32px"]}
+        >
+          <Text> Points</Text>
+          <Text color="#0BD3FF" fontSize={["22px", "28px", "32px"]}>
+            6540000
+          </Text>
+        </Box>
+        <Box display="flex" flexDir="column" alignItems="flex-start">
+          <Text fontSize={["16px", "16px", "32px"]}>Planet</Text>
+          <Text color="#0BD3FF" fontSize={["22px", "28px", "32px"]}>
+            5
+          </Text>
+        </Box>
       </VStack>
-    </HStack>
+    </InfoDiv>
   );
 };
 

@@ -10,6 +10,7 @@
 - Responsive Display for desktop
 - Guards for navigation
 - Reorganize routes architecture
+- Implement the Sidebar for player
 
 ## Tests
 

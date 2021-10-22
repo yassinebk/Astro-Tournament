@@ -1,5 +1,4 @@
 import { VStack } from "@chakra-ui/layout";
-import withApollo from "../../../utils/createApolloClient";
 import React, { useEffect, useState } from "react";
 import AuthLayout from "../../../components/Auth/AuthLayout";
 import AuthLoadingScreen from "../../../components/Auth/AuthLoadingScreen";
@@ -10,6 +9,7 @@ import {
   UserBasicInfo,
   useSetRoleMutation,
 } from "../../../generated/graphql";
+import withApollo from "../../../utils/createApolloClient";
 import { handleGraphlQLErrors } from "../../../utils/handleGraphlQLErrors";
 
 interface usersListProps {}
@@ -22,7 +22,6 @@ export const UsersList: React.FC<usersListProps> = ({}) => {
     else if (currentType === "admin") setCurrentType("player");
     else {
       console.error("unknown type");
-      
     }
   };
   const [setUserRole, { error }] = useSetRoleMutation({

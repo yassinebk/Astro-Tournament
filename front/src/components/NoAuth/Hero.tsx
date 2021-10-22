@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({}) => {
           src="/assets/hero.jpg"
           layout="fill"
           w="full"
-          maxH={["150px", "250px", "300px","450px"]}
+          maxH={["150px", "250px", "300px", "450px"]}
           height="full"
           borderRadius={27}
         />
