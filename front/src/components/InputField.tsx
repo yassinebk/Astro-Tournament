@@ -38,7 +38,6 @@ const InputField: React.FC<InputFieldProps> = (props) => {
       minW="288px"
       minH="45px"
       w={props.w ? props.w : ""}
-      color={props.color}
       fontSize={["xl", "2xl", "3xl"]}
     >
       <FormLabel
@@ -52,6 +51,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
         {props.label}
       </FormLabel>
       <InputOrTextArea
+        color={props.color}
         bgColor={props.bgColor}
         h={props.h ? props.h : ["45px", "50px", "55px"]}
         maxW="800px"
@@ -59,7 +59,8 @@ const InputField: React.FC<InputFieldProps> = (props) => {
         id={field.name}
         placeholder={props.placeholder}
         type={props.type}
-      /> {error ? (
+      />{" "}
+      {error ? (
         <FormErrorMessage
           color="red.200"
           h="30px"

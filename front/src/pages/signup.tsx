@@ -80,10 +80,10 @@ const Signup: React.FC<signupProps> = ({}) => {
           w="100%"
         >
           <Button
-            h={14}
-            maxW="600px"
-            //h={[]}
-            w="100%"
+            h="50px"
+            maxW="580px"
+            marginX="40px"
+            w="full"
             colorScheme="red"
             color="#071173"
             leftIcon={<AiOutlineGoogle />}
@@ -102,7 +102,7 @@ const Signup: React.FC<signupProps> = ({}) => {
             }}
             onSubmit={async (values, { setErrors }) => {
               console.log(values);
-              await signup({
+              const response = await signup({
                 variables: {
                   options: {
                     email: values.email,
@@ -113,9 +113,10 @@ const Signup: React.FC<signupProps> = ({}) => {
                 },
               });
               console.log("here");
-              if (data.register.errors) {
+              if (response.data?.register.errors) {
                 setErrors(toErrorMap(data.register.errors));
-              } else if (data.register.user) {
+              }
+              if (response.data?.register.user) {
                 console.log("here2");
                 router.push("/");
               }
@@ -135,7 +136,8 @@ const Signup: React.FC<signupProps> = ({}) => {
               >
                 <VStack spacing={4}>
                   <InputField
-                    color="white"
+                    labelColor="white"
+                    color="black"
                     bgColor="white"
                     w="90%"
                     name="fullname"
@@ -145,7 +147,8 @@ const Signup: React.FC<signupProps> = ({}) => {
                   />
                   <InputField
                     name="username"
-                    color="white"
+                    labelColor="white"
+                    color="black"
                     bgColor="white"
                     w="90%"
                     placeholder="should be least 5 characters long"
@@ -153,8 +156,9 @@ const Signup: React.FC<signupProps> = ({}) => {
                     required
                   />
                   <InputField
+                    labelColor="white"
+                    color="black"
                     name="email"
-                    color="white"
                     bgColor="white"
                     w="90%"
                     placeholder="user@provider.com"
@@ -164,7 +168,8 @@ const Signup: React.FC<signupProps> = ({}) => {
                   />
                   <InputField
                     name="password"
-                    color="white"
+                    color="black"
+                    labelColor="white"
                     bgColor="white"
                     w="90%"
                     required
@@ -173,7 +178,8 @@ const Signup: React.FC<signupProps> = ({}) => {
                     type="password"
                   />
                   <InputField
-                    color="white"
+                    labelColor="white"
+                    color="black"
                     bgColor="white"
                     w="90%"
                     name="confirmPassword"
