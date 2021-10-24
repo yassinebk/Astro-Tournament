@@ -24,7 +24,7 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
       bgColor="blackAlpha.900"
       minH="100vh"
     >
-      <GridItem colSpan={1}>
+      <GridItem colSpan={1} h="full">
         <Sidebar />
       </GridItem>
 

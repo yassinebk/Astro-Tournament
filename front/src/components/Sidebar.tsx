@@ -55,7 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
       alignItems="center"
       alignContent="center"
       justifyContent="flex-start"
-      h="100vh"
+      h="100%"
       maxW="150px"
       minW="131px"
       display={["none", "none", "none", "flex"]}

@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
+import { Box, Grid, Heading, HStack, VStack } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
 import { UserNoPassword } from "../../generated/graphql";
 import { AuthLoadingScreen } from "../Auth";
@@ -17,8 +17,8 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
 
   const divStyle = {
     paddingX: "25px",
-    display:'flex',
-    flexDir:"column",
+    display: "flex",
+    flexDir: "column",
     paddingY: "40px",
     w: ["200px", "200px", "200px", "200px", "250px", "300px"],
     h: ["200px", "200px", "200px", "250px", "250px", "250px"],
@@ -49,7 +49,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       display={["none", "none", "none", "flex"]}
       gridColumnStart={2}
       gridColumnEnd={13}
-      spacing={24}
+      spacing={20}
       w="full"
       h="full"
       paddingTop="60px"
@@ -88,9 +88,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
             <Heading {...cardTitleStyle}>Total Number of</Heading>
             <Heading {...cardTitleStyle}>acquired points</Heading>
           </Box>
-          <Heading {...cardInfoStyle}>
-            20M
-          </Heading>
+          <Heading {...cardInfoStyle}>20M</Heading>
         </InfoDiv>
         <InfoDiv {...divStyle}>
           <Heading {...cardTitleStyle}>Last Level Reached</Heading>
@@ -103,6 +101,15 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           </Heading>
         </InfoDiv>
       </HStack>
+      <Grid
+        templateColumns="repeat(12,1fr)"
+        minH="450px"
+        w="full"
+        paddingX="3%"
+        paddingBottom="4%"
+      >
+        <InfoDiv gridColumnStart={1} gridColumnEnd={7} width="full"></InfoDiv>
+      </Grid>
     </VStack>
   );
 };
