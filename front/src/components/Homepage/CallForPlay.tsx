@@ -32,7 +32,7 @@ export const CallForPlay: React.FC<CallForPlayProps> = ({}) => {
       </VStack>
       <Box marginTop="73px" marginLeft="-5">
         <svg
-          width="118"
+          width="130"
           height="16"
           viewBox="0 0 118 16"
           fill="none"

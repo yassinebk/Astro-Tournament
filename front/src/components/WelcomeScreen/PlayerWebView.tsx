@@ -1,4 +1,4 @@
-import { Heading, HStack, VStack } from "@chakra-ui/layout";
+import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
 import { UserNoPassword } from "../../generated/graphql";
 import { AuthLoadingScreen } from "../Auth";
@@ -15,16 +15,44 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
     setUser(user);
   }, [user]);
 
+  const divStyle = {
+    paddingX: "25px",
+    display:'flex',
+    flexDir:"column",
+    paddingY: "40px",
+    w: ["200px", "200px", "200px", "200px", "250px", "300px"],
+    h: ["200px", "200px", "200px", "250px", "250px", "250px"],
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    transition: "all ease-in-out",
+    transitionDuration: "200ms",
+    _hover: {
+      border: "1px solid rgba(255,255,255,0.5)",
+      transform: "scale(1.1)",
+    },
+  };
+  const cardTitleStyle = {
+    fontSize: "18px",
+    fontWeight: "light",
+  };
+  const cardInfoStyle = {
+    fontSize: ["20px", "25px", "25px", "30px", "40px"],
+    display: "flex",
+    color: "#7FD8D8",
+    fontWeight: "bold",
+  };
+
   if (!currentUser) return <AuthLoadingScreen isNavbar={false} />;
   return (
     <VStack
-      display={["none", "none","none", "flex"]}
+      display={["none", "none", "none", "flex"]}
       gridColumnStart={2}
-      gridColumnEnd={12}
+      gridColumnEnd={13}
       spacing={24}
       w="full"
       h="full"
-      paddingTop="30px"
+      paddingTop="60px"
       justifyContent="flex-start"
       alignItems="center"
     >
@@ -43,15 +71,36 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           Here is a quick sum of everything that happned when you were away
         </Heading>
       </VStack>
-      <HStack>
-        <InfoDiv>
-          <Heading as="h3">Total Number of players</Heading>
+      <HStack
+        color="white"
+        justifyContent="space-around"
+        w="100%"
+        paddingX="1%"
+        maxW="1424px"
+        textAlign="center"
+      >
+        <InfoDiv {...divStyle}>
+          <Heading {...cardTitleStyle}>Total Number of players</Heading>
+          <Heading {...cardInfoStyle}>2000</Heading>
         </InfoDiv>
-        <InfoDiv>
-          <Heading as="h3">Total Number of players</Heading>
+        <InfoDiv {...divStyle}>
+          <Box>
+            <Heading {...cardTitleStyle}>Total Number of</Heading>
+            <Heading {...cardTitleStyle}>acquired points</Heading>
+          </Box>
+          <Heading {...cardInfoStyle}>
+            20M
+          </Heading>
         </InfoDiv>
-        <InfoDiv>
-          <Heading as="h3">Total Number of players</Heading>
+        <InfoDiv {...divStyle}>
+          <Heading {...cardTitleStyle}>Last Level Reached</Heading>
+          <Heading {...cardInfoStyle}>8</Heading>
+        </InfoDiv>
+        <InfoDiv {...divStyle}>
+          <Heading {...cardTitleStyle}> Top Player</Heading>
+          <Heading {...cardInfoStyle} textAlign="center">
+            MoonShine-1800
+          </Heading>
         </InfoDiv>
       </HStack>
     </VStack>

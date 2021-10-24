@@ -8,14 +8,14 @@ const PlayerMobileView = () => {
   return (
     <VStack
       display={["flex", "flex", "flex", "none"]}
-      maxW="800px"
       flexDir="column"
       alignContent="center"
       marginTop="40px"
       paddingX="24px"
       paddingY="24px"
-      spacing={4}
+      spacing={[4, 12]}
       w="100vw"
+      maxW="600px"
     >
       <PlayerInfoCard rank={0} username={""} level={0} points={0} />
       <PlayerLastQuestionCard question={""} questionId={""} />

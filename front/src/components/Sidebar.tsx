@@ -10,6 +10,7 @@ import { useAnimation } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React from "react";
+import Logo from "./Logo";
 import SideMenu from "./Sidebar/SideMenu";
 interface SidebarProps {}
 
@@ -52,6 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
     <Flex
       zIndex={4}
       alignItems="center"
+      alignContent="center"
       justifyContent="flex-start"
       h="100vh"
       maxW="150px"
@@ -61,22 +63,16 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
       bgColor="#0E0D0D"
       paddingTop="40px"
     >
-      <NextLink href="/">
-        <Box height="auto" width="70px" position="relative" display="block">
-          <Img
-            _hover={{
-              cursor: "pointer",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
-            borderRadius="2xl"
-            padding={1}
-            className="logo"
-            layout="responsive"
-            width={100}
-            height={100}
-            src="/assets/logo.png"
-          />
-        </Box>
+      <NextLink href="/" as="div">
+        <Logo
+          width={[70]}
+          height={[70]}
+          marginLeft={0}
+          marginX={"auto"}
+          display="flex"
+          flexDir="column"
+          alignContent="center"
+        />
       </NextLink>
 
       <VStack
