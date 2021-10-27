@@ -42,7 +42,7 @@ const WelcomeScreen: React.FC<WelcomeProps> = ({}) => {
   }
   return (
     <AuthLayout>
-      {user.role === "PLAYER" ? (
+      {user.role === "ADMIN" ? (
         <AdminWelcomeScreen user={meData.me.user} />
       ) : (
         <PlayerWelcomeScreen user={meData.me.user} />

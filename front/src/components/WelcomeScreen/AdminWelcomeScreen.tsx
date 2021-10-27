@@ -136,7 +136,8 @@ const AdminWelcomeScreen: React.FC<AdminWelcomeScreenProps> = ({ user }) => {
               fontWeight="medium"
             >
               {allUsersData.allUsers.reduce((hightestLevel, el) => {
-                if (parseInt(el.levelNumber) > 0) return hightestLevel;
+                if (isNaN(parseInt(el.levelNumber))) return hightestLevel;
+                else if (parseInt(el.levelNumber) > 0) return hightestLevel;
               }, 0)}
             </Text>
           </InfoDiv>

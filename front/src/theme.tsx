@@ -26,4 +26,28 @@ const theme = extendTheme({
   breakpoints,
 });
 
+const textStyling = {
+  h1: {},
+  h2: {},
+  h3: {},
+  h4: {},
+  h5: {},
+  body1: {},
+  body2: {},
+  label: {},
+};
+
+const themeColors = {};
+const interactions = {
+  button: {
+
+  },
+  cards: {
+
+  },
+  iconsButtons: {
+
+  }
+}
+
 export default theme;

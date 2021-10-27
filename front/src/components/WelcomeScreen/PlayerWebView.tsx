@@ -1,4 +1,14 @@
-import { Box, Grid, Heading, HStack, VStack } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
+import {
+  Box,
+  Grid,
+  GridItem,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/layout";
+import { transition } from "@chakra-ui/styled-system";
 import React, { useEffect, useState } from "react";
 import { UserNoPassword } from "../../generated/graphql";
 import { AuthLoadingScreen } from "../Auth";
@@ -15,6 +25,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
     setUser(user);
   }, [user]);
 
+  const array = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1, 1, 1, 1, 1, 1, 1, , 1, 1];
   const divStyle = {
     paddingX: "25px",
     display: "flex",
@@ -77,6 +88,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
         w="100%"
         paddingX="1%"
         maxW="1424px"
+        wrap="nowrap"
         textAlign="center"
       >
         <InfoDiv {...divStyle}>
@@ -96,8 +108,9 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
         </InfoDiv>
         <InfoDiv {...divStyle}>
           <Heading {...cardTitleStyle}> Top Player</Heading>
-          <Heading {...cardInfoStyle} textAlign="center">
-            MoonShine-1800
+          <Heading {...cardInfoStyle} height="auto">
+            {/* Adding a username formatting if it's too long we add spaces fo reach 8 characters */}
+            MoonShine -1800
           </Heading>
         </InfoDiv>
       </HStack>
@@ -108,7 +121,76 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
         paddingX="3%"
         paddingBottom="4%"
       >
-        <InfoDiv gridColumnStart={1} gridColumnEnd={7} width="full"></InfoDiv>
+        <InfoDiv
+          display="flex"
+          flexDir="column"
+          alignItems="center"
+          gridColumnStart={1}
+          gridColumnEnd={7}
+          maxW="600px"
+          paddingX="8px"
+          paddingY="24px"
+        >
+          <Box marginLeft="auto">
+            <Button
+              colorScheme="teal"
+              transition="all 300ms ease-in-out"
+              variant="outline"
+              _focus={{
+                color: "#7FD8D8",
+                bgColor: "transparent",
+                opacity: 0.8,
+                scale: 1.2,
+              }}
+              _hover={{
+                color: "#7FD8D8",
+                bgColor: "transparent",
+                opacity: 0.8,
+                transform: "scale(0.9)",
+              }}
+            >
+              View More ...{" "}
+            </Button>
+          </Box>
+          <Box>
+            <Heading color="#7FD8D8" marginX="auto" w="full" textAlign="center">
+              Leaderboards
+            </Heading>
+            <Grid
+              marginX="auto"
+              w="full"
+              color="white"
+              h="full"
+              gridTemplateColumns="repeat(2,1fr)"
+              paddingX="auto"
+              paddingY="16px"
+              paddingTop="25px"
+              fontSize="24px"
+              justifyItems="flex-start"
+            >
+              {array.map((el, index) => (
+                <GridItem margin="10px" paddingX="16px">
+                  <Text
+                    display="flex"
+                    flexDir="row"
+                    maxW="120px"
+                    justifyContent="space-around"
+                  >
+                    <span
+                      style={{
+                        color: "#93C0C6",
+                        marginRight: "4px",
+                      }}
+                    >
+                      {index}.
+                    </span>
+                    <Text> Name</Text>
+                  </Text>
+                </GridItem>
+              ))}
+            </Grid>
+          </Box>
+        </InfoDiv>
       </Grid>
     </VStack>
   );
