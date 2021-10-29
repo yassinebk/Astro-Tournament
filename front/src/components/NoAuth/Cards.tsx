@@ -20,7 +20,16 @@ const Card: React.FC<CardProp> = ({ children, styles }) => {
       height={["300px", "300px", "400px", "390px", "552px"]}
       marginX="30px"
       maxW="500px"
-      width={["80vw", "80vw", "90vw", "300px", "390px"]}
+      width={[
+        "80vw",
+        "80vw",
+        "90vw",
+        "220px",
+        "270px",
+        "300px",
+        "310px",
+        "400px",
+      ]}
       borderRadius="20px"
       justifyContent="center"
       bg="linear-gradient(27.84deg, rgba(163, 157, 226, 0.19) 14.9%, rgba(175, 199, 202, 0.66) 69.36%)"
@@ -40,7 +49,7 @@ export const Cards: React.FC<CardsProps> = ({}) => {
       color="white"
       justifyItems="center"
       alignItems="center"
-      paddingX={["auto", "auto", "auto", "54px"]}
+      paddingX={["auto", "auto", "auto", "40px"]}
     >
       <Heading
         color="white"
@@ -81,11 +90,11 @@ export const Cards: React.FC<CardsProps> = ({}) => {
             <HStack spacing={4}>
               <BsQuestionSquareFill
                 color="#7152F0"
-                style={{ width: "60px", height: "60px" }}
+                style={{ width: "40px", height: "60px" }}
               />
               <Text
                 color="#E1FCFF"
-                fontSize={["sm", "md", "md", "20px", "28px"]}
+                fontSize={["sm", "md", "md", "17px", "28px"]}
                 fontWeight="bold"
               >
                 Many Questions
@@ -94,11 +103,11 @@ export const Cards: React.FC<CardsProps> = ({}) => {
             <HStack spacing={4}>
               <MdSubject
                 color="#7152F0"
-                style={{ width: "50px", height: "50px" }}
+                style={{ width: "40px", height: "50px" }}
               />
               <Text
                 color="#E1FCFF"
-                fontSize={["sm", "md", "md", "20px", "28px"]}
+                fontSize={["sm", "md", "md", "17px", "20px", "28px"]}
                 fontWeight="bold"
               >
                 Different Topics
@@ -110,7 +119,7 @@ export const Cards: React.FC<CardsProps> = ({}) => {
                 style={{ width: "50px", height: "50px" }}
               />
               <Text
-                fontSize={["sm", "md", "md", "20px", "28px"]}
+                fontSize={["sm", "md", "md", "17px", "20px", "28px"]}
                 color="#E1FCFF"
                 fontWeight="bold"
               >
@@ -128,7 +137,12 @@ export const Cards: React.FC<CardsProps> = ({}) => {
           >
             Different Prizes
           </Heading>
-          <Text as="h3" fontSize="28px" textAlign="center">
+          <Text
+            as="h3"
+            fontSize={["20px", "24px"]}
+            textAlign="center"
+            fontWeight="medium"
+          >
             The Winner will have the chane to visit the moon
           </Text>
           <HStack>

@@ -1,6 +1,10 @@
 # Tasks
 
 - Changes the min-height min-W in the infoDiv to be changeable with a default value
+- Fix the signup page
+- Implement thee level View 
+- Google Auth fix 
+- 
 
 ## Features
 

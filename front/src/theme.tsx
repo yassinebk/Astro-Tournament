@@ -21,6 +21,8 @@ const theme = extendTheme({
     bgLanding:
       "linear-gradient(177.64deg, #360033 1.93%, #0B8793 42.16%, #A496DE 56.03%)",
     bgDarkBlue: "#0B8793",
+    primary: "#7FD8D8",
+    seconday: "#FFFF",
   },
   fonts,
   breakpoints,
@@ -31,7 +33,7 @@ const textStyling = {
   h2: {},
   h3: {},
   h4: {},
-  h5: {},
+
   body1: {},
   body2: {},
   label: {},
@@ -39,15 +41,9 @@ const textStyling = {
 
 const themeColors = {};
 const interactions = {
-  button: {
-
-  },
-  cards: {
-
-  },
-  iconsButtons: {
-
-  }
-}
+  button: {},
+  cards: {},
+  iconsButtons: {},
+};
 
 export default theme;

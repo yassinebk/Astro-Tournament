@@ -1,17 +1,18 @@
 import { useApolloClient } from "@apollo/client";
 import { IconButton } from "@chakra-ui/button";
 import { Box, Flex, Heading, VStack } from "@chakra-ui/layout";
-import { Img, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { AiOutlineTrophy } from "@react-icons/all-files/ai/AiOutlineTrophy";
 import { BsThreeDotsVertical } from "@react-icons/all-files/bs/BsThreeDotsVertical";
 import { FaUserAstronaut } from "@react-icons/all-files/fa/FaUserAstronaut";
 import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
-import { useAnimation } from "framer-motion";
+import { animate, motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React from "react";
 import Logo from "./Logo";
 import SideMenu from "./Sidebar/SideMenu";
+
 interface SidebarProps {}
 
 export const Sidebar: React.FC<SidebarProps> = ({}) => {
@@ -26,17 +27,10 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
   const controlAnimation = useAnimation();
   const toggleSideMenu = () => {
     if (isOpen) {
-      controlAnimation.start({
-        x: -30,
-        opacity: 0,
-        backgroundColor: "transparent",
-        transition: { duration: 0.4 },
-      });
       onClose();
     } else {
       controlAnimation.start({
         x: 0,
-        backgroundColor: "rgba(0,0,0,0.9)",
         opacity: 1,
         transition: {
           duration: 0.4,
@@ -112,7 +106,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
         <IconButton
           variant="unstyled"
           _focus={sideBarStyleActive}
-          _active={sideBarStyleActive}
+          _active={{ ...sideBarStyleActive }}
           _hover={sideBarStyleActive}
           h="fit-content"
           aria-label="Leaderboards"

@@ -13,7 +13,7 @@ const CallForActions: React.FC<CallForActionsProps> = ({}) => {
       maxH="300px"
       h="auto"
       flexDir={["column", "column", "column", "row"]}
-      marginX="auto"
+      paddingX="2%"
       marginBottom="120px"
       alignItems="center"
       w="100vw"

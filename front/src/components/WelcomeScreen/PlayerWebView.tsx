@@ -13,12 +13,16 @@ import React, { useEffect, useState } from "react";
 import { UserNoPassword } from "../../generated/graphql";
 import { AuthLoadingScreen } from "../Auth";
 import { InfoDiv } from "./InfoDiv";
+import NextLink from "next/link";
+import { useRouter } from "next/dist/client/router";
 
 interface PlayerWebViewProps {
   user: UserNoPassword;
 }
 
 export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
+  const router = useRouter();
+  console.log(router.query);
   const [currentUser, setUser] = useState(user);
   useEffect(() => {
     console.log("user", user);
@@ -26,6 +30,18 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
   }, [user]);
 
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1];
+  const mainButtonStyle = {
+    colorScheme: "teal",
+    w: "400px",
+    h: "75px",
+    fontSize: "2xl",
+  };
+  const secondaryButtonStyle = {
+    colorScheme: "teal",
+    w: "250px",
+    h: "75px",
+    fontSize: "2xl",
+  };
   const divStyle = {
     paddingX: "25px",
     display: "flex",
@@ -61,9 +77,9 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       gridColumnStart={2}
       gridColumnEnd={13}
       spacing={10}
-      w="full"
-      h="full"
-      paddingTop="60px"
+      w="100vw"
+      h="100vh"
+      paddingTop="40px"
       justifyContent="flex-start"
       alignItems="center"
     >
@@ -119,11 +135,11 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       <Box
         display={["flex", "flex", "flex", "flex", "grid"]}
         flexDir="column"
-        templateColumns="repeat(12,1fr)"
+        templateColumns="repeat(24,1fr)"
         minH="450px"
         w="full"
         paddingX="3%"
-        paddingBottom="4%"
+        paddingBottom="24px"
       >
         <InfoDiv
           alignContent="center"
@@ -131,36 +147,36 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           flexDir="column"
           alignItems="center"
           gridColumnStart={2}
-          gridColumnEnd={7}
-          maxW="600px"
-          // paddingX="8px"
-          paddingY="24px"
+          gridColumnEnd={9}
           w="full"
+          paddingX="24px"
+          paddingY="33px"
         >
-          <Box marginLeft="auto">
-            <Button
-              colorScheme="teal"
-              transition="all 300ms ease-in-out"
-              marginRight="24px"
-              variant="outline"
-              w="100px"
-              h="45px"
-              marginBottom={12}
-              _focus={{
-                color: "#7FD8D8",
-                bgColor: "transparent",
-                opacity: 0.8,
-                scale: 1.2,
-              }}
-              _hover={{
-                color: "#7FD8D8",
-                bgColor: "transparent",
-                opacity: 0.8,
-                transform: "scale(0.9)",
-              }}
-            >
-              View More ...{" "}
-            </Button>
+          <Box w="full" display="flex" flexDir="row" justifyContent="flex-end">
+            <NextLink href="/leaderboards">
+              <Button
+                colorScheme="teal"
+                transition="all 300ms ease-in-out"
+                variant="outline"
+                w="100px"
+                h="45px"
+                marginBottom={12}
+                _focus={{
+                  color: "#7FD8D8",
+                  bgColor: "transparent",
+                  opacity: 0.8,
+                  scale: 1.2,
+                }}
+                _hover={{
+                  color: "#7FD8D8",
+                  bgColor: "transparent",
+                  opacity: 0.8,
+                  transform: "scale(0.9)",
+                }}
+              >
+                <p>View More ... </p>
+              </Button>
+            </NextLink>
           </Box>
           <Box w="full">
             <Heading color="#7FD8D8" marginX="auto" textAlign="center">
@@ -210,57 +226,50 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           </Box>
         </InfoDiv>
         <GridItem
-          colStart={7}
-          padding="20px"
-          colEnd={12}
+          colStart={9}
+          paddingLeft="20px"
+          colEnd={14}
           display="flex"
           flexDir="column"
           alignItems="center"
           justifyContent="center"
           marginTop={10}
         >
-          <Button
-            marginBottom="32px"
-            colorScheme="teal"
-            variant="outline"
-            w="285px"
-            h="75px"
-            maxW="450px"
-            maxH="70px"
-            fontSize="xl"
-          >
-            Edit Levels
-          </Button>
-
-          <Button
-            colorScheme="teal"
-            variant="outline"
-            maxW="450px"
-            w="285px"
-            h="75px"
-            maxH="70px"
-            fontSize="xl"
-            marginBottom="32px"
-          >
-            Edit Questions
-          </Button>
-          <HStack w="full" h="fit-content" justifyContent="center">
+          <NextLink href={`${router.pathname}/admin/levelEditor`}>
             <Button
-              colorScheme="teal"
+              {...mainButtonStyle}
+              marginBottom="32px"
               variant="outline"
-              w="285px"
-              h="75px"
-              marginRight="24px"
+              maxW="450px"
+              maxH="70px"
             >
-              List of users
+              Edit Levels
             </Button>
+          </NextLink>
+
+          <NextLink href={"[id]/admin/levelEditor"}>
             <Button
-              colorScheme="teal"
-              variant="solid"
-              w="285px"
-              h="75px"
-              fontSize="2xl"
+              {...mainButtonStyle}
+              variant="outline"
+              maxW="450px"
+              maxH="70px"
+              marginBottom="32px"
             >
+              Edit Questions
+            </Button>
+          </NextLink>
+          <HStack w="fit-content" h="fit-content" justifyContent="center">
+            <NextLink href={"[id]/admin/levelEditor"}>
+              <Button
+                {...secondaryButtonStyle}
+                variant="outline"
+                marginRight="24px"
+              >
+                List of users
+              </Button>
+            </NextLink>
+
+            <Button {...secondaryButtonStyle} variant="solid">
               Notify players
             </Button>
           </HStack>
