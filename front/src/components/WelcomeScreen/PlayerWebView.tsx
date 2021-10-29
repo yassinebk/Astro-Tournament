@@ -8,7 +8,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
-import { transition } from "@chakra-ui/styled-system";
+import { getDisplayName } from "next/dist/shared/lib/utils";
 import React, { useEffect, useState } from "react";
 import { UserNoPassword } from "../../generated/graphql";
 import { AuthLoadingScreen } from "../Auth";
@@ -25,14 +25,14 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
     setUser(user);
   }, [user]);
 
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1, 1, 1, 1, 1, 1, 1, , 1, 1];
+  const array = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1];
   const divStyle = {
     paddingX: "25px",
     display: "flex",
     flexDir: "column",
     paddingY: "40px",
     w: ["200px", "200px", "200px", "200px", "250px", "300px"],
-    h: ["200px", "200px", "200px", "250px", "250px", "250px"],
+    h: ["200px", "180px", "180px", "200px", "250px", "250px"],
     justifyContent: "space-between",
     alignItems: "center",
 
@@ -60,7 +60,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       display={["none", "none", "none", "flex"]}
       gridColumnStart={2}
       gridColumnEnd={13}
-      spacing={20}
+      spacing={10}
       w="full"
       h="full"
       paddingTop="60px"
@@ -84,10 +84,11 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       </VStack>
       <HStack
         color="white"
-        justifyContent="space-around"
+        justifyContent="center"
         w="100%"
         paddingX="1%"
         maxW="1424px"
+        spacing={[12, 16, 16, 4, 16, 24]}
         wrap="nowrap"
         textAlign="center"
       >
@@ -114,7 +115,10 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           </Heading>
         </InfoDiv>
       </HStack>
-      <Grid
+
+      <Box
+        display={["flex", "flex", "flex", "flex", "grid"]}
+        flexDir="column"
         templateColumns="repeat(12,1fr)"
         minH="450px"
         w="full"
@@ -122,20 +126,26 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
         paddingBottom="4%"
       >
         <InfoDiv
+          alignContent="center"
           display="flex"
           flexDir="column"
           alignItems="center"
-          gridColumnStart={1}
+          gridColumnStart={2}
           gridColumnEnd={7}
           maxW="600px"
-          paddingX="8px"
+          // paddingX="8px"
           paddingY="24px"
+          w="full"
         >
           <Box marginLeft="auto">
             <Button
               colorScheme="teal"
               transition="all 300ms ease-in-out"
+              marginRight="24px"
               variant="outline"
+              w="100px"
+              h="45px"
+              marginBottom={12}
               _focus={{
                 color: "#7FD8D8",
                 bgColor: "transparent",
@@ -152,13 +162,13 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
               View More ...{" "}
             </Button>
           </Box>
-          <Box>
-            <Heading color="#7FD8D8" marginX="auto" w="full" textAlign="center">
+          <Box w="full">
+            <Heading color="#7FD8D8" marginX="auto" textAlign="center">
               Leaderboards
             </Heading>
             <Grid
               marginX="auto"
-              w="full"
+              w="90%"
               color="white"
               h="full"
               gridTemplateColumns="repeat(2,1fr)"
@@ -166,32 +176,96 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
               paddingY="16px"
               paddingTop="25px"
               fontSize="24px"
-              justifyItems="flex-start"
+              alignContent="space-between"
+              justifyItems="center"
             >
               {array.map((el, index) => (
-                <GridItem margin="10px" paddingX="16px">
+                <GridItem
+                  margin="10px"
+                  paddingX="16px"
+                  display="flex"
+                  flexDir="row"
+                >
+                  <span
+                    style={{
+                      color: "#93C0C6",
+                      marginRight: "4px",
+                    }}
+                  >
+                    {index}.{"     "}
+                  </span>
                   <Text
+                    textAlign="center"
                     display="flex"
+                    w="full"
                     flexDir="row"
                     maxW="120px"
                     justifyContent="space-around"
                   >
-                    <span
-                      style={{
-                        color: "#93C0C6",
-                        marginRight: "4px",
-                      }}
-                    >
-                      {index}.
-                    </span>
-                    <Text> Name</Text>
+                    <Text>{"    " + "Name"}</Text>
                   </Text>
                 </GridItem>
               ))}
             </Grid>
           </Box>
         </InfoDiv>
-      </Grid>
+        <GridItem
+          colStart={7}
+          padding="20px"
+          colEnd={12}
+          display="flex"
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          marginTop={10}
+        >
+          <Button
+            marginBottom="32px"
+            colorScheme="teal"
+            variant="outline"
+            w="285px"
+            h="75px"
+            maxW="450px"
+            maxH="70px"
+            fontSize="xl"
+          >
+            Edit Levels
+          </Button>
+
+          <Button
+            colorScheme="teal"
+            variant="outline"
+            maxW="450px"
+            w="285px"
+            h="75px"
+            maxH="70px"
+            fontSize="xl"
+            marginBottom="32px"
+          >
+            Edit Questions
+          </Button>
+          <HStack w="full" h="fit-content" justifyContent="center">
+            <Button
+              colorScheme="teal"
+              variant="outline"
+              w="285px"
+              h="75px"
+              marginRight="24px"
+            >
+              List of users
+            </Button>
+            <Button
+              colorScheme="teal"
+              variant="solid"
+              w="285px"
+              h="75px"
+              fontSize="2xl"
+            >
+              Notify players
+            </Button>
+          </HStack>
+        </GridItem>
+      </Box>
     </VStack>
   );
 };
