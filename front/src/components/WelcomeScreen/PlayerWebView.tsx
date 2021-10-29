@@ -77,8 +77,6 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       gridColumnStart={2}
       gridColumnEnd={13}
       spacing={10}
-      w="100vw"
-      h="100vh"
       paddingTop="40px"
       justifyContent="flex-start"
       alignItems="center"

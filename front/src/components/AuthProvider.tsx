@@ -4,7 +4,7 @@ import { useMeQuery, UserNoPassword } from "../generated/graphql";
 import AuthContext from "../utils/authContext";
 
 export function AuthProvider({ children }) {
-  const { data, loading } = useMeQuery();
+  const { data, loading } = useMeQuery({ pollInterval: 20000 });
   const [auth, setAuth] = useState<null | UserNoPassword>(null);
   const router = useRouter();
 
@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
       setAuth(null);
     }
   }, [data, loading, router.asPath]);
+  console.log(data?.me?.user);
 
   return (
     <AuthContext.Provider value={data?.me?.user}>

@@ -78,7 +78,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       minH="110px"
       bgColor="#181717"
       paddingY={[3, 5]}
-      paddingX={[2, 4, 6, 8, 16]}
+      paddingX={[4, 4, 6, 8, 16]}
       justifyContent={["space-between"]}
       alignContent="center"
       wrap="nowrap"
@@ -98,7 +98,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
           _active={{ bgColor: "transparent" }}
         >
           <Logo
-            width={["48px", "60px", "80px"]}
+            width={["48px", "55px", "60px", "80px"]}
             height={["48px", "60px", "80px"]}
           />
         </Button>
@@ -115,7 +115,8 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
         icon={<HamburgerIcon />}
         variant="ghost"
         color="#39A2DD"
-        fontSize="4xl"
+        marginRight="20px"
+        fontSize="6xl"
         bgColor="transparent"
         display={["inline-block"]}
       />

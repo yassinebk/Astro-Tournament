@@ -34,7 +34,7 @@ const httpLink = new HttpLink({
   credentials: "include",
 });
 
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
   link: from([authLink as any, httpLink]),
   cache: new InMemoryCache(),
   ssrMode: isBrowser(),
