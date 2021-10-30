@@ -23,24 +23,59 @@ const theme = extendTheme({
     bgDarkBlue: "#0B8793",
     primary: "#7FD8D8",
     seconday: "#FFFF",
+    error: "#F07B7B",
   },
   fonts,
   breakpoints,
 });
 
 const textStyling = {
-  h1: {},
-  h2: {},
-  h3: {},
-  h4: {},
+  bigTitle: {
+    fontSize: "64px",
+    boxShadow: "5px 5px 4px 0px #745FAD40",
+    lineHeight: "76px",
+    fontWeight: "bold",
+  },
 
-  body1: {},
-  body2: {},
-  label: {},
+  h1: {
+    fontSize: "32px",
+    lineHeight: "37px",
+    fontWeight: "700",
+  },
+  h2: {
+    fontSize: "28px",
+    fontWeight: "500",
+    lineHeight: "33px",
+    boxShadow: "2px 2px 4px 0px #00000040",
+  },
+  h3: {
+    fontSize: "24p",
+    lineHeight: "28px",
+    fontWeight: 500,
+  },
+  h4: {
+    fontSize: "20px",
+    fontWeight: "500",
+    lineHeight: "23.7px",
+  },
+
+  body1: {
+    fontSize:"18px"
+
+  },
+  body2: {
+    fontSize:"16px"
+
+  },
+  label: {
+    fontStyle: "italic",
+    fontSize: "16px",
+    fontWight:'700'
+  },
 };
 
-const themeColors = {};
-const interactions = {
+export const themeColors = {};
+export const interactions = {
   button: {},
   cards: {},
   iconsButtons: {},

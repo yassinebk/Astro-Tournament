@@ -22,7 +22,7 @@ interface PlayerWebViewProps {
 
 export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
   const router = useRouter();
-  console.log(router.query);
+  console.log(router.asPath);
   const [currentUser, setUser] = useState(user);
   useEffect(() => {
     console.log("user", user);
@@ -233,7 +233,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           justifyContent="center"
           marginTop={10}
         >
-          <NextLink href={`${router.pathname}/admin/levelEditor`}>
+          <NextLink href={`${router.asPath}/admin/levelEditor`}>
             <Button
               {...mainButtonStyle}
               marginBottom="32px"
@@ -245,7 +245,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
             </Button>
           </NextLink>
 
-          <NextLink href={"[id]/admin/levelEditor"}>
+          <NextLink href={`${router.asPath}/admin/questionsEditor`}>
             <Button
               {...mainButtonStyle}
               variant="outline"
@@ -257,7 +257,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
             </Button>
           </NextLink>
           <HStack w="fit-content" h="fit-content" justifyContent="center">
-            <NextLink href={"[id]/admin/levelEditor"}>
+            <NextLink href={`${router.asPath}/admin/usersList`}>
               <Button
                 {...secondaryButtonStyle}
                 variant="outline"

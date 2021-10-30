@@ -8,15 +8,15 @@ import Hero from "../components/NoAuth/Hero";
 import withApollo from "../utils/createApolloClient";
 
 const Index = () => {
-  return (
-    <Container height="100%">
-      <Hero />
-      <Countdown />
-      <Cards />
-      <CallForActions />
-      <Footer />
-    </Container>
-  );
+        return (
+                <Container height="100%">
+                        <Hero />
+                        <Countdown />
+                        <Cards />
+                        <CallForActions />
+                        <Footer />
+                </Container>
+        );
 };
 
 export default withApollo({ ssr: true })(Index);

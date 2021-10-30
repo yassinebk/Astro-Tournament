@@ -1,17 +1,11 @@
-import {
-  ApolloClient,
-  createHttpLink,
-  from,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, from, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-
 import { withApollo as createWithApollo } from "next-apollo";
 import { isBrowser } from "./isBrowser";
 
 const getToken = () => {
-  if (typeof window !== undefined) {
+  if (isBrowser()) {
+    console.log("her");
     const userFromStorage = localStorage.getItem("authUser");
     if (userFromStorage) {
       const { token } = JSON.parse(userFromStorage);
@@ -20,7 +14,8 @@ const getToken = () => {
   }
 };
 const authLink = setContext((_, { headers }) => {
-  const token = getToken();
+  let token;
+  if (isBrowser()) token = getToken();
   return {
     headers: {
       ...headers,

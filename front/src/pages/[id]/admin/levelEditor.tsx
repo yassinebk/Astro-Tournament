@@ -1,35 +1,52 @@
-import { Button, IconButton } from "@chakra-ui/button";
+import {
+  GridItem,
+  Button,
+  IconButton,
+  Box,
+  Flex,
+  VStack,
+  Heading,
+} from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
-import { Box, Flex, VStack } from "@chakra-ui/layout";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import AuthLayout from "../../../components/Auth/AuthLayout";
-import AuthLoadingScreen from "../../../components/Auth/AuthLoadingScreen";
-import { LevelHorizontalCard } from "../../../components/LevelEditor/LevelHorizontalCard";
-import NewLevelForm from "../../../components/LevelEditor/NewLevelForm";
+import { AuthLayout, AuthLoadingScreen } from "../../../components/Auth";
+import {
+  LevelHorizontalCard,
+  NewLevelForm,
+} from "../../../components/LevelEditor";
+import {
+  RESPONSIVE_DISPLAY_MB,
+  RESPONSIVE_DISPLAY_PC,
+} from "../../../constant";
 import {
   Level,
   useAllLevelQuery,
   useDeleteLevelMutation,
+  useMeQuery,
 } from "../../../generated/graphql";
-import withApollo from "../../../utils/createApolloClient";
+import withApollo, { apolloClient } from "../../../utils/createApolloClient";
+import { gql, useApolloClient, useQuery } from "@apollo/client";
 
-interface levelEditorProps {}
+interface levelEditorProps {
+  dataProps: any;
+}
 
-export const levelEditor: React.FC<levelEditorProps> = ({}) => {
+export const levelEditor: React.FC<levelEditorProps> = ({ dataProps }) => {
+  console.log("data Props", dataProps);
   const router = useRouter();
   const { data, loading } = useAllLevelQuery();
   const [deleteLevel, { data: deleteLevelData, loading: deleteLevelLoading }] =
     useDeleteLevelMutation();
   const { onOpen, onClose, isOpen } = useDisclosure();
+  const array = [1, 2, 3, 4, 5, 5, 7, 1, 1, 1, 1, 1, 1, 1];
 
   if (!data) {
     return <AuthLoadingScreen />;
   }
-
-  return (
-    <AuthLayout>
+  const MobileView = () => (
+    <Box display={RESPONSIVE_DISPLAY_MB}>
       <NewLevelForm onClose={onClose} isOpen={isOpen} />
       <Flex
         flexDir="column"
@@ -72,11 +89,11 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
           >
             Add a level
           </Button>
-          {data.allLevels.map((l) => (
+          {array.map((l) => (
             <Box key={l._id}>
               <LevelHorizontalCard
                 /* TODO : remove the as  */
-                level={l as Level}
+                level={{ name: "here", _id: "afdasfasdf" } as Level}
                 deleteLevel={deleteLevel}
                 // editLevel={editLevel}
               />
@@ -84,8 +101,83 @@ export const levelEditor: React.FC<levelEditorProps> = ({}) => {
           ))}
         </VStack>
       </Flex>
+    </Box>
+  );
+
+  const WebView = () => (
+    <>
+      <GridItem
+        colStart={2}
+        colEnd={7}
+        display={RESPONSIVE_DISPLAY_PC}
+        marginY="29px"
+        marginX="30px"
+        maxW="450px"
+        maxH="829px"
+        background=" linear-gradient(145.22deg, rgba(104, 99, 99, 0.21) 0%, rgba(0, 0, 0, 0.0646875) 97.4%, rgba(245, 245, 245, 0.06) 100%)"
+        w="full"
+        h="full"
+      >
+        <Heading
+          color="white"
+          textAlign="center"
+          w="full"
+          padding="30px"
+          marginBottom="16px"
+        >
+          Levels List
+        </Heading>
+        <VStack
+          alignItems="center"
+          paddingX="12px"
+          spacing={4}
+          maxH="full"
+          overflow="scroll"
+        >
+          {array.map((a) => (
+            <LevelHorizontalCard
+              /* TODO : remove the as  */
+              level={
+                { id: "13313", levelPictureUrl: "adas", name: "HELLO" } as Level
+              }
+              deleteLevel={deleteLevel}
+              // editLevel={editLevel}
+            />
+          ))}
+        </VStack>
+      </GridItem>
+    </>
+  );
+  return (
+    <AuthLayout>
+      <MobileView />
+      <WebView />
     </AuthLayout>
   );
 };
 
-export default withApollo({ ssr: false })(levelEditor);
+export const getServerSideProps = async () => {
+  const props: any = {};
+  try {
+    const { data } = await apolloClient.query({
+      query: gql`
+        query allLevel {
+          allLevels {
+            ...LevelInfo
+          }
+        }
+      `,
+    });
+
+    props.dataProps = data;
+    console.log("data?", data);
+  } catch (e) {
+    console.log(e);
+  }
+
+  return {
+    props,
+  };
+};
+
+export default levelEditor;
