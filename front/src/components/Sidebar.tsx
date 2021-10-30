@@ -49,9 +49,10 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
       alignItems="center"
       alignContent="center"
       justifyContent="flex-start"
-      h="100%"
+      h="full"
       maxW="150px"
       minW="131px"
+      maxH="100vh"
       display={["none", "none", "none", "flex"]}
       flexDir="column"
       bgColor="#0E0D0D"
@@ -59,8 +60,8 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
     >
       <NextLink href="/" as="div">
         <Logo
-          width={[70]}
-          height={[70]}
+          width={[50, 55, 55]}
+          height={[50, 55, 55]}
           marginLeft={0}
           marginX={"auto"}
           display="flex"

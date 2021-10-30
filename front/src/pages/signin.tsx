@@ -60,7 +60,6 @@ const Signin: React.FC<signupProps> = ({}) => {
         minW="340px"
         h="auto"
         bgColor="blackAlpha.900"
-        
         borderRadius="24px"
         w="90%"
         maxH="1000px"

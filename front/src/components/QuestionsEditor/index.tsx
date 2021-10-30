@@ -4,5 +4,10 @@ import QuestionInfoView from "./QuestionInfoView";
 import QuestionTrueAndFalseRadioCard from "./QuestionTrueAndFalseRadioCard";
 import SetFormQuestionTypeView from "./SetFormQuestionTypeView";
 
-
-export { NewQuestionForm, QuestionHorizontalCard, QuestionInfoView, SetFormQuestionTypeView, QuestionTrueAndFalseRadioCard };
+export {
+  NewQuestionForm,
+  QuestionHorizontalCard,
+  QuestionInfoView,
+  SetFormQuestionTypeView,
+  QuestionTrueAndFalseRadioCard,
+};

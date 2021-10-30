@@ -5,8 +5,10 @@
     "build": "next build",
     "start": "next start",
     "gen": "graphql-codegen --config codegen.yml",
-    "start-server":"cd ../back && npm start",
-    "run-all":"concurrently \"npm run start-server\" \"npm run dev\""
+    "start-server": "cd ../back && npm start",
+    "run-all": "concurrently \"npm run start-server\" \"npm run dev\"",
+    "format": "prettier --write \"{,!(node_modules)/**/}*.tsx\"",
+    "lint": "eslint ./ --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
@@ -20,7 +22,12 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
     "@react-icons/all-files": "^4.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "apollo-link-context": "^1.0.20",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.26.1",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^15.5.3",

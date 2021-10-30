@@ -14,7 +14,7 @@ import { handleGraphlQLErrors } from "../../../utils/handleGraphlQLErrors";
 
 interface usersListProps {}
 
-export const UsersList: React.FC<usersListProps> = ({}) => {
+export const UsersList: React.FC<usersListProps> = () => {
   const { data, loading } = useAllUsersQuery();
   const [currentType, setCurrentType] = useState("player");
   const changeUserType = () => {
@@ -24,6 +24,7 @@ export const UsersList: React.FC<usersListProps> = ({}) => {
       console.error("unknown type");
     }
   };
+  // eslint-disable-next-line no-unused-vars
   const [setUserRole, { error }] = useSetRoleMutation({
     notifyOnNetworkStatusChange: true,
     refetchQueries: ["allUsers"],
@@ -46,6 +47,7 @@ export const UsersList: React.FC<usersListProps> = ({}) => {
           .filter((u) => u.role === currentType.toUpperCase())
           .map((u) => (
             <UserCard
+              key={u._id}
               user={u as UserBasicInfo}
               currentType={currentType}
               setUserRole={setUserRole}

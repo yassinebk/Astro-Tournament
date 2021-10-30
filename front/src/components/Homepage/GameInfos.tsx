@@ -5,7 +5,9 @@ interface GameInfosProps {
 }
 
 export const GameInfos: React.FC<GameInfosProps> = ({}) => {
-        return ();
+        return (<div>
+                Hello
+        </div>);
 }
 
 export default GameInfos;

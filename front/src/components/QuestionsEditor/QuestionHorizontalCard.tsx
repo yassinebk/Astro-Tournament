@@ -1,8 +1,13 @@
 import { useApolloClient } from "@apollo/client";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
-  Heading, HStack, IconButton, Text,
-  useDisclosure, useToken, VStack
+  Heading,
+  HStack,
+  IconButton,
+  Text,
+  useDisclosure,
+  useToken,
+  VStack,
 } from "@chakra-ui/react";
 import React from "react";
 import { Questions } from "../../generated/graphql";

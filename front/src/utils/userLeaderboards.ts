@@ -1,4 +1,4 @@
-import { User, UserBasicInfo } from "../generated/graphql";
+import { UserBasicInfo } from "../generated/graphql";
 
 const userLeaderboards = (users: UserBasicInfo[]) => {
   console.log(users);

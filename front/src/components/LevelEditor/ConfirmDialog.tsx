@@ -17,14 +17,22 @@ const ConfirmDialog = ({ text, onClose, isOpen, callback }) => {
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
       onClose={onClose}
+      isCentered
     >
-      <AlertDialogOverlay bgColor="black">
+      <AlertDialogOverlay
+        bgColor="rgba(0,0,0,0.2)"
+        //   position="absolute"
+        //   top="50%"
+        //   left="50%"
+        //   transform="translate(-50%, -50%)"
+        //   w="fit-content"
+        // >
+      >
         <AlertDialogContent
           bgColor="black"
           color="white"
           shadow="dark-lg"
           marginX={4}
-          marginTop={["70%"]}
         >
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             {text}

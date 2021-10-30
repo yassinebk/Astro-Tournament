@@ -11,6 +11,7 @@ interface AdminWelcomeScreenProps {
   user: UserNoPassword;
 }
 
+// eslint-disable-next-line no-unused-vars
 const AdminWelcomeScreen: React.FC<AdminWelcomeScreenProps> = ({ user }) => {
   const router = useRouter();
   const [topRankedPlayer, setTopRankedPlayer] = useState("");
@@ -18,6 +19,7 @@ const AdminWelcomeScreen: React.FC<AdminWelcomeScreenProps> = ({ user }) => {
   const {
     data: allUsersData,
     loading: allUsersLoading,
+    // eslint-disable-next-line no-unused-vars
     error: allUsersError,
   } = useAllUsersQuery();
   const [totalNumbers, setTotalNumbers] = useState<number>(0);
@@ -34,7 +36,7 @@ const AdminWelcomeScreen: React.FC<AdminWelcomeScreenProps> = ({ user }) => {
 
       setTopRankedPlayer(userLeaderboards(allUsersData.allUsers)[0].username);
       console.log(
-        allUsersData.allUsers.reduce((hightestLevel, el) => {
+        allUsersData.allUsers.reduce((hightestLevel) => {
           return hightestLevel;
         }, 0)
       );

@@ -5,6 +5,7 @@ import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { useToken } from "@chakra-ui/system";
 import React from "react";
 import { Level } from "../../generated/graphql";
+import { textStyling } from "../../theme";
 import FullPageModal from "../FullPageModal";
 import ConfirmDialog from "./ConfirmDialog";
 import LevelInfoView from "./LevelInfoView";
@@ -12,9 +13,11 @@ import LevelInfoView from "./LevelInfoView";
 interface LevelHorizontalCardProps {
   level: Level;
   deleteLevel;
+  openInfo?;
 }
 
 export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
+  openInfo,
   level,
   deleteLevel,
 }) => {
@@ -28,6 +31,12 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
     onClose: onCloseEditModal,
     isOpen: isOpenEditModal,
   } = useDisclosure();
+
+  const selectedCardAnimation = {
+    fontColor: "primary",
+    background: "bgLanding",
+  };
+
   return (
     <>
       <FullPageModal
@@ -58,24 +67,28 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
       <HStack
         justifyContent={["space-evenly", "space-evenly", "stretch"]}
         alignItems="center"
-        bgColor="transparent"
+        bgColor="black"
         border="1px solid #6D7E80"
         alignSelf="stretch"
         borderRadius="8px"
         padding="20px"
         minW="330px"
         minH="71px"
+        onClick={openInfo}
+        _focus={{ ...selectedCardAnimation }}
+        _active={{ ...selectedCardAnimation }}
+        _hover={{ ...selectedCardAnimation }}
       >
         <VStack w="100%">
-          <Heading color="white" fontSize="xl">
+          <Heading size="md" fontWeight="700" color="white">
             {level.name}
           </Heading>
-          <Text fontSize="11px" color="whiteAlpha.900">
+          <Text {...textStyling.label} color="whiteAlpha.900">
             {level._id}
           </Text>
           <span
             style={{
-              fontSize: "24px",
+              ...textStyling.h4,
               color: useToken("colors", "cyan.800"),
             }}
           >
@@ -89,7 +102,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
             size="lg"
             icon={<EditIcon />}
             boxShadow=" 4px 4px 8px rgba(81, 78, 128, 0.67)"
-            onClick={() => onOpenEditModal()}
+            onClick={openInfo ? openInfo : onOpenEditModal}
             fontSize="25px"
           />
           <IconButton

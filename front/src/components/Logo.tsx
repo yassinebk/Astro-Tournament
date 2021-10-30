@@ -10,25 +10,28 @@ type LogoProps =
     }
   | any;
 
-const Logo: React.FC<LogoProps> = ({ width, height, ...props }) =>
-  {
-    console.log(props);
-    return<Box
-    {...props}
-    marginLeft={props.marginLeft!==undefined ? props.marginLeft : [3, 6, 12]}
-    width={width}
-    height={height}
-    position="relative"
-    display="block"
-  >
-    <Image
-      className="logo"
-      layout="responsive"
-      width={116}
-      height={134}
-      src="/assets/logo.png"
-    />
-  </Box>
-  };
+const Logo: React.FC<LogoProps> = ({ width, height, ...props }) => {
+  console.log(props);
+  return (
+    <Box
+      {...props}
+      marginLeft={
+        props.marginLeft !== undefined ? props.marginLeft : [3, 6, 12]
+      }
+      width={width}
+      height={height}
+      position="relative"
+      display="block"
+    >
+      <Image
+        className="logo"
+        layout="responsive"
+        width={116}
+        height={134}
+        src="/assets/logo.png"
+      />
+    </Box>
+  );
+};
 
 export default Logo;

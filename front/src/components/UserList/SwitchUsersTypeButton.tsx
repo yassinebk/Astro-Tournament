@@ -19,11 +19,7 @@ export const SwitchUsersTypeButton: React.FC<SwitchUsersTypeButtonProps> = ({
       _active={{}}
       variant="unstyled"
       onClick={onClick}
-      bg={
-        isAdmin
-          ? "blackAlpha.900"
-          : "linear-gradient(94.71deg, rgba(52, 15, 64, 0.72) 0%, #0C818F 100%)"
-      }
+      bg={isAdmin ? "blackAlpha.900" : "coolGradient"}
       display="flex"
       flexDir="column"
       borderRadius="50%"

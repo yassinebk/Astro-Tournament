@@ -10,7 +10,7 @@ import {
 import { useDisclosure } from "@chakra-ui/hooks";
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useState } from "react";
 import { AuthLayout, AuthLoadingScreen } from "../../../components/Auth";
 import {
   LevelHorizontalCard,
@@ -28,13 +28,13 @@ import {
 } from "../../../generated/graphql";
 import withApollo, { apolloClient } from "../../../utils/createApolloClient";
 import { gql, useApolloClient, useQuery } from "@apollo/client";
+import { textStyling } from "../../../theme";
 
 interface levelEditorProps {
   dataProps: any;
 }
 
 export const levelEditor: React.FC<levelEditorProps> = ({ dataProps }) => {
-  console.log("data Props", dataProps);
   const router = useRouter();
   const { data, loading } = useAllLevelQuery();
   const [deleteLevel, { data: deleteLevelData, loading: deleteLevelLoading }] =
@@ -42,9 +42,13 @@ export const levelEditor: React.FC<levelEditorProps> = ({ dataProps }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const array = [1, 2, 3, 4, 5, 5, 7, 1, 1, 1, 1, 1, 1, 1];
 
+  const [selectedLevel, selectLevel] = useState();
+
   if (!data) {
     return <AuthLoadingScreen />;
   }
+
+  // State for web View
   const MobileView = () => (
     <Box display={RESPONSIVE_DISPLAY_MB}>
       <NewLevelForm onClose={onClose} isOpen={isOpen} />
@@ -110,20 +114,22 @@ export const levelEditor: React.FC<levelEditorProps> = ({ dataProps }) => {
         colStart={2}
         colEnd={7}
         display={RESPONSIVE_DISPLAY_PC}
-        marginY="29px"
-        marginX="30px"
+        // marginY="29px"
+        alignSelf="center"
+        justifySelf="center"
+        h="94%"
         maxW="450px"
-        maxH="829px"
+        maxH="100vh"
         background=" linear-gradient(145.22deg, rgba(104, 99, 99, 0.21) 0%, rgba(0, 0, 0, 0.0646875) 97.4%, rgba(245, 245, 245, 0.06) 100%)"
         w="full"
-        h="full"
       >
         <Heading
+          {...textStyling.h2}
           color="white"
           textAlign="center"
           w="full"
           padding="30px"
-          marginBottom="16px"
+          marginBottom="10px"
         >
           Levels List
         </Heading>
@@ -131,8 +137,8 @@ export const levelEditor: React.FC<levelEditorProps> = ({ dataProps }) => {
           alignItems="center"
           paddingX="12px"
           spacing={4}
-          maxH="full"
           overflow="scroll"
+          h="82%"
         >
           {array.map((a) => (
             <LevelHorizontalCard

@@ -4,7 +4,7 @@ import {
   Flex,
   IconButton,
   useDisclosure,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -15,7 +15,7 @@ import NewQuestionForm from "../../../components/QuestionsEditor/NewQuestionForm
 import QuestionHorizontalCard from "../../../components/QuestionsEditor/QuestionHorizontalCard";
 import {
   useAllQuestionsQuery,
-  useDeleteQuestionMutation
+  useDeleteQuestionMutation,
 } from "../../../generated/graphql";
 import withApollo from "../../../utils/createApolloClient";
 

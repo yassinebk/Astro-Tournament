@@ -28,6 +28,7 @@ const UserCard: React.FC<UserCardProps> = ({
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const { onOpen, onClose, isOpen } = useDisclosure();
   const isAdmin = currentType === "admin";
   return (

@@ -23,13 +23,17 @@ const theme = extendTheme({
     bgDarkBlue: "#0B8793",
     primary: "#7FD8D8",
     seconday: "#FFFF",
+    coolGradient:
+      "linear-gradient(94.71deg, rgba(52, 15, 64, 0.72) 0%, #0C818F 100%)",
+    coolGradientText:
+      "linear-gradient(94.71deg, rgba(52, 15, 64, 0.72) 0%, #0C818F 100%)",
     error: "#F07B7B",
   },
   fonts,
   breakpoints,
 });
 
-const textStyling = {
+export const textStyling = {
   bigTitle: {
     fontSize: "64px",
     boxShadow: "5px 5px 4px 0px #745FAD40",
@@ -58,19 +62,24 @@ const textStyling = {
     fontWeight: "500",
     lineHeight: "23.7px",
   },
+  coolColorGradientText: {
+    bgGradient:
+      "linear-gradient(177.64deg, #FFFFFF 1.93%, #43EEFF 42.16%, #A496DE 56.03%)",
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    color: "inherit",
+  },
 
   body1: {
-    fontSize:"18px"
-
+    fontSize: "18px",
   },
   body2: {
-    fontSize:"16px"
-
+    fontSize: "16px",
   },
   label: {
     fontStyle: "italic",
     fontSize: "16px",
-    fontWight:'700'
+    fontWight: "700",
   },
 };
 

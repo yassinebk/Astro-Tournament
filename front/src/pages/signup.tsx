@@ -34,8 +34,8 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-const Signup: React.FC<signupProps> = ({}) => {
-  const [signup, { loading, error, data }] = useRegisterMutation({
+const Signup: React.FC<signupProps> = () => {
+  const [signup, { data }] = useRegisterMutation({
     notifyOnNetworkStatusChange: true,
   });
   const router = useRouter();
