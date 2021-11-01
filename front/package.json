@@ -6,7 +6,7 @@
     "start": "next start",
     "gen": "graphql-codegen --config codegen.yml",
     "start-server": "cd ../back && npm start",
-    "run-all": "concurrently \"npm run start-server\" \"npm run dev\"",
+    "run-all": "concurrently \"yarn start-server\" \"yarn dev\"",
     "format": "prettier --write \"{,!(node_modules)/**/}*.tsx\"",
     "lint": "eslint ./ --fix"
   },

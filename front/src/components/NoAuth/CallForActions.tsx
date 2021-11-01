@@ -1,11 +1,10 @@
-import { Button } from "@chakra-ui/button";
-import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
+import { Box, Button, Heading, HStack, VStack } from "@chakra-ui/react";
 import { IoLogoAndroid } from "@react-icons/all-files/io/IoLogoAndroid";
 import React from "react";
 
 interface CallForActionsProps {}
 
-const CallForActions: React.FC<CallForActionsProps> = ({}) => {
+const CallForActions: React.FC<CallForActionsProps> = () => {
   return (
     <Box
       display="flex"

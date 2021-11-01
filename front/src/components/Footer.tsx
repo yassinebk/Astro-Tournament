@@ -1,4 +1,4 @@
-import { Text, HStack, Flex } from "@chakra-ui/layout";
+import { Flex, Text } from "@chakra-ui/layout";
 import React from "react";
 
 interface FooterProps {}

@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 
 interface CountdownProps {}
 
+// eslint-disable-next-line no-unused-vars
 const calculateTimeLeft = ({ day, month }) => {
   let year = new Date().getFullYear();
 
   let difference = +new Date(`11/11/${year}`) - +new Date();
 
-  console.log(difference);
   let timeLeft = {};
   if (difference > 0) {
     timeLeft = {
@@ -21,7 +21,7 @@ const calculateTimeLeft = ({ day, month }) => {
   }
 };
 
-const Countdown: React.FC<CountdownProps> = ({}) => {
+const Countdown: React.FC<CountdownProps> = () => {
   const [timeLeftForEvent, setTimeLeft] = useState<any>(0);
 
   const timePassing = async () => {

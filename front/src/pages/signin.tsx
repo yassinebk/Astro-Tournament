@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/layout";
 import { AiOutlineGoogle } from "@react-icons/all-files/ai/AiOutlineGoogle";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React from "react";
 import * as Yup from "yup";
@@ -28,8 +27,8 @@ const validationSchema = Yup.object().shape({
   password: Yup.string(),
 });
 
-const Signin: React.FC<signupProps> = ({}) => {
-  const [signin, { data, loading, error }] = useLoginMutation({
+const Signin: React.FC<signupProps> = () => {
+  const [signin, { data }] = useLoginMutation({
     notifyOnNetworkStatusChange: true,
     update: (cache, { data }) => {
       const { token, user } = data.login;
@@ -50,7 +49,6 @@ const Signin: React.FC<signupProps> = ({}) => {
     },
   });
 
-  const router = useRouter();
   return (
     <Container>
       <Flex
@@ -211,3 +209,4 @@ const Signin: React.FC<signupProps> = ({}) => {
 };
 
 export default withApollo({ ssr: true })(Signin);
+//

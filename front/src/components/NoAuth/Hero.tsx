@@ -1,10 +1,9 @@
-import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
-import { Img } from "@chakra-ui/react";
+import { Box, Heading, HStack, Img, VStack } from "@chakra-ui/react";
 import React from "react";
 
 interface HeroProps {}
 
-export const Hero: React.FC<HeroProps> = ({}) => {
+export const Hero: React.FC<HeroProps> = () => {
   return (
     <HStack
       backdropBlur="15px"

@@ -5,7 +5,6 @@ import { isBrowser } from "./isBrowser";
 
 const getToken = () => {
   if (isBrowser()) {
-    console.log("her");
     const userFromStorage = localStorage.getItem("authUser");
     if (userFromStorage) {
       const { token } = JSON.parse(userFromStorage);

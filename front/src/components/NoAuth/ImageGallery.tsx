@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, IconButton, Img, Text } from "@chakra-ui/react";
 import React, { MouseEventHandler, useState } from "react";
