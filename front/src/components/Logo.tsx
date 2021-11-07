@@ -21,7 +21,7 @@ const Logo: React.FC<LogoProps> = ({ width, height, ...props }) => {
       width={width}
       height={height}
       position="relative"
-      display="block"
+      display="inline-block"
     >
       <Image
         className="logo"
@@ -29,6 +29,7 @@ const Logo: React.FC<LogoProps> = ({ width, height, ...props }) => {
         width={116}
         height={134}
         src="/assets/logo.png"
+        alt="Association Jeunes Science Tunis Logo"
       />
     </Box>
   );

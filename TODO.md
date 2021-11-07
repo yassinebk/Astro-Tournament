@@ -5,10 +5,9 @@
 - fix the level Editor
 - Mkae the level Card component Responsive
 - Animation while scrolling for levelS LIST
-- ANimation for showing off the level info display
+- Animation for showing off the level info display
 
 ## Features
-
 - Level Display : With all the features
 - Live Notification : Independent Notification Stream
 - Player Game View

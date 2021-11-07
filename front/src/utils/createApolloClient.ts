@@ -15,6 +15,7 @@ const getToken = () => {
 const authLink = setContext((_, { headers }) => {
   let token;
   if (isBrowser()) token = getToken();
+  console.log('token', token);
   return {
     headers: {
       ...headers,

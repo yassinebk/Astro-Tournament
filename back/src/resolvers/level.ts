@@ -195,7 +195,6 @@ class LevelResolver {
     if (!question) {
       return setError("404NOTFOUND", "Question Not found");
     }
-    console.log("questionsId", questionId);
     if (!questionsId.includes(questionId)) {
       return setError(
         "IllegalActionError",

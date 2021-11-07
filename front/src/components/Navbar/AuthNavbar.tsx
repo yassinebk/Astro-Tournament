@@ -80,7 +80,7 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       paddingY={[3, 5]}
       paddingX={[4, 4, 6, 8, 16]}
       justifyContent={["space-between"]}
-      alignContent="center"
+      alignItems="center"
       wrap="nowrap"
       width="100vw"
       fontSize={["xs", "small", "md", "lg", "xl"]}
@@ -90,9 +90,12 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
       <NextLink href={"/[id]"}>
         <Button
           bgColor="transparent"
-          w="auto"
+          py={2}
+          w="fit-content"
           h="auto"
-          display="block"
+          display="flex"
+          width="auto"
+          height="auto"
           _focus={{ bgColor: "transparent" }}
           _hover={{ bgColor: "transparent" }}
           _active={{ bgColor: "transparent" }}
@@ -107,18 +110,44 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({ role }) => {
         ref={btnRef}
         onClick={onOpen}
         className="navbarDropdown"
-        _hover={{ bg: "transparent" }}
+        variant="unstyled"
+        _hover={{
+          bg: "transparent",
+
+          boxShadow: "",
+          bgColor: "transparent",
+          borderWidth: 0,
+          outlineColor: "transparent",
+          outline: "",
+        }}
         _expanded={{ bg: "#253659" }}
-        _focus={{ boxShadow: "outline" }}
+        _focus={{
+          bgColor: "transparent",
+          borderWidth: 0,
+          outline: "none",
+          boxShadow: "",
+        }}
+        _active={{
+          boxShadow: "",
+          bgColor: "transparent",
+          borderWidth: 0,
+          outline: "none",
+          outlineColor: "transparent",
+        }}
+        _selected={{
+          bgColor: "transparent",
+          borderWidth: 0,
+          outlineColor: "transparent",
+        }}
         as={IconButton}
         aria-label="more options"
         icon={<HamburgerIcon />}
-        variant="ghost"
         color="#39A2DD"
         marginRight="20px"
         fontSize="6xl"
         bgColor="transparent"
-        display={["inline-block"]}
+        display={["flex"]}
+        size="m"
       />
       <Drawer
         isOpen={isOpen}
