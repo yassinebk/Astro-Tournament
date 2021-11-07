@@ -21,7 +21,7 @@ const theme = extendTheme({
       "linear-gradient(177.64deg, #360033 1.93%, #0B8793 42.16%, #A496DE 56.03%)",
     bgDarkBlue: "#0B8793",
     primary: "#7FD8D8",
-    seconday: "#FFFF",
+    secondary: "#FFFF",
     coolGradient:
       "linear-gradient(94.71deg, rgba(52, 15, 64, 0.72) 0%, #0C818F 100%)",
     coolGradientText:

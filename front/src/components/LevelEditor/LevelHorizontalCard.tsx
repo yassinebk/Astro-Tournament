@@ -14,12 +14,14 @@ interface LevelHorizontalCardProps {
   level: Level;
   deleteLevel;
   openInfo?;
+  onClick:()=>void
 }
 
 export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
   openInfo,
   level,
   deleteLevel,
+  ...props
 }) => {
   const {
     onOpen: onOpenDeletePopup,
@@ -65,6 +67,7 @@ export const LevelHorizontalCard: React.FC<LevelHorizontalCardProps> = ({
       />
       {/* <LevelInfoView level={level} /> */}
       <HStack
+      {...props}
         justifyContent={["space-evenly", "space-evenly", "stretch"]}
         alignItems="center"
         bgColor="black"
