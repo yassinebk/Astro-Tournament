@@ -33,9 +33,7 @@ const Signin: React.FC<signupProps> = () => {
     update: (cache, { data }) => {
       const { token, user } = data.login;
       const authUser = { token, user };
-      console.log("here444");
       localStorage.setItem("authUser", JSON.stringify(authUser));
-      console.log(localStorage.getItem("authUser"));
       cache.writeQuery<MeQuery>({
         query: MeDocument,
         data: {

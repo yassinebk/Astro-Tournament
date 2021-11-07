@@ -1,14 +1,15 @@
-import {
-  GridItem,
-  Button,
-  IconButton,
-  Box,
-  Flex,
-  VStack,
-  Heading,
-} from "@chakra-ui/react";
+import { gql } from "@apollo/client";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  Flex,
+  GridItem,
+  Heading,
+  IconButton,
+  VStack,
+} from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { AuthLayout, AuthLoadingScreen } from "../../../components/Auth";
@@ -24,11 +25,9 @@ import {
   Level,
   useAllLevelQuery,
   useDeleteLevelMutation,
-  useMeQuery,
 } from "../../../generated/graphql";
-import withApollo, { apolloClient } from "../../../utils/createApolloClient";
-import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { textStyling } from "../../../theme";
+import { apolloClient } from "../../../utils/createApolloClient";
 
 interface levelEditorProps {
   dataProps: any;
@@ -144,7 +143,11 @@ export const levelEditor: React.FC<levelEditorProps> = ({ dataProps }) => {
             <LevelHorizontalCard
               /* TODO : remove the as  */
               level={
-                { id: "13313", levelPictureUrl: "adas", name: "HELLO" } as Level
+                {
+                  id: "13313",
+                  levelPictureUrl: "adas",
+                  name: "HELLO",
+                } as LevelInfo
               }
               deleteLevel={deleteLevel}
               // editLevel={editLevel}

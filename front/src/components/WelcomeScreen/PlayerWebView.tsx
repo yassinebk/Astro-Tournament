@@ -22,10 +22,8 @@ interface PlayerWebViewProps {
 
 export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
   const router = useRouter();
-  console.log(router.asPath);
   const [currentUser, setUser] = useState(user);
   useEffect(() => {
-    console.log("user", user);
     setUser(user);
   }, [user]);
 
@@ -195,6 +193,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
             >
               {array.map((el, index) => (
                 <GridItem
+                  key={index}
                   margin="10px"
                   paddingX="16px"
                   display="flex"

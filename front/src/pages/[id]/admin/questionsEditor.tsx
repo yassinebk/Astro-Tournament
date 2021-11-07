@@ -1,3 +1,4 @@
+import gql from "graphql-tag";
 import { AddIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -18,10 +19,11 @@ import {
   useDeleteQuestionMutation,
 } from "../../../generated/graphql";
 import withApollo from "../../../utils/createApolloClient";
+import { apolloClient } from "../../../utils/createApolloClient";
 
 interface questionsEditorProps {}
 
-export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
+export const QuestionsEditor: React.FC<questionsEditorProps> = ({}) => {
   const router = useRouter();
   const { data, loading } = useAllQuestionsQuery();
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -90,6 +92,7 @@ export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
           </Button>
           {data.allQuestions.map((q) => (
             <QuestionHorizontalCard
+              Key={q._id}
               question={q}
               deleteQuestion={deleteQuestion}
             />
@@ -99,5 +102,25 @@ export const questionsEditor: React.FC<questionsEditorProps> = ({}) => {
     </AuthLayout>
   );
 };
+export const getServerSideProps = async () => {
+  const props: any = {};
+  try {
+    const { data } = await apolloClient.query({
+      query: gql`
+      query allQuestions {
+          ...QuestionInfo
+      },
+    })`,
+    });
 
-export default withApollo({ ssr: true })(questionsEditor);
+    props.dataProps = data;
+  } catch (e) {
+    console.error(e);
+  }
+
+  return {
+    props,
+  };
+};
+
+export default QuestionsEditor;

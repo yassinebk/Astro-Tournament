@@ -1,7 +1,7 @@
 import { UserBasicInfo } from "../generated/graphql";
 
 const userLeaderboards = (users: UserBasicInfo[]) => {
-  console.log(users);
+  console.error(users);
   const sorteddUsers = users
     .map((u) => {
       return {

@@ -15,6 +15,7 @@ import { handleGraphlQLErrors } from "../../../utils/handleGraphlQLErrors";
 interface usersListProps {}
 
 export const UsersList: React.FC<usersListProps> = () => {
+  const [userList, setUsersList] = useState([]);
   const { data, loading } = useAllUsersQuery();
   const [currentType, setCurrentType] = useState("player");
   const changeUserType = () => {
@@ -32,18 +33,23 @@ export const UsersList: React.FC<usersListProps> = () => {
   });
 
   useEffect(() => {
-    console.log(data);
+    if (!data)
+      setUsersList((state) => {
+        state = data.allUsers;
+        return state;
+      });
   }, [data]);
+
   if (loading) {
     return <AuthLoadingScreen />;
   }
-  if (!data) {
-    return null;
+  if (userList.length === 0) {
+    return <AuthLoadingScreen />;
   }
   return (
     <AuthLayout>
       <VStack spacing={4} paddingTop="8%" position="relative">
-        {data.allUsers
+        {userList
           .filter((u) => u.role === currentType.toUpperCase())
           .map((u) => (
             <UserCard
