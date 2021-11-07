@@ -1,10 +1,10 @@
 import { gql } from "@apollo/client";
-import React, { useState } from "react";
+import React from "react";
 import { AuthLayout, AuthLoadingScreen } from "../../../components/Auth";
-import { WebView, MobileView } from "../../../components/LevelEditor";
+import { MobileView, WebView } from "../../../components/LevelEditor";
 import {
   useAllLevelQuery,
-  useDeleteLevelMutation,
+  useDeleteLevelMutation
 } from "../../../generated/graphql";
 import { apolloClient } from "../../../utils/createApolloClient";
 

@@ -62,8 +62,12 @@ const WebView: React.FC<WebViewProps> = ({ deleteLevel }) => {
           ))}
         </VStack>
       </GridItem>
-          <GridItem>
 
+      <GridItem colStart={8} colEnd={12}>
+        <Heading as="h1" size="xl">
+          Level {selectedLevel.number}
+        </Heading>
+        <Heading size="md">Level {selectedLevel.id}</Heading>
       </GridItem>
     </>
   );

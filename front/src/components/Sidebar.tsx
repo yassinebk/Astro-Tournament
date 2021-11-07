@@ -6,7 +6,7 @@ import { AiOutlineTrophy } from "@react-icons/all-files/ai/AiOutlineTrophy";
 import { BsThreeDotsVertical } from "@react-icons/all-files/bs/BsThreeDotsVertical";
 import { FaUserAstronaut } from "@react-icons/all-files/fa/FaUserAstronaut";
 import { IoGridOutline } from "@react-icons/all-files/io5/IoGridOutline";
-import { animate, motion, useAnimation } from "framer-motion";
+import { useAnimation } from "framer-motion";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React from "react";
@@ -15,7 +15,7 @@ import SideMenu from "./Sidebar/SideMenu";
 
 interface SidebarProps {}
 
-export const Sidebar: React.FC<SidebarProps> = ({}) => {
+export const Sidebar: React.FC<SidebarProps> = () => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const router = useRouter();
   const client = useApolloClient();
@@ -47,16 +47,16 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
     <Flex
       zIndex={4}
       alignItems="center"
-      alignContent="center"
-      justifyContent="flex-start"
-      h="full"
+      justifyContent="space-between"
       maxW="150px"
+      h="100vh"
       minW="131px"
       maxH="100vh"
       display={["none", "none", "none", "flex"]}
       flexDir="column"
       bgColor="#0E0D0D"
       paddingTop="40px"
+      paddingBottom="20px"
     >
       <NextLink href="/" as="div">
         <Logo
@@ -130,7 +130,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
         alignItems="center"
         justifyContent="center"
         paddingX="8px"
-        marginTop="50%"
+        marginTop="20%"
       >
         <FaUserAstronaut
           width="60px"
@@ -140,16 +140,16 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
             color: "B2F8FF",
           }}
         />
-        <Box fontSize="18px">
+        <Box fontSize="16px">
           <Heading fontSize="inherit" color="white">
             _Username_
           </Heading>
 
           <Heading
             marginTop="8px"
-            fontSize="24px"
+            fontSize="20px"
             textAlign="center"
-            fontWeight="black"
+            fontWeight="bold"
             color="#0B8793"
           >
             Admin

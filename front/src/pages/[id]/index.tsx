@@ -1,21 +1,18 @@
-import { gql, useApolloClient } from "@apollo/client";
-import { useRouter } from "next/dist/client/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthLayout, AuthLoadingScreen } from "../../components/Auth";
 import {
   AdminWelcomeScreen,
   PlayerWelcomeScreen,
 } from "../../components/WelcomeScreen";
-import { useMeQuery } from "../../generated/graphql";
 import AuthContext from "../../utils/authContext";
 import withApollo from "../../utils/createApolloClient";
 
 interface WelcomeProps {}
 
-const WelcomeScreen: React.FC<WelcomeProps> = ({}) => {
-  const client = useApolloClient();
+const WelcomeScreen: React.FC<WelcomeProps> = () => {
+  // const client = useApolloClient();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const userValue = useContext(AuthContext);
 
@@ -23,9 +20,11 @@ const WelcomeScreen: React.FC<WelcomeProps> = ({}) => {
     console.log("userValue", userValue);
   }, [userValue]);
 
+  console.log(userValue);
   if (!userValue) {
     return <AuthLoadingScreen />;
   }
+
   return (
     <AuthLayout>
       {userValue.role === "ADMIN" ? (

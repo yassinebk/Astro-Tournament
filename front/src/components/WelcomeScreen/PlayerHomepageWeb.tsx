@@ -8,26 +8,26 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
-import { getDisplayName } from "next/dist/shared/lib/utils";
+import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
 import React, { useEffect, useState } from "react";
 import { UserNoPassword } from "../../generated/graphql";
+import { textStyling } from "../../theme";
 import { AuthLoadingScreen } from "../Auth";
 import { InfoDiv } from "./InfoDiv";
-import NextLink from "next/link";
-import { useRouter } from "next/dist/client/router";
 
 interface PlayerWebViewProps {
   user: UserNoPassword;
 }
 
-export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
+export const WebView: React.FC<PlayerWebViewProps> = ({ user }) => {
   const router = useRouter();
   const [currentUser, setUser] = useState(user);
   useEffect(() => {
     setUser(user);
   }, [user]);
 
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1];
+  const array = [1, 2, 3];
   const mainButtonStyle = {
     colorScheme: "teal",
     w: "400px",
@@ -46,7 +46,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
     flexDir: "column",
     paddingY: "40px",
     w: ["200px", "200px", "200px", "200px", "250px", "300px"],
-    h: ["200px", "180px", "180px", "200px", "250px", "250px"],
+    h: ["200px", "180px", "180px", "200px", "200px", "200px"],
     justifyContent: "space-between",
     alignItems: "center",
 
@@ -62,7 +62,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
     fontWeight: "light",
   };
   const cardInfoStyle = {
-    fontSize: ["20px", "25px", "25px", "30px", "40px"],
+    fontSize: ["16px", "18px", "20px", "22px", "25px"],
     display: "flex",
     color: "#7FD8D8",
     fontWeight: "bold",
@@ -74,13 +74,13 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
       display={["none", "none", "none", "flex"]}
       gridColumnStart={2}
       gridColumnEnd={13}
-      spacing={10}
-      paddingTop="40px"
+      spacing={5}
+      paddingTop="18px"
       justifyContent="flex-start"
       alignItems="center"
     >
       <VStack w="full" color="white" textAlign="left" paddingX="8%">
-        <Heading as="h1" fontSize="45px" textAlign="inherit" w="full">
+        <Heading as="h1" fontSize="32px" textAlign="inherit" w="full">
           Welcome Back{" "}
           <span
             style={{
@@ -90,7 +90,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
             Astronaut {user.username}
           </span>
         </Heading>
-        <Heading as="h2" fontSize="24px" textAlign="left" w="full">
+        <Heading as="h2" fontSize="20px" textAlign="left" w="full">
           Here is a quick sum of everything that happned when you were away
         </Heading>
       </VStack>
@@ -132,12 +132,13 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
         display={["flex", "flex", "flex", "flex", "grid"]}
         flexDir="column"
         templateColumns="repeat(24,1fr)"
-        minH="450px"
         w="full"
         paddingX="3%"
         paddingBottom="24px"
       >
         <InfoDiv
+          maxW="600px"
+          alignSelf="center"
           alignContent="center"
           display="flex"
           flexDir="column"
@@ -145,8 +146,9 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           gridColumnStart={2}
           gridColumnEnd={9}
           w="full"
+          h="full"
           paddingX="24px"
-          paddingY="33px"
+          paddingY="10px"
         >
           <Box w="full" display="flex" flexDir="row" justifyContent="flex-end">
             <NextLink href="/leaderboards">
@@ -155,8 +157,8 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
                 transition="all 300ms ease-in-out"
                 variant="outline"
                 w="100px"
-                h="45px"
-                marginBottom={12}
+                h="35px"
+                marginBottom={6}
                 _focus={{
                   color: "#7FD8D8",
                   bgColor: "transparent",
@@ -175,7 +177,12 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
             </NextLink>
           </Box>
           <Box w="full">
-            <Heading color="#7FD8D8" marginX="auto" textAlign="center">
+            <Heading
+              color="#7FD8D8"
+              marginX="auto"
+              textAlign="center"
+              size="lg"
+            >
               Leaderboards
             </Heading>
             <Grid
@@ -183,31 +190,31 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
               w="90%"
               color="white"
               h="full"
-              gridTemplateColumns="repeat(2,1fr)"
+              gridTemplateColumns={[
+                "repeat(2,1fr)",
+                "repeat(2,1fr)",
+                "repeat(2,1fr)",
+                "repeat(2,1fr)",
+                "repeat(1,1fr)",
+              ]}
               paddingX="auto"
-              paddingY="16px"
-              paddingTop="25px"
+              paddingTop="8px"
               fontSize="24px"
               alignContent="space-between"
               justifyItems="center"
             >
               {array.map((el, index) => (
-                <GridItem
-                  key={index}
-                  margin="10px"
-                  paddingX="16px"
-                  display="flex"
-                  flexDir="row"
-                >
+                <GridItem key={index} margin="2px" display="flex" flexDir="row">
                   <span
                     style={{
                       color: "#93C0C6",
                       marginRight: "4px",
                     }}
                   >
-                    {index}.{"     "}
+                    {index + 1}.{"     "}
                   </span>
                   <Text
+                    {...textStyling.body1}
                     textAlign="center"
                     display="flex"
                     w="full"
@@ -226,6 +233,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           colStart={9}
           paddingLeft="20px"
           colEnd={14}
+          justifyItems="center"
           display="flex"
           flexDir="column"
           alignItems="center"
@@ -235,7 +243,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
           <NextLink href={`${router.asPath}/admin/levelEditor`}>
             <Button
               {...mainButtonStyle}
-              marginBottom="32px"
+              marginBottom="16px"
               variant="outline"
               maxW="450px"
               maxH="70px"
@@ -250,7 +258,7 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
               variant="outline"
               maxW="450px"
               maxH="70px"
-              marginBottom="32px"
+              marginBottom="16px"
             >
               Edit Questions
             </Button>
@@ -276,4 +284,4 @@ export const PlayerWebView: React.FC<PlayerWebViewProps> = ({ user }) => {
   );
 };
 
-export default PlayerWebView;
+export default WebView;

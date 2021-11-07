@@ -50,7 +50,7 @@ const AdminHomePageCardsDashboard: React.FC<AdminHomepageCardProps> = ({
     </NextLink>
   );
 };
-export const AdminHomepage: React.FC<AdminHomepageProps> = ({}) => {
+export const AdminHomepage: React.FC<AdminHomepageProps> = () => {
   return (
     <>
       <Flex
