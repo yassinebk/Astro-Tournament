@@ -1,7 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { UserNoPassword } from "../../generated/graphql";
-import PlayerMobileView from "./PlayerMobileView";
+import PlayerHomepageMobile from "./PlayerHomepageMobile";
 import PlayerWebView from "./PlayerWebView";
 
 interface PlayerWelcomeScreenProps {
@@ -17,7 +17,7 @@ const PlayerWelcomeScreen: React.FC<PlayerWelcomeScreenProps> = ({ user }) => {
   return (
     <>
       <WebView />
-      <PlayerMobileView />
+      <PlayerHomepageMobile />
     </>
   );
 };

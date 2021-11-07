@@ -23,6 +23,7 @@ export const AuthLayout: React.FC<authLayoutProps> = ({ children }) => {
       justifyContent="flex-start"
       bgColor="blackAlpha.900"
       minH="100vh"
+      h="100%"
     >
       <GridItem colSpan={1} h="full">
         <Sidebar />

@@ -29,8 +29,8 @@ export const PlayerInfoCard: React.FC<PlayerInfoCardProps> = ({
     >
       <VStack fontSize={fontSizeHeading1} fontWeight="800">
         <FaUserAstronaut fontSize="45px" color="#ABEEF5" />
-        <Text>{10} Th</Text>
-        <Text color="#5EE2FF">The Great Player</Text>
+        <Text>{rank} Th</Text>
+        <Text color="#5EE2FF">{username}</Text>
       </VStack>
       <VStack justifyContent="space-evenly" alignItems="flex-start">
         <Box
@@ -41,13 +41,13 @@ export const PlayerInfoCard: React.FC<PlayerInfoCardProps> = ({
         >
           <Text> Points</Text>
           <Text color="#0BD3FF" fontSize={["22px", "28px", "32px"]}>
-            6540000
+            {points}
           </Text>
         </Box>
         <Box display="flex" flexDir="column" alignItems="flex-start">
           <Text fontSize={["16px", "16px", "32px"]}>Planet</Text>
           <Text color="#0BD3FF" fontSize={["22px", "28px", "32px"]}>
-            5
+            {level}
           </Text>
         </Box>
       </VStack>

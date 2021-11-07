@@ -3,9 +3,8 @@ import { useContext } from "react";
 import AuthContext from "../../utils/authContext";
 import AuthLoadingScreen from "../Auth/AuthLoadingScreen";
 import AdminHomepage from "./AdminHomepage";
-import PlayerHomepage from "./PlayerHomepage";
 
-export { AdminHomepage, PlayerHomepage };
+export { AdminHomepage };
 
 const DashboardBody = () => {
   const router = useRouter();

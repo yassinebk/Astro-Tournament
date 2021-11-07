@@ -4,7 +4,7 @@ import CallForPlay from "../Homepage/CallForPlay";
 import PlayerInfoCard from "../Homepage/PlayerInfoCard";
 import PlayerLastQuestionCard from "../Homepage/PlayerLastQuestionCard";
 
-const PlayerMobileView = () => {
+const PlayerHomepageMobile = () => {
   return (
     <VStack
       display={["flex", "flex", "flex", "none"]}
@@ -13,15 +13,22 @@ const PlayerMobileView = () => {
       marginTop="40px"
       paddingX="24px"
       paddingY="24px"
-      spacing={[4, 12]}
+      justifyContent="space-around"
       w="100vw"
       maxW="600px"
+      h="100%"
+      flex={1}
     >
-      <PlayerInfoCard rank={0} username={""} level={0} points={0} />
-      <PlayerLastQuestionCard question={""} questionId={""} />
+      <PlayerInfoCard
+        rank={0}
+        username={"The great player"}
+        level={0}
+        points={0}
+      />
+      <PlayerLastQuestionCard question={"Where is the sun?"} questionId={""} />
       <CallForPlay />
     </VStack>
   );
 };
 
-export default PlayerMobileView;
+export default PlayerHomepageMobile;
